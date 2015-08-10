@@ -16,14 +16,16 @@ function logger({ getState }) {
 
     const diff = differ(prevState, newState);
 
-    console.group('diff @', `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
+    if (diff) {
+      console.group('diff @', `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
 
-    diff.forEach((elem) => {
-      const { kind, path, lhs, rhs } = elem;
-      console.info(dictionary[kind], path.join('.'), lhs, ' → ', rhs);
-    });
+      diff.forEach((elem) => {
+        const { kind, path, lhs, rhs } = elem;
+        console.info(dictionary[kind], path.join('.'), lhs, ' → ', rhs);
+      });
 
-    console.groupEnd('diff');
+      console.groupEnd('diff');
+    }
 
     return returnValue;
   };

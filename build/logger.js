@@ -29,18 +29,20 @@ function logger(_ref) {
 
       var diff = (0, _deepDiff2['default'])(prevState, newState);
 
-      console.group('diff @', time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
+      if (diff) {
+        console.group('diff @', time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
 
-      diff.forEach(function (elem) {
-        var kind = elem.kind;
-        var path = elem.path;
-        var lhs = elem.lhs;
-        var rhs = elem.rhs;
+        diff.forEach(function (elem) {
+          var kind = elem.kind;
+          var path = elem.path;
+          var lhs = elem.lhs;
+          var rhs = elem.rhs;
 
-        console.info(dictionary[kind], path.join('.'), lhs, ' → ', rhs);
-      });
+          console.info(dictionary[kind], path.join('.'), lhs, ' → ', rhs);
+        });
 
-      console.groupEnd('diff');
+        console.groupEnd('diff');
+      }
 
       return returnValue;
     };
