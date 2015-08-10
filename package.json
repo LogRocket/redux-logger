@@ -1,0 +1,41 @@
+{
+  "name": "redux-diff-logger",
+  "version": "0.0.2",
+  "description": "Diff logger between states for redux",
+  "main": "build/logger.js",
+  "scripts": {
+    "test": "npm run lint",
+    "clean": "$(npm bin)/rimraf build",
+    "lint": "$(npm bin)/eslint src",
+    "build": "$(npm bin)/babel src --out-dir build",
+    "prepublish": "npm run clean && npm run test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcomb/redux-diff-logger.git"
+  },
+  "keywords": [
+    "redux",
+    "logger",
+    "redux-logger",
+    "redux",
+    "middleware"
+  ],
+  "author": "Eugene Rodionov (https://github.com/theaqua)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcomb/redux-diff-logger/issues"
+  },
+  "homepage": "https://github.com/fcomb/redux-diff-logger#readme",
+  "dependencies": {
+    "deep-diff": "^0.3.2"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "babel-eslint": "^4.0.5",
+    "eslint": "^1.1.0",
+    "eslint-config-airbnb": "0.0.7",
+    "eslint-plugin-react": "^3.2.1",
+    "rimraf": "^2.4.2"
+  }
+}

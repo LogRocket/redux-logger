@@ -1,0 +1,17 @@
+{
+  "extends": "eslint-config-airbnb",
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "__DEV__": true
+  },
+  "rules": {
+    "no-console": 0
+  },
+  "plugins": [
+    "react"
+  ]
+}
