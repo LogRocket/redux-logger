@@ -29,7 +29,7 @@ function logger(_ref) {
 
       var diff = (0, _deepDiff2['default'])(prevState, newState);
 
-      console.group('diff @ ', time.getMinutes() + ':' + time.getSeconds());
+      console.group('diff @', time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
 
       diff.forEach(function (elem) {
         var kind = elem.kind;

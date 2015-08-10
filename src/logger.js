@@ -16,7 +16,7 @@ function logger({ getState }) {
 
     const diff = differ(prevState, newState);
 
-    console.group('diff @ ', `${time.getMinutes()}:${time.getSeconds()}`);
+    console.group('diff @', `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
 
     diff.forEach((elem) => {
       const { kind, path, lhs, rhs } = elem;

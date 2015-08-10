@@ -1,6 +1,6 @@
 {
   "name": "redux-diff-logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Diff logger between states for redux",
   "main": "build/logger.js",
   "scripts": {
