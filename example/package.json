@@ -1,5 +1,5 @@
 {
-  "name": "redux-diff-logger-example",
+  "name": "redux-logger-example",
   "version": "1.0.0",
   "main": "webpack.server.js",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fcomb/redux-diff-logger.git"
+    "url": "https://github.com/fcomb/redux-logger.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fcomb/redux-diff-logger/issues"
+    "url": "https://github.com/fcomb/redux-logger/issues"
   },
-  "homepage": "https://github.com/fcomb/redux-diff-logger",
+  "homepage": "https://github.com/fcomb/redux-logger",
   "dependencies": {
     "react": "^0.13.3",
     "redux": "1.0.0-rc",

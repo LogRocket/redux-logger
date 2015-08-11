@@ -1,7 +1,7 @@
 {
-  "name": "redux-diff-logger",
-  "version": "0.0.5",
-  "description": "Diff logger between states for redux",
+  "name": "redux-logger",
+  "version": "0.0.1",
+  "description": "Logger for redux",
   "main": "build/logger.js",
   "scripts": {
     "test": "npm run lint",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fcomb/redux-diff-logger.git"
+    "url": "git+https://github.com/fcomb/redux-logger.git"
   },
   "keywords": [
     "redux",
@@ -28,12 +28,9 @@
   "author": "Eugene Rodionov (https://github.com/theaqua)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fcomb/redux-diff-logger/issues"
+    "url": "https://github.com/fcomb/redux-logger/issues"
   },
-  "homepage": "https://github.com/fcomb/redux-diff-logger#readme",
-  "dependencies": {
-    "deep-diff": "^0.3.2"
-  },
+  "homepage": "https://github.com/fcomb/redux-logger#readme",
   "devDependencies": {
     "babel": "^5.8.21",
     "babel-core": "^5.8.22",

@@ -1,13 +1,13 @@
-# Diff logger between states for redux
+# Logger for redux
 
-![logger](http://i.imgur.com/SR5jsdm.png?1)
+![logger](http://i.imgur.com/qhcz1OD.png)
 
 ### Install
-`npm i --save-dev redux-diff-logger`
+`npm i --save-dev redux-logger`
 
 ### Usage
 ```
-import logger from 'redux-diff-logger';
+import logger from 'redux-logger';
 
 const createStoreWithMiddleware = applyMiddleware(logger)(createStore);
 const store = createStoreWithMiddleware(reducer);

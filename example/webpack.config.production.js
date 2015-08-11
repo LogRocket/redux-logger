@@ -15,7 +15,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'redux-diff-logger': path.join(__dirname, '..'),
+      'redux-logger': path.join(__dirname, '..'),
       'components': path.join(__dirname, 'components'),
       'styles': path.join(__dirname, 'styles')
     },
