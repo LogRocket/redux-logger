@@ -12,7 +12,7 @@
     "build": "npm run build:module && npm run build:example",
     "prepublish": "npm run clean && npm run test && npm run build",
     "deploy:ghpages": "$(npm bin)/gh-pages -d example/dist",
-    "deploy": "git add -A && git commit -am 'chore: update docs' && git push && npm run deploy:ghpages"
+    "deploy": "npm run build && git add -A && git commit -am 'chore: update docs' && git push && npm run deploy:ghpages"
   },
   "repository": {
     "type": "git",
