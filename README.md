@@ -3,7 +3,7 @@
 ![logger](http://i.imgur.com/qhcz1OD.png)
 
 ### Install
-`npm i --save-dev redux-logger`
+`npm i --save redux-logger`
 
 ### Usage
 ```
