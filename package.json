@@ -1,14 +1,18 @@
 {
   "name": "redux-diff-logger",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Diff logger between states for redux",
   "main": "build/logger.js",
   "scripts": {
     "test": "npm run lint",
     "clean": "$(npm bin)/rimraf build",
     "lint": "$(npm bin)/eslint src",
-    "build": "$(npm bin)/babel src --out-dir build",
-    "prepublish": "npm run clean && npm run test && npm run build"
+    "build:module": "$(npm bin)/babel src --out-dir build",
+    "build:example": "$(npm bin)/webpack -p --config example/webpack.config.production.js",
+    "build": "npm run build:module && npm run build:example",
+    "prepublish": "npm run clean && npm run test && npm run build",
+    "deploy:ghpages": "$(npm bin)/gh-pages -d example/dist",
+    "deploy": "git add -A && git commit -am 'chore: update docs' && git push && npm run deploy:ghpages"
   },
   "repository": {
     "type": "git",
@@ -32,10 +36,13 @@
   },
   "devDependencies": {
     "babel": "^5.8.21",
+    "babel-core": "^5.8.22",
     "babel-eslint": "^4.0.5",
+    "babel-loader": "^5.3.2",
     "eslint": "^1.1.0",
     "eslint-config-airbnb": "0.0.7",
     "eslint-plugin-react": "^3.2.1",
-    "rimraf": "^2.4.2"
+    "rimraf": "^2.4.2",
+    "webpack": "^1.11.0"
   }
 }

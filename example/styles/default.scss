@@ -1,0 +1,84 @@
+html,
+body,
+.app {
+  height: 100%;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333333;
+  line-height: 1.42857;
+}
+
+.text-center {
+  text-align: center;
+}
+
+h3 {
+  font-weight: 400;
+}
+
+.header-title {
+  font-family: inherit;
+  font-size: 3rem;
+  font-weight: 200;
+
+  &-link {
+    color: #1E88E5;
+    border-bottom: 1px solid #90CAF9;
+    text-decoration: none;
+    transition: color, border-bottom-color .3s;
+
+    &:hover,
+    &:visited {
+      color: #3F51B5;
+      border-bottom-color: #9FA8DA;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &-modal {
+    display: block;
+  }
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 200;
+  color: #fff;
+  padding: 1.5rem;
+  margin-right: 1rem;
+  border: 0;
+  line-height: 1;
+
+  &:hover {
+    cursor: poiner;
+  }
+
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+
+  &-lg {
+    padding: 2rem;
+    font-size: 2rem;
+  }
+
+  &-pink {
+    background: #E91E63;
+  }
+
+  &-blue {
+    background: #2196F3;
+  }
+}

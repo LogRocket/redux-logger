@@ -1,6 +1,6 @@
 # Diff logger between states for redux
 
-![logger](http://s17.postimg.org/68pwjk0mn/fcomb_2015_08_10_12_28_18.png)
+![logger](http://i.imgur.com/xuHwmLp.png)
 
 ### Install
 `npm i --save-dev redux-diff-logger`
