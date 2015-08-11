@@ -14,6 +14,9 @@ class Example extends Component {
     return (
       <section className="container">
         <div>
+          <h1 className="header-title text-center">
+            Open your console!
+          </h1>
           <div className="container-modal text-center">
             <p>
               <button className="btn btn-pink" onClick={this.setToken.bind(this, '123456')}>Set token</button>
@@ -21,10 +24,12 @@ class Example extends Component {
               <button className="btn btn-pink" onClick={this.removeToken.bind(this, '1', 'theaqua')}>Remove token</button>
               <button className="btn btn-pink" onClick={this.setInfo.bind(this, '1', 'theaqua')}>Set info</button>
             </p>
+            <pre>auth: {JSON.stringify(this.props.auth)}</pre>
             <p>
               <button className="btn btn-blue" onClick={this.createProperties.bind(this)}>Load array</button>
               <button className="btn btn-blue" onClick={this.updateProperties.bind(this)}>Update array array</button>
             </p>
+            <pre>properties: {JSON.stringify(this.props.properties)}</pre>
           </div>
         </div>
       </section>
