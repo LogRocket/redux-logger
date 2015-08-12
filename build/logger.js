@@ -27,7 +27,7 @@ function logger(_ref) {
         console.log('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
 
         try {
-          console.group('—— log end ——');
+          console.groupEnd('—— log end ——');
         } catch (e) {
           console.log('—— log end ——');
         }

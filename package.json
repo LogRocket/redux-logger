@@ -1,6 +1,6 @@
 {
   "name": "redux-logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Logger for redux",
   "main": "build/logger.js",
   "scripts": {
