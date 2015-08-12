@@ -13,13 +13,25 @@ function logger(_ref) {
       var nextState = getState();
       var time = new Date();
 
-      console.group('action ' + action.type + ' @', time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
+      if (typeof console !== 'undefined') {
+        var message = 'action ' + action.type + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
 
-      console.log('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
-      console.log('%c action', 'color: #03A9F4; font-weight: bold', action);
-      console.log('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
+        try {
+          console.group(message);
+        } catch (e) {
+          console.log('NOT GROUP');
+        }
 
-      console.groupEnd('diff');
+        console.log('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
+        console.log('%c action', 'color: #03A9F4; font-weight: bold', action);
+        console.log('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
+
+        try {
+          console.group('—— log end ——');
+        } catch (e) {
+          console.log('—— log end ——');
+        }
+      }
 
       return returnValue;
     };
