@@ -3,17 +3,26 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-function logger(_ref) {
-  var getState = _ref.getState;
+function createLogger() {
+  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-  return function (next) {
-    return function (action) {
-      var prevState = getState();
-      var returnValue = next(action);
-      var nextState = getState();
-      var time = new Date();
+  return function (_ref) {
+    var getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof console === 'undefined') {
+          return next(action);
+        }
 
-      if (typeof console !== 'undefined') {
+        // exit early if predicate function returns false
+        if (typeof options.predicate === 'function' && !options.predicate(getState, action)) {
+          return next(action);
+        }
+
+        var prevState = getState();
+        var returnValue = next(action);
+        var nextState = getState();
+        var time = new Date();
         var message = 'action ' + action.type + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
 
         try {
@@ -31,12 +40,12 @@ function logger(_ref) {
         } catch (e) {
           console.log('—— log end ——');
         }
-      }
 
-      return returnValue;
+        return returnValue;
+      };
     };
   };
 }
 
-exports['default'] = logger;
+exports['default'] = createLogger;
 module.exports = exports['default'];
