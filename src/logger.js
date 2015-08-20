@@ -1,11 +1,14 @@
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
+    const { level, collapsed, predicate } = options;
+
+    // exit if console undefined
     if (typeof console === 'undefined') {
       return next(action);
     }
 
     // exit early if predicate function returns false
-    if (typeof options.predicate === 'function' && !options.predicate(getState, action)) {
+    if (typeof predicate === 'function' && !predicate(getState, action)) {
       return next(action);
     }
 
@@ -15,18 +18,32 @@ function createLogger(options = {}) {
     const time = new Date();
     const message = `action ${action.type} @ ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
 
-    try {
-      console.group(message);
-    } catch(e) {
-      console.log('NOT GROUP');
+    if (collapsed) {
+      try {
+        console.groupCollapsed(message);
+      } catch (e) {
+        console.log(message);
+      }
+    } else {
+      try {
+        console.group(message);
+      } catch(e) {
+        console.log(message);
+      }
     }
 
-    console.log(`%c prev state`, `color: #9E9E9E; font-weight: bold`, prevState);
-    console.log(`%c action`, `color: #03A9F4; font-weight: bold`, action);
-    console.log(`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
+    if (level) {
+      console[level](`%c prev state`, `color: #9E9E9E; font-weight: bold`, prevState);
+      console[level](`%c action`, `color: #03A9F4; font-weight: bold`, action);
+      console[level](`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
+    } else {
+      console.log(`%c prev state`, `color: #9E9E9E; font-weight: bold`, prevState);
+      console.log(`%c action`, `color: #03A9F4; font-weight: bold`, action);
+      console.log(`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
+    }
 
     try {
-      console.groupEnd('—— log end ——');
+      console.groupEnd();
     } catch(e) {
       console.log('—— log end ——');
     }
