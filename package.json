@@ -2,7 +2,7 @@
   "name": "redux-logger",
   "version": "0.0.3",
   "description": "Logger for redux",
-  "main": "build/logger.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "npm run lint",
     "clean": "$(npm bin)/rimraf build",

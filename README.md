@@ -2,32 +2,52 @@
 
 ![logger](http://i.imgur.com/qhcz1OD.png)
 
-### Install
+## Install
 `npm i --save redux-logger`
 
-### Usage
+## Usage
 ```javascript
 import createLogger from 'redux-logger';
 
-const logger = createLogger({
-  predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN  // log all actions except AUTH_REMOVE_TOKEN
-});
+const logger = createLogger();
 const createStoreWithMiddleware = applyMiddleware(logger)(createStore);
 const store = createStoreWithMiddleware(reducer);
 ```
 
-### API
+## API
 
 `redux-logger` exposes single constructor function for creating logger middleware.  
-_[flow type](http://flowtype.org/) notation is used hereinafter_
 
 __createLogger(options?: Object)__
 
-#### Options
+### Options
+#### __level (String)__
+Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
-__predicate__ - function with signature `predicate(getState: Function, action: Object): boolean`.  
+#### __collapsed (Boolean)__
+Is group collapsed?
+
+#### __predicate (getState: Function, action: Object): boolean__
 If specified this function will be called before each action is processed with this middleware.
 Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
+
+##### Examples:
+###### log only in dev mode
+```javascript
+const __DEV__ = true;
+
+createLogger({
+  predicate: (getState, action) => __DEV__
+});
+```
+
+###### log everything except actions with type `AUTH_REMOVE_TOKEN`
+
+```javascript
+createLogger({
+  predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
+});
+```
 
 ### License
 MIT

@@ -9,7 +9,8 @@
     "__DEV__": true
   },
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "no-else-return": 0
   },
   "plugins": [
     "react"
