@@ -27,8 +27,7 @@ function createLogger(options = {}) {
     const returnValue = next(action);
     const nextState = getState();
     const time = new Date();
-    const actionType = String(action.type);
-    const message = `action ${actionType} @ ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    const message = `action ${action.type} @ ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
 
     if (collapsed) {
       try {
