@@ -24,15 +24,23 @@ __createLogger(options?: Object)__
 #### __level (String)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
+*Default: `console.log`*
+
 #### __logger (Object)__
 Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
+
+*Default: `window.console`*
 
 #### __collapsed (Boolean)__
 Is group collapsed?
 
+*Default: `false`*
+
 #### __predicate (getState: Function, action: Object): boolean__
 If specified this function will be called before each action is processed with this middleware.
 Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
+
+*Default: `null` (always log)*
 
 ##### Examples:
 ###### log only in dev mode
