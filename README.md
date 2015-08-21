@@ -24,6 +24,9 @@ __createLogger(options?: Object)__
 #### __level (String)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
+#### __logger (Object)__
+Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
+
 #### __collapsed (Boolean)__
 Is group collapsed?
 
