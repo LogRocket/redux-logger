@@ -11,7 +11,7 @@
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
     const { level, collapsed, predicate, logger } = options;
-    const console = logger || console;
+    const console = logger || window.console;
 
     // exit if console undefined
     if (typeof console === 'undefined') {

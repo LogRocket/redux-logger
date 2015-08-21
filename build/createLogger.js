@@ -25,7 +25,7 @@ function createLogger() {
         var predicate = options.predicate;
         var logger = options.logger;
 
-        var console = logger || console;
+        var console = logger || window.console;
 
         // exit if console undefined
         if (typeof console === 'undefined') {
