@@ -1,6 +1,6 @@
 {
   "name": "redux-logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Logger for redux",
   "main": "build/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "build": "npm run build:module && npm run build:example",
     "prepublish": "npm run clean && npm run test && npm run build",
     "deploy:ghpages": "$(npm bin)/gh-pages -d example/dist",
-    "deploy": "git add -A && git commit -am 'chore: update docs' && git push && npm run deploy:ghpages"
+    "deploy": "git add -A && git commit -am 'chore: update build' && git push && npm run deploy:ghpages"
   },
   "repository": {
     "type": "git",

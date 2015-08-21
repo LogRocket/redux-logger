@@ -23,6 +23,9 @@ function createLogger() {
         var level = options.level;
         var collapsed = options.collapsed;
         var predicate = options.predicate;
+        var logger = options.logger;
+
+        var console = logger || console;
 
         // exit if console undefined
         if (typeof console === 'undefined') {
