@@ -45,7 +45,7 @@ Receives `getState` function for  accessing current store state and `action` obj
 #### __transform (Function)__
 Transform state before print. Eg. convert Immutable object to plain JSON.
 
-*Default: `null` (no transform)*
+*Default: identity function*
 
 
 ##### Examples:
