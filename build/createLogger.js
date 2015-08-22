@@ -24,8 +24,12 @@ function createLogger() {
         var collapsed = options.collapsed;
         var predicate = options.predicate;
         var logger = options.logger;
+        var transformer = options.transformer;
 
         var console = logger || window.console;
+        var getTransformedState = function getTransformedState() {
+          return transformer ? transformer(getState()) : getState();
+        };
 
         // exit if console undefined
         if (typeof console === 'undefined') {
@@ -37,9 +41,9 @@ function createLogger() {
           return next(action);
         }
 
-        var prevState = getState();
+        var prevState = getTransformedState();
         var returnValue = next(action);
-        var nextState = getState();
+        var nextState = getTransformedState();
         var time = new Date();
         var actionType = String(action.type);
         var message = 'action ' + actionType + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();

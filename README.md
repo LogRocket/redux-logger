@@ -42,6 +42,12 @@ Receives `getState` function for  accessing current store state and `action` obj
 
 *Default: `null` (always log)*
 
+#### __transform (Function)__
+Transform state before print. Eg. convert Immutable object to plain JSON.
+
+*Default: `null` (no transform)*
+
+
 ##### Examples:
 ###### log only in dev mode
 ```javascript
