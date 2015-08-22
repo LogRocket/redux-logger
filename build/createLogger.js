@@ -41,7 +41,8 @@ function createLogger() {
         var returnValue = next(action);
         var nextState = getState();
         var time = new Date();
-        var message = 'action ' + action.type + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+        var actionType = String(action.type);
+        var message = 'action ' + actionType + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
 
         if (collapsed) {
           try {
