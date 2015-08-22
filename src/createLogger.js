@@ -10,7 +10,7 @@
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger } = options;
+    const { level, collapsed, predicate, logger, transformer = state => state} = options;
     const console = logger || window.console;
 
     // exit if console undefined
@@ -23,9 +23,9 @@ function createLogger(options = {}) {
       return next(action);
     }
 
-    const prevState = getState();
+    const prevState = transformer(getState());
     const returnValue = next(action);
-    const nextState = getState();
+    const nextState = transformer(getState());
     const time = new Date();
     const actionType = String(action.type);
     const message = `action ${actionType} @ ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
