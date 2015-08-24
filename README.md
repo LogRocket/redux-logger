@@ -21,6 +21,11 @@ const store = createStoreWithMiddleware(reducer);
 __createLogger(options?: Object)__
 
 ### Options
+#### __collapsed (Boolean)__
+Is group collapsed?
+
+*Default: `false`*
+
 #### __level (String)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
@@ -31,27 +36,21 @@ Implementation of the `console` API. Useful if you are using a custom, wrapped v
 
 *Default: `window.console`*
 
-#### __collapsed (Boolean)__
-Is group collapsed?
+#### __timestamp (Boolean)__
+Print timestamp with each action?
 
-*Default: `false`*
-
-#### __predicate (getState: Function, action: Object): boolean__
-If specified this function will be called before each action is processed with this middleware.
-Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
-
-*Default: `null` (always log)*
+*Default: `true`*
 
 #### __transformer (Function)__
 Transform state before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
 
-#### __timestamp (Boolean)__
-Print timestamp with each action?
+#### __predicate (getState: Function, action: Object): boolean__
+If specified this function will be called before each action is processed with this middleware.
+Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
 
-*Default: `true`*
-
+*Default: `null` (always log)*
 
 ##### Examples:
 ###### log only in dev mode
