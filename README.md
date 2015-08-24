@@ -47,6 +47,11 @@ Transform state before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
 
+#### __timestamp (Boolean)__
+Print timestamp with each action?
+
+*Default: `true`*
+
 
 ##### Examples:
 ###### log only in dev mode
