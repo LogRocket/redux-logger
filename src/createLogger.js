@@ -1,3 +1,5 @@
+const pad = num => ('0' + num).slice(-2);
+
 /**
  * Creates logger with followed options
  *
@@ -10,7 +12,7 @@
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger, transformer = state => state} = options;
+    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true} = options;
     const console = logger || window.console;
 
     // exit if console undefined
@@ -26,9 +28,13 @@ function createLogger(options = {}) {
     const prevState = transformer(getState());
     const returnValue = next(action);
     const nextState = transformer(getState());
-    const time = new Date();
+    let formattedTime = '';
+    if (timestamp) {
+      const time = new Date();
+      formattedTime = ` @ ${time.getHours()}:${pad(time.getMinutes())}:${pad(time.getSeconds())}`;
+    }
     const actionType = String(action.type);
-    const message = `action ${actionType} @ ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    const message = `action ${actionType}${formattedTime}`;
 
     if (collapsed) {
       try {

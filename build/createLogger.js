@@ -1,3 +1,12 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var pad = function pad(num) {
+  return ('0' + num).slice(-2);
+};
+
 /**
  * Creates logger with followed options
  *
@@ -8,11 +17,6 @@
  * @property {bool} predicate - condition which resolves logger behavior
  */
 
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
 function createLogger() {
   var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -28,6 +32,8 @@ function createLogger() {
         var transformer = _options$transformer === undefined ? function (state) {
           return state;
         } : _options$transformer;
+        var _options$timestamp = options.timestamp;
+        var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
 
         var console = logger || window.console;
 
@@ -44,9 +50,13 @@ function createLogger() {
         var prevState = transformer(getState());
         var returnValue = next(action);
         var nextState = transformer(getState());
-        var time = new Date();
+        var formattedTime = '';
+        if (timestamp) {
+          var time = new Date();
+          formattedTime = ' @ ' + time.getHours() + ':' + pad(time.getMinutes()) + ':' + pad(time.getSeconds());
+        }
         var actionType = String(action.type);
-        var message = 'action ' + actionType + ' @ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+        var message = 'action ' + actionType + formattedTime;
 
         if (collapsed) {
           try {
