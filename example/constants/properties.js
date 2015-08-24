@@ -1,1 +1,1 @@
-export const PROPERTIES_UPDATE = Symbol('properties.update');
+export const PROPERTIES_UPDATE = 'properties.update';
