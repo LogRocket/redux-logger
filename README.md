@@ -7,12 +7,15 @@
 
 ## Usage
 ```javascript
+import thunk from 'redux-thunk';
+import promise from 'redux-promise';
 import createLogger from 'redux-logger';
 
 const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(logger)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, promise, logger)(createStore);
 const store = createStoreWithMiddleware(reducer);
 ```
+Logger **must be** last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/fcomb/redux-logger/issues/20)).
 
 ## API
 
