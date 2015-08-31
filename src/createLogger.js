@@ -4,9 +4,9 @@ const pad = num => ('0' + num).slice(-2);
  * Creates logger with followed options
  *
  * @namespace
- * @propety {object} options - options for logger
+ * @property {object} options - options for logger
  * @property {string} level - console[level]
- * @propety {boolean} collapsed - is group collapsed?
+ * @property {boolean} collapsed - is group collapsed?
  * @property {bool} predicate - condition which resolves logger behavior
  */
 
