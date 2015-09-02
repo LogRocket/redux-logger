@@ -73,5 +73,21 @@ createLogger({
 });
 ```
 
+###### transform Immutable objects into JSON
+```javascript
+createLogger({
+  transformer: (state) => {
+    for (var i of Object.keys(state)) {
+      if (Immutable.Iterable.isIterable(state[i])) {
+        return state[i].toJS();
+      } else {
+        return state[i];
+      }
+    };
+  }
+});
+```
+
+
 ### License
 MIT
