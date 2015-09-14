@@ -77,13 +77,15 @@ createLogger({
 ```javascript
 createLogger({
   transformer: (state) => {
+    var newState = {};
     for (var i of Object.keys(state)) {
       if (Immutable.Iterable.isIterable(state[i])) {
-        return state[i].toJS();
+        newState[i] = state[i].toJS();
       } else {
-        return state[i];
+        newState[i] = state[i];
       }
     };
+    return newState;
   }
 });
 ```
