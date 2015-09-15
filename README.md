@@ -44,6 +44,11 @@ Print timestamp with each action?
 
 *Default: `true`*
 
+#### __duration (Boolean)__
+Print duration of each action?
+
+*Default: `true`*
+
 #### __transformer (Function)__
 Transform state before print. Eg. convert Immutable object to plain JSON.
 
