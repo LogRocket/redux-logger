@@ -1,5 +1,8 @@
 const pad = num => ('0' + num).slice(-2);
 
+// Use the new performance api to get better precision if available
+const timer = typeof performance !== "undefined" ? performance : Date;
+
 /**
  * Creates logger with followed options
  *
@@ -12,7 +15,7 @@ const pad = num => ('0' + num).slice(-2);
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true} = options;
+    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true, duration = true} = options;
     const console = logger || window.console;
 
     // exit if console undefined
@@ -26,15 +29,21 @@ function createLogger(options = {}) {
     }
 
     const prevState = transformer(getState());
+    const started = timer.now();
     const returnValue = next(action);
+    const took = timer.now() - started;
     const nextState = transformer(getState());
     let formattedTime = '';
     if (timestamp) {
       const time = new Date();
       formattedTime = ` @ ${time.getHours()}:${pad(time.getMinutes())}:${pad(time.getSeconds())}`;
     }
+    let formattedDuration = '';
+    if (duration) {
+      formattedDuration = ` in ${took.toFixed(2)} ms`;
+    }
     const actionType = String(action.type);
-    const message = `action ${actionType}${formattedTime}`;
+    const message = `action ${actionType}${formattedTime}${formattedDuration}`;
 
     if (collapsed) {
       try {
