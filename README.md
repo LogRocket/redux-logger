@@ -24,10 +24,6 @@ Logger **must be** last middleware in chain, otherwise it will log thunk and pro
 __createLogger(options?: Object)__
 
 ### Options
-#### __collapsed (Boolean)__
-Is group collapsed?
-
-*Default: `false`*
 
 #### __level (String)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
@@ -60,6 +56,11 @@ Receives `getState` function for  accessing current store state and `action` obj
 
 *Default: `null` (always log)*
 
+#### __collapsed (getState: Function, action: Object): boolean__
+Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
+
+*Default: `false`*
+
 ##### Examples:
 ###### log only in dev mode
 ```javascript
@@ -71,10 +72,23 @@ createLogger({
 ```
 
 ###### log everything except actions with type `AUTH_REMOVE_TOKEN`
-
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
+});
+```
+
+###### collapse all actions
+```javascript
+createLogger({
+  collapsed: true
+});
+```
+
+###### collapse actions with type `FORM_CHANGE`
+```javascript
+createLogger({
+  collapsed: (getState, action) => action.type === FORM_CHANGE
 });
 ```
 

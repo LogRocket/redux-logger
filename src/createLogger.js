@@ -45,7 +45,11 @@ function createLogger(options = {}) {
     const actionType = String(action.type);
     const message = `action ${actionType}${formattedTime}${formattedDuration}`;
 
-    if (collapsed) {
+    const isCollapsed = (typeof collapsed === 'function') ?
+      collapsed(getState, action) :
+      collapsed;
+
+    if (isCollapsed) {
       try {
         console.groupCollapsed(message);
       } catch (e) {
