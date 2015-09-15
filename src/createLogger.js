@@ -1,7 +1,7 @@
 const pad = num => ('0' + num).slice(-2);
 
 // Use the new performance api to get better precision if available
-const timer = typeof performance !== "undefined" ? performance : Date;
+const timer = typeof performance !== `undefined` ? performance : Date;
 
 /**
  * Creates logger with followed options
@@ -15,7 +15,7 @@ const timer = typeof performance !== "undefined" ? performance : Date;
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true, duration = true} = options;
+    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true, duration = false } = options;
     const console = logger || window.console;
 
     // exit if console undefined

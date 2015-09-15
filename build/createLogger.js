@@ -7,13 +7,16 @@ var pad = function pad(num) {
   return ('0' + num).slice(-2);
 };
 
+// Use the new performance api to get better precision if available
+var timer = typeof performance !== 'undefined' ? performance : Date;
+
 /**
  * Creates logger with followed options
  *
  * @namespace
- * @propety {object} options - options for logger
+ * @property {object} options - options for logger
  * @property {string} level - console[level]
- * @propety {boolean} collapsed - is group collapsed?
+ * @property {boolean} collapsed - is group collapsed?
  * @property {bool} predicate - condition which resolves logger behavior
  */
 
@@ -34,6 +37,8 @@ function createLogger() {
         } : _options$transformer;
         var _options$timestamp = options.timestamp;
         var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
+        var _options$duration = options.duration;
+        var duration = _options$duration === undefined ? false : _options$duration;
 
         var console = logger || window.console;
 
@@ -48,15 +53,21 @@ function createLogger() {
         }
 
         var prevState = transformer(getState());
+        var started = timer.now();
         var returnValue = next(action);
+        var took = timer.now() - started;
         var nextState = transformer(getState());
         var formattedTime = '';
         if (timestamp) {
           var time = new Date();
           formattedTime = ' @ ' + time.getHours() + ':' + pad(time.getMinutes()) + ':' + pad(time.getSeconds());
         }
+        var formattedDuration = '';
+        if (duration) {
+          formattedDuration = ' in ' + took.toFixed(2) + ' ms';
+        }
         var actionType = String(action.type);
-        var message = 'action ' + actionType + formattedTime;
+        var message = 'action ' + actionType + formattedTime + formattedDuration;
 
         if (collapsed) {
           try {
