@@ -10,7 +10,7 @@ const timer = typeof performance !== `undefined` ? performance : Date;
  * @property {object} options - options for logger
  * @property {string} level - console[level]
  * @property {boolean} collapsed - is group collapsed?
- * @property {bool} predicate - condition which resolves logger behavior
+ * @property {boolean} predicate - condition which resolves logger behavior
  */
 
 function createLogger(options = {}) {
@@ -54,7 +54,7 @@ function createLogger(options = {}) {
     } else {
       try {
         console.group(message);
-      } catch(e) {
+      } catch (e) {
         console.log(message);
       }
     }
@@ -71,7 +71,7 @@ function createLogger(options = {}) {
 
     try {
       console.groupEnd();
-    } catch(e) {
+    } catch (e) {
       console.log('—— log end ——');
     }
 

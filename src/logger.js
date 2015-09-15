@@ -17,7 +17,7 @@ function logger({ getState }) {
 
     try {
       console.group(message);
-    } catch(e) {
+    } catch (e) {
       console.log(message);
     }
 
@@ -27,7 +27,7 @@ function logger({ getState }) {
 
     try {
       console.groupEnd();
-    } catch(e) {
+    } catch (e) {
       console.log('—— log end ——');
     }
 
