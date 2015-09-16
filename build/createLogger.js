@@ -17,7 +17,7 @@ var timer = typeof performance !== 'undefined' ? performance : Date;
  * @property {object} options - options for logger
  * @property {string} level - console[level]
  * @property {boolean} collapsed - is group collapsed?
- * @property {bool} predicate - condition which resolves logger behavior
+ * @property {boolean} predicate - condition which resolves logger behavior
  */
 
 function createLogger() {
@@ -69,7 +69,9 @@ function createLogger() {
         var actionType = String(action.type);
         var message = 'action ' + actionType + formattedTime + formattedDuration;
 
-        if (collapsed) {
+        var isCollapsed = typeof collapsed === 'function' ? collapsed(getState, action) : collapsed;
+
+        if (isCollapsed) {
           try {
             console.groupCollapsed(message);
           } catch (e) {
