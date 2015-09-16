@@ -5,13 +5,13 @@
   "main": "build/index.js",
   "scripts": {
     "test": "npm run lint",
-    "clean": "$(npm bin)/rimraf build",
-    "lint": "$(npm bin)/eslint src",
-    "build:module": "$(npm bin)/babel src --out-dir build",
-    "build:example": "$(npm bin)/webpack -p --config example/webpack.config.production.js",
+    "clean": "rimraf build",
+    "lint": "eslint src",
+    "build:module": "babel src --out-dir build",
+    "build:example": "webpack -p --config example/webpack.config.production.js",
     "build": "npm run build:module && npm run build:example",
     "prepublish": "npm run clean && npm run test && npm run build",
-    "deploy:ghpages": "$(npm bin)/gh-pages -d example/dist",
+    "deploy:ghpages": "gh-pages -d example/dist",
     "deploy": "npm run build:example && git add -A && git commit -am 'chore: update build' && git push && npm run deploy:ghpages"
   },
   "repository": {
