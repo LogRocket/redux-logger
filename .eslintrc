@@ -1,5 +1,5 @@
 {
-  "extends": "eslint-config-airbnb",
+  "extends": "airbnb/base",
   "env": {
     "browser": true,
     "mocha": true,

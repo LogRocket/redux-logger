@@ -54,7 +54,7 @@ function createLogger(options = {}) {
     } else {
       try {
         console.group(message);
-      } catch(e) {
+      } catch (e) {
         console.log(message);
       }
     }
@@ -71,7 +71,7 @@ function createLogger(options = {}) {
 
     try {
       console.groupEnd();
-    } catch(e) {
+    } catch (e) {
       console.log('—— log end ——');
     }
 
