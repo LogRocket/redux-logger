@@ -8,7 +8,7 @@ var pad = function pad(num) {
 };
 
 // Use the new performance api to get better precision if available
-var timer = typeof performance !== 'undefined' ? performance : Date;
+var timer = (window.performance && performance.now) ? performance : Date;
 
 /**
  * Creates logger with followed options
