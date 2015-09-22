@@ -1,7 +1,7 @@
 const pad = num => ('0' + num).slice(-2);
 
 // Use the new performance api to get better precision if available
-const timer = typeof performance !== `undefined` ? performance : Date;
+const timer = typeof performance !== 'undefined' && typeof performance.now === 'function' ? performance : Date;
 
 /**
  * Creates logger with followed options
