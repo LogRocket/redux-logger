@@ -31,6 +31,10 @@ function createLogger() {
         var collapsed = options.collapsed;
         var predicate = options.predicate;
         var logger = options.logger;
+        var _options$typeToString = options.typeToString;
+        var typeToString = _options$typeToString === undefined ? function (type) {
+          return String(type);
+        } : _options$typeToString;
         var _options$transformer = options.transformer;
         var transformer = _options$transformer === undefined ? function (state) {
           return state;
@@ -66,7 +70,7 @@ function createLogger() {
         if (duration) {
           formattedDuration = ' in ' + took.toFixed(2) + ' ms';
         }
-        var actionType = String(action.type);
+        var actionType = typeToString(action.type);
         var message = 'action ' + actionType + formattedTime + formattedDuration;
 
         var isCollapsed = typeof collapsed === 'function' ? collapsed(getState, action) : collapsed;
