@@ -35,6 +35,10 @@ function createLogger() {
         var transformer = _options$transformer === undefined ? function (state) {
           return state;
         } : _options$transformer;
+        var _options$actionTransformer = options.actionTransformer;
+        var actionTransformer = _options$actionTransformer === undefined ? function (xAction) {
+          return xAction;
+        } : _options$actionTransformer;
         var _options$timestamp = options.timestamp;
         var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
         var _options$duration = options.duration;
@@ -66,10 +70,11 @@ function createLogger() {
         if (duration) {
           formattedDuration = ' in ' + took.toFixed(2) + ' ms';
         }
+        var xAction = actionTransformer(action);
         var actionType = String(action.type);
         var message = 'action ' + actionType + formattedTime + formattedDuration;
 
-        var isCollapsed = typeof collapsed === 'function' ? collapsed(getState, action) : collapsed;
+        var isCollapsed = typeof collapsed === 'function' ? collapsed(getState, xAction) : collapsed;
 
         if (isCollapsed) {
           try {
@@ -87,11 +92,11 @@ function createLogger() {
 
         if (level) {
           console[level]('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
-          console[level]('%c action', 'color: #03A9F4; font-weight: bold', action);
+          console[level]('%c action', 'color: #03A9F4; font-weight: bold', xAction);
           console[level]('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
         } else {
           console.log('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
-          console.log('%c action', 'color: #03A9F4; font-weight: bold', action);
+          console.log('%c action', 'color: #03A9F4; font-weight: bold', xAction);
           console.log('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
         }
 

@@ -15,7 +15,9 @@ const timer = typeof performance !== 'undefined' && typeof performance.now === '
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true, duration = false } = options;
+    const { level, collapsed, predicate, logger, transformer = state => state,
+            actionTransformer = xAction => xAction, timestamp = true,
+            duration = false } = options;
     const console = logger || window.console;
 
     // exit if console undefined
@@ -42,11 +44,12 @@ function createLogger(options = {}) {
     if (duration) {
       formattedDuration = ` in ${took.toFixed(2)} ms`;
     }
+    const xAction = actionTransformer(action);
     const actionType = String(action.type);
     const message = `action ${actionType}${formattedTime}${formattedDuration}`;
 
     const isCollapsed = (typeof collapsed === 'function') ?
-      collapsed(getState, action) :
+      collapsed(getState, xAction) :
       collapsed;
 
     if (isCollapsed) {
@@ -65,11 +68,11 @@ function createLogger(options = {}) {
 
     if (level) {
       console[level](`%c prev state`, `color: #9E9E9E; font-weight: bold`, prevState);
-      console[level](`%c action`, `color: #03A9F4; font-weight: bold`, action);
+      console[level](`%c action`, `color: #03A9F4; font-weight: bold`, xAction);
       console[level](`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
     } else {
       console.log(`%c prev state`, `color: #9E9E9E; font-weight: bold`, prevState);
-      console.log(`%c action`, `color: #03A9F4; font-weight: bold`, action);
+      console.log(`%c action`, `color: #03A9F4; font-weight: bold`, xAction);
       console.log(`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
     }
 
