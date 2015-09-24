@@ -72,7 +72,7 @@ function createLogger() {
         }
         var xAction = actionTransformer(action);
         var actionType = String(action.type);
-        var message = 'xAction ' + actionType + formattedTime + formattedDuration;
+        var message = 'action ' + actionType + formattedTime + formattedDuration;
 
         var isCollapsed = typeof collapsed === 'function' ? collapsed(getState, xAction) : collapsed;
 
@@ -92,11 +92,11 @@ function createLogger() {
 
         if (level) {
           console[level]('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
-          console[level]('%c xAction', 'color: #03A9F4; font-weight: bold', xAction);
+          console[level]('%c action', 'color: #03A9F4; font-weight: bold', xAction);
           console[level]('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
         } else {
           console.log('%c prev state', 'color: #9E9E9E; font-weight: bold', prevState);
-          console.log('%c xAction', 'color: #03A9F4; font-weight: bold', xAction);
+          console.log('%c action', 'color: #03A9F4; font-weight: bold', xAction);
           console.log('%c next state', 'color: #4CAF50; font-weight: bold', nextState);
         }
 
