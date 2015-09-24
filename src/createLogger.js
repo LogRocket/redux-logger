@@ -15,7 +15,10 @@ const timer = typeof performance !== 'undefined' && typeof performance.now === '
 
 function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
-    const { level, collapsed, predicate, logger, transformer = state => state, timestamp = true, duration = false } = options;
+    const { level, collapsed, predicate, logger,
+      typeToString = type => String(type),
+      transformer = state => state,
+      timestamp = true, duration = false } = options;
     const console = logger || window.console;
 
     // exit if console undefined
@@ -42,7 +45,7 @@ function createLogger(options = {}) {
     if (duration) {
       formattedDuration = ` in ${took.toFixed(2)} ms`;
     }
-    const actionType = String(action.type);
+    const actionType = typeToString(action.type);
     const message = `action ${actionType}${formattedTime}${formattedDuration}`;
 
     const isCollapsed = (typeof collapsed === 'function') ?
