@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { AUTH_SET_TOKEN, AUTH_SET_INFO, AUTH_REMOVE_TOKEN } from '../constants/auth';
+import { AUTH_SET_TOKEN, AUTH_SET_INFO, AUTH_REMOVE_TOKEN } from 'constants/auth';
 
 const initialState = {};
 

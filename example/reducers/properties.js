@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { PROPERTIES_UPDATE } from '../constants/properties';
+import { PROPERTIES_UPDATE } from 'constants/properties';
 
 const initialState = {
   list: [],

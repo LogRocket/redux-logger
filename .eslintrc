@@ -9,8 +9,13 @@
     "__DEV__": true
   },
   "rules": {
+    "valid-jsdoc": 2,
+    "no-else-return": 0,
+    "no-extend-native": 0,
     "no-console": 0,
-    "no-else-return": 0
+    "quotes": [2, "backtick"],
+    "jsx-quotes": 2,
+    "new-cap": 0,
   },
   "plugins": [
     "react"

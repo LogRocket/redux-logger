@@ -1,4 +1,4 @@
-import { AUTH_SET_TOKEN, AUTH_SET_INFO, AUTH_REMOVE_TOKEN } from '../constants/auth';
+import { AUTH_SET_TOKEN, AUTH_SET_INFO, AUTH_REMOVE_TOKEN } from 'constants/auth';
 
 export function setToken(token) {
   return {

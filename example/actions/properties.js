@@ -1,4 +1,4 @@
-import { PROPERTIES_UPDATE } from '../constants/properties';
+import { PROPERTIES_UPDATE } from 'constants/properties';
 
 export function updateProperties(list) {
   return {

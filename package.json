@@ -1,18 +1,19 @@
 {
   "name": "redux-logger",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "Logger for redux",
-  "main": "build/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "npm run lint",
     "clean": "rimraf build",
     "lint": "eslint src",
-    "build:module": "babel src --out-dir build",
+    "build:lib": "babel src --out-dir lib",
+    "build:umd": "LIBRARY_NAME=reduxLogger webpack -p src/index.js dist/index.js --config webpack.config.production.js",
+    "build:umd:min": "LIBRARY_NAME=reduxLogger webpack -p src/index.js dist/index.min.js --config webpack.config.development.js",
     "build:example": "webpack -p --config example/webpack.config.production.js",
-    "build": "npm run build:module && npm run build:example",
+    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min && npm run build:example",
     "prepublish": "npm run clean && npm run test && npm run build",
-    "deploy:ghpages": "gh-pages -d example/dist",
-    "deploy": "npm run build:example && git add -A && git commit -am 'chore: update build' && git push && npm run deploy:ghpages"
+    "deploy": "gh-pages -d example/dist"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "babel-core": "^5.8.24",
     "babel-eslint": "^4.1.2",
     "babel-loader": "^5.3.2",
+    "babel-plugin-react-transform": "^1.1.0",
     "eslint": "^1.4.3",
     "eslint-config-airbnb": "0.0.8",
     "eslint-plugin-react": "^3.4.2",

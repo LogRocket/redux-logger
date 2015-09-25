@@ -29,27 +29,17 @@ __createLogger(options?: Object)__
 #### __level (String)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
-*Default: `console.log`*
+*Default: `log`*
 
 #### __logger (Object)__
 Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
 
 *Default: `window.console`*
 
-#### __timestamp (Boolean)__
-Print timestamp with each action?
-
-*Default: `true`*
-
-#### __duration (Boolean)__
-Print duration of each action?
+#### __collapsed (getState: Function, action: Object): boolean__
+Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
 
 *Default: `false`*
-
-#### __transformer (Function)__
-Transform state before print. Eg. convert Immutable object to plain JSON.
-
-*Default: identity function*
 
 #### __predicate (getState: Function, action: Object): boolean__
 If specified this function will be called before each action is processed with this middleware.
@@ -57,13 +47,28 @@ Receives `getState` function for  accessing current store state and `action` obj
 
 *Default: `null` (always log)*
 
-#### __collapsed (getState: Function, action: Object): boolean__
-Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
+#### __duration (Boolean)__
+Print duration of each action?
 
 *Default: `false`*
 
-##### Examples:
-###### log only in dev mode
+#### __timestamp (Boolean)__
+Print timestamp with each action?
+
+*Default: `true`*
+
+#### __transformer (Function)__
+Transform state before print. Eg. convert Immutable object to plain JSON.
+
+*Default: identity function*
+
+#### __actionTransformer (Function)__
+Transform action before print. Eg. convert Immutable object to plain JSON.
+
+*Default: identity function*
+
+### Examples:
+#### log only in dev mode
 ```javascript
 const __DEV__ = true;
 
@@ -72,28 +77,28 @@ createLogger({
 });
 ```
 
-###### log everything except actions with type `AUTH_REMOVE_TOKEN`
+#### log everything except actions with type `AUTH_REMOVE_TOKEN`
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
 });
 ```
 
-###### collapse all actions
+#### collapse all actions
 ```javascript
 createLogger({
   collapsed: true
 });
 ```
 
-###### collapse actions with type `FORM_CHANGE`
+#### collapse actions with type `FORM_CHANGE`
 ```javascript
 createLogger({
   collapsed: (getState, action) => action.type === FORM_CHANGE
 });
 ```
 
-###### transform Immutable objects into JSON
+#### transform Immutable objects into JSON
 ```javascript
 createLogger({
   transformer: (state) => {
