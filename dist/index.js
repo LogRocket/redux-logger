@@ -1,1 +1,180 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.reduxLogger=t():e.reduxLogger=t()}(this,function(){return function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){o(1),e.exports=o(1)},function(e,t){"use strict";function o(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];return function(t){var o=t.getState;return function(t){return function(c){var i=e.level,u=e.logger,f=e.collapsed,d=e.predicate,a=e.duration,l=void 0===a?!1:a,p=e.timestamp,s=void 0===p?!0:p,g=e.transformer,v=void 0===g?function(e){return e}:g,x=e.actionTransformer,m=void 0===x?function(e){return e}:x,y=u||window.console;if("undefined"==typeof y)return t(c);if("function"==typeof d&&!d(o,c))return t(c);var w=r.now(),b=v(o()),h=t(c),E=r.now()-w,F=v(o()),j=new Date,A="function"==typeof f?f(o,c):f,C=s?" @ "+j.getHours()+":"+n(j.getMinutes())+":"+n(j.getSeconds()):"",D=l?" in "+E.toFixed(2)+" ms":"",L=m(c),M="action "+L.type+C+D;try{A?y.groupCollapsed(M):y.group(M)}catch(S){y.log(M)}i?(y[i]("%c prev state","color: #9E9E9E; font-weight: bold",b),y[i]("%c action","color: #03A9F4; font-weight: bold",c),y[i]("%c next state","color: #4CAF50; font-weight: bold",F)):(y.log("%c prev state","color: #9E9E9E; font-weight: bold",b),y.log("%c action","color: #03A9F4; font-weight: bold",c),y.log("%c next state","color: #4CAF50; font-weight: bold",F));try{y.groupEnd()}catch(S){y.log("—— log end ——")}return h}}}}Object.defineProperty(t,"__esModule",{value:!0});var n=function(e){return("0"+e).slice(-2)},r="undefined"!=typeof performance&&"function"==typeof performance.now?performance:Date;t["default"]=o,e.exports=t["default"]}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["reduxLogger"] = factory();
+	else
+		root["reduxLogger"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(1);
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var pad = function pad(num) {
+	  return ("0" + num).slice(-2);
+	};
+
+	// Use the new performance api to get better precision if available
+	var timer = typeof performance !== "undefined" && typeof performance.now === "function" ? performance : Date;
+
+	/**
+	 * Creates logger with followed options
+	 *
+	 * @namespace
+	 * @property {object} options - options for logger
+	 * @property {string} options.level - console[level]
+	 * @property {object} options.logger - implementation of the `console` API.
+	 * @property {boolean} options.collapsed - is group collapsed?
+	 * @property {boolean} options.predicate - condition which resolves logger behavior
+	 * @property {bool} options.duration - print duration of each action?
+	 * @property {bool} options.timestamp - print timestamp with each action?
+	 * @property {function} options.transformer - transform state before print
+	 * @property {function} options.actionTransformer - transform action before print
+	 */
+
+	function createLogger() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	  return function (_ref) {
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        var level = options.level;
+	        var logger = options.logger;
+	        var collapsed = options.collapsed;
+	        var predicate = options.predicate;
+	        var _options$duration = options.duration;
+	        var duration = _options$duration === undefined ? false : _options$duration;
+	        var _options$timestamp = options.timestamp;
+	        var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
+	        var _options$transformer = options.transformer;
+	        var transformer = _options$transformer === undefined ? function (state) {
+	          return state;
+	        } : _options$transformer;
+	        var _options$actionTransformer = options.actionTransformer;
+	        var actionTransformer = _options$actionTransformer === undefined ? function (actn) {
+	          return actn;
+	        } : _options$actionTransformer;
+
+	        var console = logger || window.console;
+
+	        // exit if console undefined
+	        if (typeof console === "undefined") {
+	          return next(action);
+	        }
+
+	        // exit early if predicate function returns false
+	        if (typeof predicate === "function" && !predicate(getState, action)) {
+	          return next(action);
+	        }
+
+	        var started = timer.now();
+	        var prevState = transformer(getState());
+
+	        var returnValue = next(action);
+	        var took = timer.now() - started;
+
+	        var nextState = transformer(getState());
+
+	        // formatters
+	        var time = new Date();
+	        var isCollapsed = typeof collapsed === "function" ? collapsed(getState, action) : collapsed;
+
+	        var formattedTime = timestamp ? " @ " + time.getHours() + ":" + pad(time.getMinutes()) + ":" + pad(time.getSeconds()) : "";
+	        var formattedDuration = duration ? " in " + took.toFixed(2) + " ms" : "";
+	        var formattedAction = actionTransformer(action);
+	        var message = "action " + formattedAction.type + formattedTime + formattedDuration;
+
+	        // render
+	        try {
+	          isCollapsed ? console.groupCollapsed(message) : console.group(message);
+	        } catch (e) {
+	          console.log(message);
+	        }
+
+	        if (level) {
+	          console[level]("%c prev state", "color: #9E9E9E; font-weight: bold", prevState);
+	          console[level]("%c action", "color: #03A9F4; font-weight: bold", formattedAction);
+	          console[level]("%c next state", "color: #4CAF50; font-weight: bold", nextState);
+	        } else {
+	          console.log("%c prev state", "color: #9E9E9E; font-weight: bold", prevState);
+	          console.log("%c action", "color: #03A9F4; font-weight: bold", formattedAction);
+	          console.log("%c next state", "color: #4CAF50; font-weight: bold", nextState);
+	        }
+
+	        try {
+	          console.groupEnd();
+	        } catch (e) {
+	          console.log("—— log end ——");
+	        }
+
+	        return returnValue;
+	      };
+	    };
+	  };
+	}
+
+	exports["default"] = createLogger;
+	module.exports = exports["default"];
+
+/***/ }
+/******/ ])
+});
+;

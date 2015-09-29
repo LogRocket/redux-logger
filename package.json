@@ -1,6 +1,6 @@
 {
   "name": "redux-logger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Logger for redux",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "clean": "rimraf build",
     "lint": "eslint src",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "LIBRARY_NAME=reduxLogger webpack -p src/index.js dist/index.js --config webpack.config.production.js",
+    "build:umd": "LIBRARY_NAME=reduxLogger webpack src/index.js dist/index.js --config webpack.config.production.js",
     "build:umd:min": "LIBRARY_NAME=reduxLogger webpack -p src/index.js dist/index.min.js --config webpack.config.development.js",
     "build:example": "webpack -p --config example/webpack.config.production.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min && npm run build:example",
