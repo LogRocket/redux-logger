@@ -141,10 +141,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var formattedDuration = duration ? " in " + took.toFixed(2) + " ms" : "";
 	        var formattedAction = actionTransformer(action);
 	        var message = "action " + formattedAction.type + formattedTime + formattedDuration;
+	        var startMessage = isCollapsed ? console.groupCollapsed : console.group;
 
 	        // render
 	        try {
-	          isCollapsed ? console.groupCollapsed(message) : console.group(message);
+	          startMessage(message);
 	        } catch (e) {
 	          console.log(message);
 	        }

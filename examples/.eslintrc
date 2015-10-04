@@ -6,6 +6,7 @@
     "node": true
   },
   "rules": {
+    "id-length": [2, { "exceptions": ["e"] }],
     "valid-jsdoc": 2,
     "no-else-return": 0,
     "no-extend-native": 0,

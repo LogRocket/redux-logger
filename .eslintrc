@@ -5,10 +5,8 @@
     "mocha": true,
     "node": true
   },
-  "globals": {
-    "__DEV__": true
-  },
   "rules": {
+    "id-length": [2, { "exceptions": ["e"] }],
     "valid-jsdoc": 2,
     "no-else-return": 0,
     "no-extend-native": 0,
@@ -16,8 +14,5 @@
     "quotes": [2, "backtick"],
     "jsx-quotes": 2,
     "new-cap": 0,
-  },
-  "plugins": [
-    "react"
-  ]
+  }
 }

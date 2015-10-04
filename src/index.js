@@ -59,10 +59,11 @@ function createLogger(options = {}) {
     const formattedDuration = duration ? ` in ${took.toFixed(2)} ms` : ``;
     const formattedAction = actionTransformer(action);
     const message = `action ${formattedAction.type}${formattedTime}${formattedDuration}`;
+    const startMessage = isCollapsed ? console.groupCollapsed : console.group;
 
     // render
     try {
-      isCollapsed ? console.groupCollapsed(message) : console.group(message);
+      startMessage(message);
     } catch (e) {
       console.log(message);
     }
