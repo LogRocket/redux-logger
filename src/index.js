@@ -63,7 +63,7 @@ function createLogger(options = {}) {
 
     // render
     try {
-      startMessage(message);
+      startMessage.call(console, message);
     } catch (e) {
       console.log(message);
     }
