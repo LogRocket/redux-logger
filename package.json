@@ -1,13 +1,12 @@
 {
   "name": "redux-logger",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Logger for redux",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src",
     "test": "npm run lint",
     "clean": "rimraf build",
-    "deploy": "gh-pages -d examples/dist",
     "build:lib": "babel src --out-dir lib",
     "build:umd": "LIBRARY_NAME=reduxLogger webpack src/index.js dist/index.js --config webpack.config.production.js",
     "build:umd:min": "LIBRARY_NAME=reduxLogger webpack -p src/index.js dist/index.min.js --config webpack.config.development.js",
@@ -40,7 +39,6 @@
     "eslint": "1.6.0",
     "eslint-config-airbnb": "0.1.0",
     "eslint-plugin-react": "3.5.1",
-    "gh-pages": "0.4.0",
     "rimraf": "2.4.3",
     "webpack": "1.12.2"
   }

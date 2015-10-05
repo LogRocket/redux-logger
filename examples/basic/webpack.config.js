@@ -7,14 +7,14 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
   },
   plugins: [
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
     alias: {
-      'redux-logger': path.join(__dirname, '..'),
+      'redux-logger': path.join(__dirname, '..', '..'),
       'actions': path.join(__dirname, 'actions'),
       'constants': path.join(__dirname, 'constants'),
       'containers': path.join(__dirname, 'containers'),
