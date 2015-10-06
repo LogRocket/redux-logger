@@ -4,7 +4,7 @@
   "main": "webpack.server.js",
   "scripts": {
     "start": "PORT=7000 node webpack.server.js",
-    "build": "webpack -p --config webpack.config.production.js",
+    "build": "NODE_ENV=production webpack -p --config webpack.config.production.js",
     "deploy": "npm run build && gh-pages -d ./dist"
   },
   "repository": {
