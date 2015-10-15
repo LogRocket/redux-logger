@@ -1,4 +1,5 @@
-const pad = (num, maxLength) => `0`.repeat(maxLength - num.toString().length) + num;
+const repeat = (str, times) => (new Array(times + 1)).join(str);
+const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().length) + num;
 
 // Use the new performance api to get better precision if available
 const timer = typeof performance !== `undefined` && typeof performance.now === `function` ? performance : Date;
