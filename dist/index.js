@@ -67,8 +67,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	var repeat = function repeat(str, times) {
+	  return new Array(times + 1).join(str);
+	};
 	var pad = function pad(num, maxLength) {
-	  return "0".repeat(maxLength - num.toString().length) + num;
+	  return repeat("0", maxLength - num.toString().length) + num;
 	};
 
 	// Use the new performance api to get better precision if available
