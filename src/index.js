@@ -32,6 +32,8 @@ function createLogger(options = {}) {
       actionTransformer = actn => actn,
     } = options;
 
+    let groupColor = `#000000`;
+
     const console = logger || window.console;
 
     // exit if console undefined
@@ -45,12 +47,23 @@ function createLogger(options = {}) {
     }
 
     const started = timer.now();
-    const prevState = transformer(getState());
+    const prevStatePlain = getState();
+    const prevState = transformer(prevStatePlain);
 
     const returnValue = next(action);
     const took = timer.now() - started;
 
-    const nextState = transformer(getState());
+    const nextStatePlain = getState();
+    const nextState = transformer(nextStatePlain);
+
+    if (typeof postProcessor === `function`) {
+      const newColor = postProcessor(prevStatePlain, nextStatePlain, action);
+      if (newColor === false) {
+        return returnValue;
+      } else if (typeof newColor === `object`) {
+        groupColor = newColor.color || groupColor;
+      }
+    }
 
     // formatters
     const time = new Date();
@@ -64,7 +77,7 @@ function createLogger(options = {}) {
 
     // render
     try {
-      startMessage.call(console, message);
+      startMessage.call(console, `%c ${message}`, `color: ${groupColor}`);
     } catch (e) {
       console.log(message);
     }

@@ -48,6 +48,13 @@ Receives `getState` function for  accessing current store state and `action` obj
 
 *Default: `null` (always log)*
 
+#### __postProcessor (prevState: Object, nextState: Object, action: Object): object__
+If specified this function will be called after each action is processed with this middleware.
+Receives `prevState` object for previous store state, `nextState` object for next store state, and `action` object as parameters. Returns `false` if action should not be logged, or object `object` to change output settings, `false` otherwise.
+`object` is expected in format `{color:string}`, where `color` will be applied to the grouping log message
+
+*Default: `null` (always log)*
+
 #### __duration (Boolean)__
 Print duration of each action?
 
@@ -82,6 +89,13 @@ createLogger({
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
+});
+```
+
+#### log collapsed group message in gray color if state has not been mutated
+```javascript
+createLogger({
+  postProcessor: (prevState, nextState, action) => prevState === nextState ? { color: "#ccc" } : true
 });
 ```
 
