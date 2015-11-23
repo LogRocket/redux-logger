@@ -95,7 +95,9 @@ createLogger({
 #### log collapsed group message in gray color if state has not been mutated
 ```javascript
 createLogger({
-  postProcessor: (prevState, nextState, action) => prevState === nextState ? { color: "#ccc" } : true
+  postProcessor: (prevState, nextState, action) => {
+    return prevState === nextState ? { color: "#ccc" } : true
+  }
 });
 ```
 
