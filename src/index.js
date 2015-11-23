@@ -13,6 +13,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @property {object} options.logger - implementation of the `console` API.
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
+ * @property {object} options.postProcessor - condition which resolves logger behavior
  * @property {bool} options.duration - print duration of each action?
  * @property {bool} options.timestamp - print timestamp with each action?
  * @property {function} options.transformer - transform state before print
@@ -26,11 +27,14 @@ function createLogger(options = {}) {
       logger,
       collapsed,
       predicate,
+      postProcessor,
       duration = false,
       timestamp = true,
       transformer = state => state,
       actionTransformer = actn => actn,
     } = options;
+
+    let groupColor = `#000000`;
 
     const console = logger || window.console;
 
@@ -45,12 +49,23 @@ function createLogger(options = {}) {
     }
 
     const started = timer.now();
-    const prevState = transformer(getState());
+    const prevStatePlain = getState();
+    const prevState = transformer(prevStatePlain);
 
     const returnValue = next(action);
     const took = timer.now() - started;
 
-    const nextState = transformer(getState());
+    const nextStatePlain = getState();
+    const nextState = transformer(nextStatePlain);
+
+    if (typeof postProcessor === `function`) {
+      const newColor = postProcessor(prevStatePlain, nextStatePlain, action);
+      if (newColor === false) {
+        return returnValue;
+      } else if (typeof newColor === `object`) {
+        groupColor = newColor.color || groupColor;
+      }
+    }
 
     // formatters
     const time = new Date();
@@ -64,7 +79,7 @@ function createLogger(options = {}) {
 
     // render
     try {
-      startMessage.call(console, message);
+      startMessage.call(console, `%c ${message}`, `color: ${groupColor}`);
     } catch (e) {
       console.log(message);
     }
