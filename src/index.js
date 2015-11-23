@@ -13,6 +13,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @property {object} options.logger - implementation of the `console` API.
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
+ * @property {object} options.postProcessor - condition which resolves logger behavior
  * @property {bool} options.duration - print duration of each action?
  * @property {bool} options.timestamp - print timestamp with each action?
  * @property {function} options.transformer - transform state before print
@@ -26,6 +27,7 @@ function createLogger(options = {}) {
       logger,
       collapsed,
       predicate,
+      postProcessor,
       duration = false,
       timestamp = true,
       transformer = state => state,
