@@ -1,18 +1,3 @@
 {
-  "extends": "airbnb/base",
-  "env": {
-    "browser": true,
-    "mocha": true,
-    "node": true
-  },
-  "rules": {
-    "id-length": [2, { "exceptions": ["e"] }],
-    "valid-jsdoc": 2,
-    "no-else-return": 0,
-    "no-extend-native": 0,
-    "no-console": 0,
-    "quotes": [2, "backtick"],
-    "jsx-quotes": 2,
-    "new-cap": 0,
-  }
+  "extends": "@dtrussia/eslint-config-dtrussia/react"
 }

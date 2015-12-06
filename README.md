@@ -1,7 +1,7 @@
 # Logger for redux
 [![Build Status](https://travis-ci.org/fcomb/redux-logger.svg?branch=master)](https://travis-ci.org/fcomb/redux-logger)
 
-![logger](http://i.imgur.com/qhcz1OD.png)
+![redux-logger](http://i.imgur.com/LDgv4tp.png)
 
 ## Install
 `npm i --save redux-logger`
@@ -32,22 +32,6 @@ Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.
 
 *Default: `log`*
 
-#### __logger (Object)__
-Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
-
-*Default: `window.console`*
-
-#### __collapsed (getState: Function, action: Object): boolean__
-Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
-
-*Default: `false`*
-
-#### __predicate (getState: Function, action: Object): boolean__
-If specified this function will be called before each action is processed with this middleware.
-Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
-
-*Default: `null` (always log)*
-
 #### __duration (Boolean)__
 Print duration of each action?
 
@@ -58,12 +42,35 @@ Print timestamp with each action?
 
 *Default: `true`*
 
-#### __transformer (Function)__
+#### __colors (Object)__
+Object with 3 functions: `prevState`, `action`, `nextState`. Useful if you want paint message based on specific state or action. It also can be `false` if you want show plain message without colors.
+
+* `prevState(prevState: Object) => color: String`
+* `action(action: Object) => color: String`
+* `nextState(nextState: Object) => color: String`
+
+#### __logger (Object)__
+Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
+
+*Default: `window.console`*
+
+#### __collapsed = (getState: Function, action: Object) => Boolean__
+Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
+
+*Default: `false`*
+
+#### __predicate = (getState: Function, action: Object) => Boolean__
+If specified this function will be called before each action is processed with this middleware.
+Receives `getState` function for  accessing current store state and `action` object as parameters. Returns `true` if action should be logged, `false` otherwise.
+
+*Default: `null` (always log)*
+
+#### __stateTransformer = (state: Object) => state__
 Transform state before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
 
-#### __actionTransformer (Function)__
+#### __actionTransformer = (action: Function) => action__
 Transform action before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
@@ -71,10 +78,8 @@ Transform action before print. Eg. convert Immutable object to plain JSON.
 ### Examples:
 #### log only in dev mode
 ```javascript
-const __DEV__ = true;
-
 createLogger({
-  predicate: (getState, action) => __DEV__
+  predicate: (getState, action) => process.env.NODE_ENV === `development`
 });
 ```
 
@@ -102,8 +107,9 @@ createLogger({
 #### transform Immutable objects into JSON
 ```javascript
 createLogger({
-  transformer: (state) => {
-    var newState = {};
+  stateTransformer: (state) => {
+    let newState = {};
+
     for (var i of Object.keys(state)) {
       if (Immutable.Iterable.isIterable(state[i])) {
         newState[i] = state[i].toJS();
@@ -111,6 +117,7 @@ createLogger({
         newState[i] = state[i];
       }
     };
+
     return newState;
   }
 });

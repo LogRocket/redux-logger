@@ -1,5 +1,3 @@
-webpack.*
 dist
 lib
-example/webpack.*
-example/dist
+example/build

@@ -12,7 +12,7 @@
     <meta charset="utf-8">
   </head>
   <body>
-    <section id="app" class="app"></section>
+    <section id="app"></section>
 
     {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
     <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>

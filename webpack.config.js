@@ -1,17 +1,23 @@
-const webpack = require('webpack');
-const path    = require('path');
+import webpack from 'webpack';
+import path from 'path';
 
-module.exports = {
+export default {
   entry: [
-    './src/index',
+    path.join(__dirname, `src`, `index`),
   ],
   output: {
     library: process.env.LIBRARY_NAME,
-    libraryTarget: 'umd'
+    libraryTarget: `umd`,
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+      { test: /\.js$/, exclude: /node_modules/, loaders: [`babel`] },
     ],
-  }
-}
+  },
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
+};

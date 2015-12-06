@@ -1,0 +1,43 @@
+{
+  "name": "redux-logger-example-basic",
+  "version": "1.0.0",
+  "description": "Basic example of redux-logger",
+  "main": "src/index.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=development $(npm bin)/babel-node webpack.server.dev.js",
+    "build": "NODE_ENV=production $(npm bin)/webpack -p --config webpack.build.prod.js",
+    "publish": "gh-pages -d examples/dist",
+    "deploy": "npm run build && npm run publish"
+  },
+  "devDependencies": {
+    "@dtrussia/eslint-config-dtrussia": "1.0.3",
+    "babel-cli": "6.3.13",
+    "babel-core": "6.3.13",
+    "babel-loader": "6.2.0",
+    "babel-preset-es2015": "6.3.13",
+    "babel-preset-react": "6.3.13",
+    "babel-preset-stage-0": "6.3.13",
+    "css-loader": "0.23.0",
+    "express": "4.13.3",
+    "extract-text-webpack-plugin": "0.9.1",
+    "html-webpack-plugin": "1.7.0",
+    "postcss-loader": "0.8.0",
+    "style-loader": "0.13.0",
+    "webpack": "1.12.9",
+    "webpack-dev-middleware": "1.4.0",
+    "webpack-hot-middleware": "2.6.0"
+  },
+  "dependencies": {
+    "@react-ui/core": "0.0.25",
+    "@react-ui/theme-default": "0.0.17",
+    "normalize.css": "3.0.3",
+    "react": "0.14.3",
+    "react-dom": "0.14.3",
+    "react-redux": "4.0.0",
+    "redux": "3.0.4",
+    "redux-actions": "0.8.0",
+    "uuid": "2.0.1"
+  }
+}
