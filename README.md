@@ -1,4 +1,4 @@
-# Logger for redux
+# Logger for Redux
 [![Build Status](https://travis-ci.org/fcomb/redux-logger.svg?branch=master)](https://travis-ci.org/fcomb/redux-logger)
 
 ![redux-logger](http://i.imgur.com/LDgv4tp.png)
