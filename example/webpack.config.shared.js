@@ -7,7 +7,6 @@ export default {
   ],
   output: {
     path: path.join(__dirname, `build`),
-    publicPath: `/`,
   },
   module: {
     noParse: [`node_modules/react`],
