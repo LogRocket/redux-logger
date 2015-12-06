@@ -8,7 +8,7 @@
   "scripts": {
     "start": "NODE_ENV=development $(npm bin)/babel-node webpack.server.dev.js",
     "build": "NODE_ENV=production $(npm bin)/webpack -p --config webpack.build.prod.js",
-    "publish": "gh-pages -d examples/dist",
+    "publish": "gh-pages -d build",
     "deploy": "npm run build && npm run publish"
   },
   "devDependencies": {
