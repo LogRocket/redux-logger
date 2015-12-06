@@ -22,8 +22,8 @@ const logger = createLogger({
   }),
   colors: {
     prevState: () => `#FFEB3B`,
-    action: () => `#03A9F4`,
-    nextState: (getState, action) => action.type === AUTH_SET_INFO && `green`,
+    action: ({ type }) => type === AUTH_SET_INFO && `red`,
+    nextState: () => `#4CAF50`,
   },
 });
 
