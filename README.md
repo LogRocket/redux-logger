@@ -43,8 +43,9 @@ Print timestamp with each action?
 *Default: `true`*
 
 #### __colors (Object)__
-Object with 3 functions: `prevState`, `action`, `nextState`. Useful if you want paint message based on specific state or action. It also can be `false` if you want show plain message without colors.
+Object with 4 functions: `title`, `prevState`, `action`, `nextState`. Useful if you want paint message based on specific state or action. It also can be `false` if you want show plain message without colors.
 
+* `title(action: Object) => color: String`
 * `prevState(prevState: Object) => color: String`
 * `action(action: Object) => color: String`
 * `nextState(nextState: Object) => color: String`
