@@ -58,6 +58,7 @@ function createLogger(options = {}) {
     const prevState = stateTransformer(getState());
 
     const formattedAction = actionTransformer(action);
+    const returnedValue = next(action);
 
     const took = timer.now() - started;
     const nextState = stateTransformer(getState());
@@ -96,7 +97,7 @@ function createLogger(options = {}) {
       logger.log(`—— log end ——`);
     }
 
-    return next(action);
+    return returnedValue;
   };
 }
 
