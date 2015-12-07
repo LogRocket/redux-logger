@@ -68,7 +68,7 @@ function createLogger(options = {}) {
     const isCollapsed = (typeof collapsed === `function`) ? collapsed(getState, action) : collapsed;
 
     const formattedTime = formatTime(time);
-    const title = `action ${formattedAction.type}${timestamp && formattedTime}${duration && ` in ${took.toFixed(2)} ms`}`;
+    const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
     // render
     try {
