@@ -69,29 +69,30 @@ function createLogger(options = {}) {
     const isCollapsed = (typeof collapsed === `function`) ? collapsed(getState, action) : collapsed;
 
     const formattedTime = formatTime(time);
-    const titleCSS = `color: ${colors.title(action)};`;
-    const title = `%c action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
+    const titleCSS = colors.title ? `color: ${colors.title(action)};` : null;
+    const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
     // render
     try {
       if (isCollapsed) {
-        logger.groupCollapsed(title, titleCSS);
+        if (colors.title) logger.groupCollapsed(`%c ${title}`, titleCSS);
+        else logger.groupCollapsed(title);
       } else {
-        logger.group(title, titleCSS);
+        if (colors.title) logger.group(`%c ${title}`, titleCSS);
+        else logger.group(title);
       }
     } catch (e) {
       logger.log(title);
     }
 
-    if (colors) {
-      logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-      logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-      logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-    } else {
-      logger[level](`prev state`, prevState);
-      logger[level](`action`, formattedAction);
-      logger[level](`next state`, nextState);
-    }
+    if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
+    else logger[level](`prev state`, prevState);
+
+    if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
+    else logger[level](`action`, formattedAction);
+
+    if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+    else logger[level](`next state`, nextState);
 
     try {
       logger.groupEnd();

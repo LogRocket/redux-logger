@@ -1,6 +1,6 @@
 {
   "name": "redux-logger",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "description": "Logger for redux",
   "main": "lib/index.js",
   "scripts": {
