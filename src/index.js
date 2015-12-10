@@ -34,6 +34,7 @@ function createLogger(options = {}) {
       stateTransformer = state => state,
       actionTransformer = actn => actn,
       colors = {
+        title: () => `#000000`,
         prevState: () => `#9E9E9E`,
         action: () => `#03A9F4`,
         nextState: () => `#4CAF50`,
@@ -68,14 +69,15 @@ function createLogger(options = {}) {
     const isCollapsed = (typeof collapsed === `function`) ? collapsed(getState, action) : collapsed;
 
     const formattedTime = formatTime(time);
-    const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
+    const titleCSS = `color: ${colors.title(action)};`;
+    const title = `%c action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
     // render
     try {
       if (isCollapsed) {
-        logger.groupCollapsed(title);
+        logger.groupCollapsed(title, titleCSS);
       } else {
-        logger.group(title);
+        logger.group(title, titleCSS);
       }
     } catch (e) {
       logger.log(title);
