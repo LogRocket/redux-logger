@@ -13,7 +13,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @property {string} options.level - console[level]
  * @property {bool} options.duration - print duration of each action?
  * @property {bool} options.timestamp - print timestamp with each action?
- * @property {object} options.colors - custom colors for group contents
+ * @property {object} options.colors - custom colors
  * @property {object} options.logger - implementation of the `console` API
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
@@ -28,7 +28,6 @@ function createLogger(options = {}) {
       logger = window.console,
       collapsed,
       predicate,
-      titleStyle,
       duration = false,
       timestamp = true,
       transformer, // deprecated
@@ -70,7 +69,7 @@ function createLogger(options = {}) {
     const isCollapsed = (typeof collapsed === `function`) ? collapsed(getState, action) : collapsed;
 
     const formattedTime = formatTime(time);
-    const titleCSS = `color: ${colors.title(action)};`
+    const titleCSS = `color: ${colors.title(action)};`;
     const title = `%c action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
     // render
