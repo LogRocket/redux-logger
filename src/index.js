@@ -22,84 +22,100 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  */
 
 function createLogger(options = {}) {
-  return ({ getState }) => (next) => (action) => {
-    const {
-      level = `log`,
-      logger = window.console,
-      collapsed,
-      predicate,
-      duration = false,
-      timestamp = true,
-      transformer, // deprecated
-      stateTransformer = state => state,
-      actionTransformer = actn => actn,
-      colors = {
-        title: () => `#000000`,
-        prevState: () => `#9E9E9E`,
-        action: () => `#03A9F4`,
-        nextState: () => `#4CAF50`,
-      },
-    } = options;
+  const {
+    level = `log`,
+    logger = window.console,
+    collapsed,
+    predicate,
+    duration = false,
+    timestamp = true,
+    transformer, // deprecated
+    stateTransformer = state => state,
+    actionTransformer = actn => actn,
+    colors = {
+      title: () => `#000000`,
+      prevState: () => `#9E9E9E`,
+      action: () => `#03A9F4`,
+      nextState: () => `#4CAF50`,
+    },
+  } = options;
 
-    // exit if console undefined
-    if (typeof logger === `undefined`) {
-      return next(action);
-    }
+  // exit if console undefined
+  if (typeof logger === `undefined`) {
+    return state => next => action => next(action);
+  }
+
+  if (transformer) {
+    console.error(`Option 'transformer' is deprecated, use stateTransformer instead`);
+  }
+
+  const logBuffer = [];
+  function printBuffer() {
+    logBuffer.forEach(({ started, took, formattedAction, prevState, nextState }, key, buf) => {
+      const nextEntry = buf[key + 1];
+      if (nextEntry) {
+        nextState = nextEntry.prevState;
+        took = nextEntry.started - started;
+      }
+      // message
+      const time = new Date(started);
+      const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action) : collapsed;
+
+      const formattedTime = formatTime(time);
+      const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
+      const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
+
+      // render
+      try {
+        if (isCollapsed) {
+          if (colors.title) logger.groupCollapsed(`%c ${title}`, titleCSS);
+          else logger.groupCollapsed(title);
+        } else {
+          if (colors.title) logger.group(`%c ${title}`, titleCSS);
+          else logger.group(title);
+        }
+      } catch (e) {
+        logger.log(title);
+      }
+
+      if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
+      else logger[level](`prev state`, prevState);
+
+      if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
+      else logger[level](`action`, formattedAction);
+
+      if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+      else logger[level](`next state`, nextState);
+
+      try {
+        logger.groupEnd();
+      } catch (e) {
+        logger.log(`—— log end ——`);
+      }
+    });
+    logBuffer.length = 0;
+  }
+
+  return ({ getState }) => (next) => (action) => {
 
     // exit early if predicate function returns false
     if (typeof predicate === `function` && !predicate(getState, action)) {
       return next(action);
     }
 
-    if (transformer) {
-      console.error(`Option 'transformer' is deprecated, use stateTransformer instead`);
-    }
+    const logEntry = {};
+    logBuffer.push(logEntry);
 
-    const started = timer.now();
-    const prevState = stateTransformer(getState());
+    logEntry.started = timer.now();
+    logEntry.prevState = stateTransformer(getState());
+    logEntry.formattedAction = actionTransformer(action);
 
-    const formattedAction = actionTransformer(action);
     const returnedValue = next(action);
 
-    const took = timer.now() - started;
-    const nextState = stateTransformer(getState());
+    logEntry.took = timer.now() - logEntry.started;
+    logEntry.nextState = stateTransformer(getState());
 
-    // message
-    const time = new Date();
-    const isCollapsed = (typeof collapsed === `function`) ? collapsed(getState, action) : collapsed;
-
-    const formattedTime = formatTime(time);
-    const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-    const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
-
-    // render
-    try {
-      if (isCollapsed) {
-        if (colors.title) logger.groupCollapsed(`%c ${title}`, titleCSS);
-        else logger.groupCollapsed(title);
-      } else {
-        if (colors.title) logger.group(`%c ${title}`, titleCSS);
-        else logger.group(title);
-      }
-    } catch (e) {
-      logger.log(title);
-    }
-
-    if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-    else logger[level](`prev state`, prevState);
-
-    if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-    else logger[level](`action`, formattedAction);
-
-    if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-    else logger[level](`next state`, nextState);
-
-    try {
-      logger.groupEnd();
-    } catch (e) {
-      logger.log(`—— log end ——`);
-    }
-
+    printBuffer();
     return returnedValue;
   };
 }
