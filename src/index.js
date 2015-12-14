@@ -52,7 +52,8 @@ function createLogger(options = {}) {
   const logBuffer = [];
   function printBuffer() {
     logBuffer.forEach((logEntry, key) => {
-      let { started, took, action, prevState, nextState } = logEntry;
+      const { started, action, prevState } = logEntry;
+      let { took, nextState } = logEntry;
       const nextEntry = logBuffer[key + 1];
       if (nextEntry) {
         nextState = nextEntry.prevState;
