@@ -42,7 +42,7 @@ function createLogger(options = {}) {
 
   // exit if console undefined
   if (typeof logger === `undefined`) {
-    return state => next => action => next(action);
+    return () => next => action => next(action);
   }
 
   if (transformer) {
@@ -51,13 +51,15 @@ function createLogger(options = {}) {
 
   const logBuffer = [];
   function printBuffer() {
-    logBuffer.forEach(({ started, took, formattedAction, prevState, nextState }, key, buf) => {
-      const nextEntry = buf[key + 1];
+    logBuffer.forEach((logEntry, key) => {
+      let { started, took, action, prevState, nextState } = logEntry;
+      const nextEntry = logBuffer[key + 1];
       if (nextEntry) {
         nextState = nextEntry.prevState;
         took = nextEntry.started - started;
       }
       // message
+      const formattedAction = actionTransformer(action);
       const time = new Date(started);
       const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action) : collapsed;
 
@@ -97,7 +99,6 @@ function createLogger(options = {}) {
   }
 
   return ({ getState }) => (next) => (action) => {
-
     // exit early if predicate function returns false
     if (typeof predicate === `function` && !predicate(getState, action)) {
       return next(action);
@@ -108,7 +109,7 @@ function createLogger(options = {}) {
 
     logEntry.started = timer.now();
     logEntry.prevState = stateTransformer(getState());
-    logEntry.formattedAction = actionTransformer(action);
+    logEntry.action = action;
 
     const returnedValue = next(action);
 
