@@ -19,6 +19,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @property {boolean} options.predicate - condition which resolves logger behavior
  * @property {function} options.stateTransformer - transform state before print
  * @property {function} options.actionTransformer - transform action before print
+ * @property {function} options.errorTransformer - transform error before print
  */
 
 function createLogger(options = {}) {
@@ -33,11 +34,13 @@ function createLogger(options = {}) {
       transformer, // deprecated
       stateTransformer = state => state,
       actionTransformer = actn => actn,
+      errorTransformer = error => error,
       colors = {
         title: () => `#000000`,
         prevState: () => `#9E9E9E`,
         action: () => `#03A9F4`,
         nextState: () => `#4CAF50`,
+        error: () => `#F20404`,
       },
     } = options;
 
@@ -59,7 +62,13 @@ function createLogger(options = {}) {
     const prevState = stateTransformer(getState());
 
     const formattedAction = actionTransformer(action);
-    const returnedValue = next(action);
+    let returnedValue;
+    let error;
+    try {
+      returnedValue = next(action);
+    } catch (e) {
+      error = errorTransformer(e);
+    }
 
     const took = timer.now() - started;
     const nextState = stateTransformer(getState());
@@ -91,8 +100,13 @@ function createLogger(options = {}) {
     if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
     else logger[level](`action`, formattedAction);
 
-    if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-    else logger[level](`next state`, nextState);
+    if (error) {
+      if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
+      else logger[level](`error`, error);
+    } else {
+      if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+      else logger[level](`next state`, nextState);
+    }
 
     try {
       logger.groupEnd();
@@ -100,6 +114,7 @@ function createLogger(options = {}) {
       logger.log(`—— log end ——`);
     }
 
+    if (error) throw error;
     return returnedValue;
   };
 }
