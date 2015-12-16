@@ -40,7 +40,7 @@ function createLogger(options = {}) {
         prevState: () => `#9E9E9E`,
         action: () => `#03A9F4`,
         nextState: () => `#4CAF50`,
-        error: () => `#F20404`
+        error: () => `#F20404`,
       },
     } = options;
 
@@ -65,7 +65,7 @@ function createLogger(options = {}) {
     let returnedValue;
     let error;
     try {
-      returnedValue = next(action)
+      returnedValue = next(action);
     } catch (e) {
       error = errorTransformer(e);
     }
