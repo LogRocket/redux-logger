@@ -70,7 +70,7 @@ function createLogger(options = {}) {
 
     const formattedTime = formatTime(time);
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-    const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
+    const title = `action ${String(formattedAction.type)}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
     // render
     try {
