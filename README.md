@@ -57,6 +57,12 @@ Implementation of the `console` API. Useful if you are using a custom, wrapped v
 
 *Default: `window.console`*
 
+#### __logErrors (Boolean)__
+Should the logger catch, log, and re-throw errors? This makes it clear which action triggered the error but makes "break
+on error" in dev tools harder to use, as it breaks on re-throw rather than the original throw location.
+
+*Default: `true`*
+
 #### __collapsed = (getState: Function, action: Object) => Boolean__
 Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
 
