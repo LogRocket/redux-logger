@@ -11,10 +11,11 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @namespace
  * @property {object} options - options for logger
  * @property {string} options.level - console[level]
- * @property {bool} options.duration - print duration of each action?
- * @property {bool} options.timestamp - print timestamp with each action?
+ * @property {boolean} options.duration - print duration of each action?
+ * @property {boolean} options.timestamp - print timestamp with each action?
  * @property {object} options.colors - custom colors
  * @property {object} options.logger - implementation of the `console` API
+ * @property {boolean} options.logErrors - should errors in action execution be caught, logged, and re-thrown?
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
  * @property {function} options.stateTransformer - transform state before print
@@ -27,6 +28,7 @@ function createLogger(options = {}) {
     const {
       level = `log`,
       logger = window.console,
+      logErrors = true,
       collapsed,
       predicate,
       duration = false,
@@ -64,10 +66,14 @@ function createLogger(options = {}) {
     const formattedAction = actionTransformer(action);
     let returnedValue;
     let error;
-    try {
+    if (logErrors) {
+      try {
+        returnedValue = next(action);
+      } catch (e) {
+        error = errorTransformer(e);
+      }
+    } else {
       returnedValue = next(action);
-    } catch (e) {
-      error = errorTransformer(e);
     }
 
     const took = timer.now() - started;
