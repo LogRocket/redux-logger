@@ -27,7 +27,7 @@ function createLogger(options = {}) {
   return ({ getState }) => (next) => (action) => {
     const {
       level = `log`,
-      logger = window.console,
+      logger = (self || window).console,
       logErrors = true,
       collapsed,
       predicate,
