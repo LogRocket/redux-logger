@@ -125,4 +125,4 @@ function createLogger(options = {}) {
   };
 }
 
-export default createLogger;
+module.exports = createLogger;
