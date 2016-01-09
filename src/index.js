@@ -15,6 +15,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * @property {boolean} options.timestamp - print timestamp with each action?
  * @property {object} options.colors - custom colors
  * @property {object} options.logger - implementation of the `console` API
+ * @property {boolean} options.logTransitions - print state logTransitions
  * @property {boolean} options.logErrors - should errors in action execution be caught, logged, and re-thrown?
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
@@ -30,6 +31,7 @@ function createLogger(options = {}) {
     logErrors = true,
     collapsed,
     predicate,
+    logTransitions = true,
     duration = false,
     timestamp = true,
     transformer, // deprecated
@@ -86,16 +88,18 @@ function createLogger(options = {}) {
         logger.log(title);
       }
 
-      if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-      else logger[level](`prev state`, prevState);
+      if (logTransitions) {
+        if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
+        else logger[level](`prev state`, prevState);
+      }
 
-      if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-      else logger[level](`action`, formattedAction);
+      if (colors.action) logger[level](logTransitions ? `%c action` : ``, logTransitions ? `color: ${colors.action(formattedAction)}; font-weight: bold` : ``, formattedAction);
+      else logger[level](logTransitions ? `action` : ``, formattedAction);
 
       if (error) {
         if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
         else logger[level](`error`, error);
-      } else {
+      } else if (logTransitions) {
         if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
         else logger[level](`next state`, nextState);
       }
