@@ -110,7 +110,6 @@ function createLogger(options = {}) {
   }
 
   return ({ getState }) => (next) => (action) => {
-
     // exit early if predicate function returns false
     if (typeof predicate === `function` && !predicate(getState, action)) {
       return next(action);
