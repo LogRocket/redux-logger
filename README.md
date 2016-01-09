@@ -43,17 +43,25 @@ Print timestamp with each action?
 *Default: `true`*
 
 #### __colors (Object)__
-Object with 4 functions: `title`, `prevState`, `action`, `nextState`. Useful if you want paint message based on specific state or action. It also can be `false` if you want show plain message without colors.
+Object with color getter functions: `title`, `prevState`, `action`, `nextState`, `error`. Useful if you want to paint
+message based on specific state or action. Set any of them to `false` if you want to show plain message without colors.
 
 * `title(action: Object) => color: String`
 * `prevState(prevState: Object) => color: String`
 * `action(action: Object) => color: String`
 * `nextState(nextState: Object) => color: String`
+* `error(error: Any, prevState: Object) => color: String`
 
 #### __logger (Object)__
 Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
 
 *Default: `window.console`*
+
+#### __logErrors (Boolean)__
+Should the logger catch, log, and re-throw errors? This makes it clear which action triggered the error but makes "break
+on error" in dev tools harder to use, as it breaks on re-throw rather than the original throw location.
+
+*Default: `true`*
 
 #### __collapsed = (getState: Function, action: Object) => Boolean__
 Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
@@ -73,6 +81,11 @@ Transform state before print. Eg. convert Immutable object to plain JSON.
 
 #### __actionTransformer = (action: Function) => action__
 Transform action before print. Eg. convert Immutable object to plain JSON.
+
+*Default: identity function*
+
+#### __errorTransformer = (error: Any) => error__
+Transform error before print.
 
 *Default: identity function*
 
