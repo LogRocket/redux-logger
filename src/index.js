@@ -96,7 +96,7 @@ function createLogger(options = {}) {
         if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
         else logger[level](`error`, error);
       }
-      
+
       if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
       else logger[level](`next state`, nextState);
 
