@@ -95,10 +95,10 @@ function createLogger(options = {}) {
       if (error) {
         if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
         else logger[level](`error`, error);
-      } else {
-        if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-        else logger[level](`next state`, nextState);
       }
+      
+      if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+      else logger[level](`next state`, nextState);
 
       try {
         logger.groupEnd();
