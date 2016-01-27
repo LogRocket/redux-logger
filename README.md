@@ -23,7 +23,10 @@ Logger **must be** last middleware in chain, otherwise it will log thunk and pro
 
 `redux-logger` exposes single constructor function for creating logger middleware.  
 
-__createLogger(options?: Object)__
+```
+createLogger(options?: Object) => LoggerMiddleware
+```
+
 
 ### Options
 
