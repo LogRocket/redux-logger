@@ -104,19 +104,14 @@ if (process.env.NODE_ENV === `development`) {
   const logger = createLogger();
   middlewares.push(logger);
 }
+
+const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
 
 #### log everything except actions with type `AUTH_REMOVE_TOKEN`
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
-});
-```
-
-#### collapse all actions
-```javascript
-createLogger({
-  collapsed: true
 });
 ```
 
