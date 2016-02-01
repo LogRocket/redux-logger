@@ -26,7 +26,7 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
 function createLogger(options = {}) {
   const {
     level = `log`,
-    logger = window.console,
+    logger = console,
     logErrors = true,
     collapsed,
     predicate,
