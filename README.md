@@ -124,23 +124,12 @@ createLogger({
 
 #### transform Immutable objects into JSON
 ```javascript
+import {Iterable} from 'immutable';
+
 const stateTransformer = (state) => {
-  let newState = {};
-
-  if (typeof state === "object" && state !== null && Object.keys(state).length) {
-    for (var i of Object.keys(state)) {
-      if (Immutable.Iterable.isIterable(state[i])) {
-        newState[i] = state[i].toJS();
-      } else {
-        newState[i] = stateTransformer(state[i]);
-      }
-    }
-  } else {
-    newState = state;
-  }
-
-  return newState;
-}
+  if (Iterable.isIterable(state)) return state.toJS();
+  else return state;
+};
 
 const logger = createLogger({
   stateTransformer,
