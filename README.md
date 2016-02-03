@@ -111,22 +111,23 @@ Transform error before print.
 ### Recipes
 #### log only in dev mode
 ```javascript
-createLogger({
-  predicate: (getState, action) => process.env.NODE_ENV === `development`
-});
+import thunk from 'redux-thunk';
+
+const middlewares = [thunk];
+
+if (process.env.NODE_ENV === `development`) {
+  const createLogger = require(`redux-logger`);
+  const logger = createLogger();
+  middlewares.push(logger);
+}
+
+const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
 
 #### log everything except actions with type `AUTH_REMOVE_TOKEN`
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
-});
-```
-
-#### collapse all actions
-```javascript
-createLogger({
-  collapsed: true
 });
 ```
 
@@ -139,20 +140,15 @@ createLogger({
 
 #### transform Immutable objects into JSON
 ```javascript
-createLogger({
-  stateTransformer: (state) => {
-    let newState = {};
+import {Iterable} from 'immutable';
 
-    for (var i of Object.keys(state)) {
-      if (Immutable.Iterable.isIterable(state[i])) {
-        newState[i] = state[i].toJS();
-      } else {
-        newState[i] = state[i];
-      }
-    };
+const stateTransformer = (state) => {
+  if (Iterable.isIterable(state)) return state.toJS();
+  else return state;
+};
 
-    return newState;
-  }
+const logger = createLogger({
+  stateTransformer,
 });
 ```
 
