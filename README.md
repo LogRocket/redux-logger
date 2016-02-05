@@ -102,7 +102,7 @@ Transform state before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
 
-#### __actionTransformer = (action: Function) => action__
+#### __actionTransformer = (action: Object) => action__
 Transform action before print. Eg. convert Immutable object to plain JSON.
 
 *Default: identity function*
