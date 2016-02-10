@@ -53,9 +53,11 @@ createLogger(options?: Object) => LoggerMiddleware
 #### __level (String | Function | Object)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
 
-It can be a function __(action: Object) => level: String__.
+It can be a function `(action: Object) => level: String`.
 
-It can be an object with getter functions: `title`, `prevState`, `action`, `nextState`, `error`. Useful if you want to print
+It can be an object with level string for: `prevState`, `action`, `nextState`, `error`
+
+It can be an object with getter functions: `prevState`, `action`, `nextState`, `error`. Useful if you want to print
 message based on specific state or action. Set any of them to `false` if you want to hide it.
 
 * `prevState(prevState: Object) => level: String`
