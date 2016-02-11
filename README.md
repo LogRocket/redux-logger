@@ -128,6 +128,18 @@ if (process.env.NODE_ENV === `development`) {
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
 
+#### transform `Symbol()` action type to string
+```javascript
+import createLogger from 'redux-logger';
+
+const logger = createLogger({
+  actionTransformer: (action) => ({
+    ...action,
+    type: String(action.type),
+  });
+});
+```
+
 #### log everything except actions with type `AUTH_REMOVE_TOKEN`
 ```javascript
 createLogger({
