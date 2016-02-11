@@ -57,7 +57,7 @@ function createLogger(options = {}) {
   const logBuffer = [];
   function printBuffer() {
     logBuffer.forEach((logEntry, key) => {
-      const { started, action, prevState, error } = logEntry;
+      const { started, startedTime, action, prevState, error } = logEntry;
       let { took, nextState } = logEntry;
       const nextEntry = logBuffer[key + 1];
       if (nextEntry) {
@@ -66,10 +66,9 @@ function createLogger(options = {}) {
       }
       // message
       const formattedAction = actionTransformer(action);
-      const time = new Date(started);
       const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action) : collapsed;
 
-      const formattedTime = formatTime(time);
+      const formattedTime = formatTime(startedTime);
       const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
       const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
 
@@ -119,6 +118,7 @@ function createLogger(options = {}) {
     logBuffer.push(logEntry);
 
     logEntry.started = timer.now();
+    logEntry.startedTime = new Date();
     logEntry.prevState = stateTransformer(getState());
     logEntry.action = action;
 
