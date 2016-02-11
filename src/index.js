@@ -1,6 +1,6 @@
 const repeat = (str, times) => (new Array(times + 1)).join(str);
 const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().length) + num;
-const formatTime = (time) => ` @ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
+const formatTime = (time) => `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
 
 // Use the new performance api to get better precision if available
 const timer = typeof performance !== `undefined` && typeof performance.now === `function` ? performance : Date;
@@ -70,7 +70,7 @@ function createLogger(options = {}) {
 
       const formattedTime = formatTime(startedTime);
       const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-      const title = `action ${formattedAction.type}${timestamp ? formattedTime : ``}${duration ? ` in ${took.toFixed(2)} ms` : ``}`;
+      const title = `action ${timestamp ? formattedTime : ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
 
       // render
       try {
