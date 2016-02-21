@@ -38,7 +38,7 @@ createLogger(options?: Object) => LoggerMiddleware
   duration = false: Boolean, // Print the duration of each action?
   timestamp = true: Boolean, // Print the timestamp with each action?
   colors: ColorsObject, // Object with color getters. See the ColorsObject interface.
-  logger = window.console: LoggerObject, // Implementation of the `console` API.
+  logger = console: LoggerObject, // Implementation of the `console` API.
   logErrors = true: Boolean, // Should the logger catch, log, and re-throw errors?
   collapsed, // Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
   predicate, // If specified this function will be called before each action is processed with this middleware.
@@ -78,7 +78,7 @@ message based on specific state or action. Set any of them to `false` if you wan
 #### __logger (Object)__
 Implementation of the `console` API. Useful if you are using a custom, wrapped version of `console`.
 
-*Default: `window.console`*
+*Default: `console`*
 
 #### __logErrors (Boolean)__
 Should the logger catch, log, and re-throw errors? This makes it clear which action triggered the error but makes "break
