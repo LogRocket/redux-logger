@@ -5,12 +5,33 @@ const formatTime = (time) => `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes
 // Use the new performance api to get better precision if available
 const timer = typeof performance !== `undefined` && typeof performance.now === `function` ? performance : Date;
 
+
+/**
+ * parse the level option of createLogger
+ *
+ * @property {string | function | object} level - console[level]
+ * @property {object} action
+ * @property {array} payload
+ * @property {string} type
+ */
+
+function getLogLevel(level, action, payload, type) {
+  switch (typeof level) {
+  case `object`:
+    return typeof level[type] === `function` ? level[type](...payload) : level[type];
+  case `function`:
+    return level(action);
+  default:
+    return level;
+  }
+}
+
 /**
  * Creates logger with followed options
  *
  * @namespace
  * @property {object} options - options for logger
- * @property {string} options.level - console[level]
+ * @property {string | function | object} options.level - console[level]
  * @property {boolean} options.duration - print duration of each action?
  * @property {boolean} options.timestamp - print timestamp with each action?
  * @property {object} options.colors - custom colors
@@ -85,19 +106,30 @@ function createLogger(options = {}) {
         logger.log(title);
       }
 
-      if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-      else logger[level](`prev state`, prevState);
+      const prevStateLevel = getLogLevel(level, formattedAction, [prevState], `prevState`);
+      const actionLevel = getLogLevel(level, formattedAction, [formattedAction], `action`);
+      const errorLevel = getLogLevel(level, formattedAction, [error, prevState], `error`);
+      const nextStateLevel = getLogLevel(level, formattedAction, [nextState], `nextState`);
 
-      if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-      else logger[level](`action`, formattedAction);
+      if (prevStateLevel) {
+        if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
+        else logger[level](`prev state`, prevState);
+      }
 
-      if (error) {
+      if (actionLevel) {
+        if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
+        else logger[level](`action`, formattedAction);
+      }
+
+      if (error && errorLevel) {
         if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
         else logger[level](`error`, error);
       }
 
-      if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-      else logger[level](`next state`, nextState);
+      if (nextStateLevel) {
+        if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+        else logger[level](`next state`, nextState);
+      }
 
       try {
         logger.groupEnd();

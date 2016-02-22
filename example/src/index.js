@@ -14,7 +14,12 @@ import { AUTH_REMOVE_TOKEN, AUTH_SET_INFO } from 'constants/auth';
 
 const logger = createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN, // log all actions except AUTH_REMOVE_TOKEN
-  level: `info`,
+  level: {
+    prevState: () => `info`,
+    action: ({ type }) => type === AUTH_SET_INFO ? `error` : `log`,
+    error: () => `error`,
+    nextState: () => `info`,
+  },
   duration: true,
   actionTransformer: (action) => ({
     ...action,
