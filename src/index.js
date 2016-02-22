@@ -10,36 +10,19 @@ const timer = typeof performance !== `undefined` && typeof performance.now === `
  * parse the level option of createLogger
  *
  * @property {string | function | object} level - console[level]
- * @property {object} prevState
- * @property {object} formattedAction
- * @property {object} error
- * @property {object} nextState
+ * @property {object} action
+ * @property {array} payload
+ * @property {string} type
  */
 
-function getLogLevels(level, prevState, formattedAction, error, nextState) {
+function getLogLevel(level, action, payload, type) {
   switch (typeof level) {
   case `object`:
-    return {
-      prevStateLevel: typeof level.prevState === `function` ? level.prevState(prevState) : level.prevState,
-      actionLevel: typeof level.action === `function` ? level.action(formattedAction) : level.action,
-      errorLevel: typeof level.error === `function` ? level.error(error, prevState) : level.error,
-      nextStateLevel: typeof level.nextState === `function` ? level.nextState(nextState) : level.nextState,
-    };
+    return typeof level[type] === `function` ? level[type](...payload) : level[type];
   case `function`:
-    const levelForThisAction = level(formattedAction);
-    return {
-      prevStateLevel: levelForThisAction,
-      actionLevel: levelForThisAction,
-      errorLevel: levelForThisAction,
-      nextStateLevel: levelForThisAction,
-    };
+    return level(action);
   default:
-    return {
-      prevStateLevel: level,
-      actionLevel: level,
-      errorLevel: level,
-      nextStateLevel: level,
-    };
+    return level;
   }
 }
 
@@ -124,7 +107,10 @@ function createLogger(options = {}) {
         logger.log(title);
       }
 
-      const {prevStateLevel, actionLevel, errorLevel, nextStateLevel} = getLogLevels(level, prevState, formattedAction, error, nextState);
+      const prevStateLevel = getLogLevel(level, formattedAction, [prevState], `prevState`);
+      const actionLevel = getLogLevel(level, formattedAction, [formattedAction], `action`);
+      const errorLevel = getLogLevel(level, formattedAction, [error, prevState], `error`);
+      const nextStateLevel = getLogLevel(level, formattedAction, [nextState], `nextState`);
 
       if (prevStateLevel) {
         if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
