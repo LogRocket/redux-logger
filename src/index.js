@@ -112,23 +112,23 @@ function createLogger(options = {}) {
       const nextStateLevel = getLogLevel(level, formattedAction, [nextState], `nextState`);
 
       if (prevStateLevel) {
-        if (colors.prevState) logger[level](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-        else logger[level](`prev state`, prevState);
+        if (colors.prevState) logger[prevStateLevel](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
+        else logger[prevStateLevel](`prev state`, prevState);
       }
 
       if (actionLevel) {
-        if (colors.action) logger[level](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-        else logger[level](`action`, formattedAction);
+        if (colors.action) logger[actionLevel](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
+        else logger[actionLevel](`action`, formattedAction);
       }
 
       if (error && errorLevel) {
-        if (colors.error) logger[level](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
-        else logger[level](`error`, error);
+        if (colors.error) logger[errorLevel](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
+        else logger[errorLevel](`error`, error);
       }
 
       if (nextStateLevel) {
-        if (colors.nextState) logger[level](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-        else logger[level](`next state`, nextState);
+        if (colors.nextState) logger[nextStateLevel](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
+        else logger[nextStateLevel](`next state`, nextState);
       }
 
       try {
