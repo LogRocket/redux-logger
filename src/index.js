@@ -151,7 +151,7 @@ function createLogger(options = {}) {
 
     logEntry.started = timer.now();
     logEntry.startedTime = new Date();
-    logEntry.prevState = stateTransformer(getState());
+    logEntry.prevState = stateTransformer(getState(), action);
     logEntry.action = action;
 
     let returnedValue;
@@ -166,7 +166,7 @@ function createLogger(options = {}) {
     }
 
     logEntry.took = timer.now() - logEntry.started;
-    logEntry.nextState = stateTransformer(getState());
+    logEntry.nextState = stateTransformer(getState(), action);
 
     printBuffer();
 
