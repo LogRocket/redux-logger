@@ -1,5 +1,5 @@
 # Logger for Redux
-[![Build Status](https://travis-ci.org/fcomb/redux-logger.svg?branch=master)](https://travis-ci.org/fcomb/redux-logger)
+[![Build Status](https://travis-ci.org/theaqua/redux-logger.svg?branch=master)](https://travis-ci.org/theaqua/redux-logger)
 
 ![redux-logger](http://i.imgur.com/pMR3OAv.png)
 
