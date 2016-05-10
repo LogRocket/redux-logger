@@ -1,3 +1,5 @@
+import diffLogger from './diff';
+
 const repeat = (str, times) => (new Array(times + 1)).join(str);
 const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().length) + num;
 const formatTime = (time) =>
@@ -48,7 +50,7 @@ function getLogLevel(level, action, payload, type) {
  * @property {function} options.errorTransformer - transform error before print
  */
 
-function createLogger(options = {}) {
+export default function createLogger(options = {}) {
   const {
     level = `log`,
     logger = console,
@@ -68,6 +70,7 @@ function createLogger(options = {}) {
       nextState: () => `#4CAF50`,
       error: () => `#F20404`,
     },
+    diff = false,
   } = options;
 
   // exit if console undefined
@@ -163,6 +166,10 @@ function createLogger(options = {}) {
         }
       }
 
+      if (diff) {
+        diffLogger(prevState, nextState, logger, isCollapsed);
+      }
+
       try {
         logger.groupEnd();
       } catch (e) {
@@ -206,5 +213,3 @@ function createLogger(options = {}) {
     return returnedValue;
   };
 }
-
-module.exports = createLogger;

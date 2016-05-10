@@ -51,5 +51,8 @@
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "rimraf": "2.5.2",
     "webpack": "1.13.0"
+  },
+  "dependencies": {
+    "deep-diff": "^0.3.4"
   }
 }
