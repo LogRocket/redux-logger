@@ -125,7 +125,7 @@ Transform error before print.
 *Default: identity function*
 
 ### Recipes
-#### log only in dev mode
+#### Log only in dev
 ```javascript
 import thunk from 'redux-thunk';
 
@@ -140,7 +140,7 @@ if (process.env.NODE_ENV === `development`) {
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
 
-#### transform `Symbol()` action type to string
+#### Transform `Symbol()` action type to string
 ```javascript
 import createLogger from 'redux-logger';
 
@@ -152,21 +152,21 @@ const logger = createLogger({
 });
 ```
 
-#### log everything except actions with type `AUTH_REMOVE_TOKEN`
+#### Log everything except actions with certain type
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
 });
 ```
 
-#### collapse actions with type `FORM_CHANGE`
+#### Collapse actions with certain type
 ```javascript
 createLogger({
   collapsed: (getState, action) => action.type === FORM_CHANGE
 });
 ```
 
-#### transform Immutable objects into JSON
+#### Transform Immutable (without `combineReducers`)
 ```javascript
 import {Iterable} from 'immutable';
 
@@ -180,7 +180,26 @@ const logger = createLogger({
 });
 ```
 
-#### log batched actions
+#### Transform Immutable (with `combineReducers`)
+```javascript
+const logger = createLogger({
+  stateTransformer: (state) => {
+    let newState = {};
+
+    for (var i of Object.keys(state)) {
+      if (Immutable.Iterable.isIterable(state[i])) {
+        newState[i] = state[i].toJS();
+      } else {
+        newState[i] = state[i];
+      }
+    };
+
+    return newState;
+  }
+});
+```
+
+#### Log batched actions
 Thanks to [@smashercosmo](https://github.com/smashercosmo)
 ```javascript
 import createLogger from 'redux-logger';
