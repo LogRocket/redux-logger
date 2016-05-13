@@ -3,6 +3,20 @@
 
 ![redux-logger](http://i.imgur.com/pMR3OAv.png)
 
+## Table of contents
+* [Install](#install)
+* [Usage](#usage)
+* [API](#api)
+* [Recipes](#recipes)
+  * [Log only in development](#log-only-in-development)
+  * [Transform `Symbol()` action type to string](#transform-symbol-action-type-to-string)
+  * [Log everything except actions with certain type](#log-everything-except-actions-with-certain-type)
+  * [Collapse actions with certain type](#collapse-actions-with-certain-type)
+  * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
+  * [Transform Immutable (with `combineReducers`)](#transform-immutable-with-combinereducers)
+  * [Log batched actions](#log-batched-actions)
+* [License](#license)
+
 ## Install
 `npm i --save redux-logger`
 
@@ -124,8 +138,8 @@ Transform error before print.
 
 *Default: identity function*
 
-### Recipes
-#### Log only in dev
+## Recipes
+### Log only in development
 ```javascript
 import thunk from 'redux-thunk';
 
@@ -140,7 +154,7 @@ if (process.env.NODE_ENV === `development`) {
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
 
-#### Transform `Symbol()` action type to string
+### Transform `Symbol()` action type to string
 ```javascript
 import createLogger from 'redux-logger';
 
@@ -152,21 +166,21 @@ const logger = createLogger({
 });
 ```
 
-#### Log everything except actions with certain type
+### Log everything except actions with certain type
 ```javascript
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
 });
 ```
 
-#### Collapse actions with certain type
+### Collapse actions with certain type
 ```javascript
 createLogger({
   collapsed: (getState, action) => action.type === FORM_CHANGE
 });
 ```
 
-#### Transform Immutable (without `combineReducers`)
+### Transform Immutable (without `combineReducers`)
 ```javascript
 import {Iterable} from 'immutable';
 
@@ -180,7 +194,7 @@ const logger = createLogger({
 });
 ```
 
-#### Transform Immutable (with `combineReducers`)
+### Transform Immutable (with `combineReducers`)
 ```javascript
 const logger = createLogger({
   stateTransformer: (state) => {
@@ -199,7 +213,7 @@ const logger = createLogger({
 });
 ```
 
-#### Log batched actions
+### Log batched actions
 Thanks to [@smashercosmo](https://github.com/smashercosmo)
 ```javascript
 import createLogger from 'redux-logger';
@@ -246,5 +260,5 @@ export default createLogger({
 });
 ```
 
-### License
+## License
 MIT
