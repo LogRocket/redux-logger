@@ -162,7 +162,7 @@ const logger = createLogger({
   actionTransformer: (action) => ({
     ...action,
     type: String(action.type),
-  });
+  })
 });
 ```
 
