@@ -1,9 +1,14 @@
+import diffLogger from './diff';
+
 const repeat = (str, times) => (new Array(times + 1)).join(str);
 const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().length) + num;
-const formatTime = (time) => `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
+const formatTime = (time) =>
+  `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
 
 // Use the new performance api to get better precision if available
-const timer = typeof performance !== `undefined` && typeof performance.now === `function` ? performance : Date;
+const timer =
+  typeof performance !== `undefined` &&
+  typeof performance.now === `function` ? performance : Date;
 
 
 /**
@@ -36,7 +41,8 @@ function getLogLevel(level, action, payload, type) {
  * @property {boolean} options.timestamp - print timestamp with each action?
  * @property {object} options.colors - custom colors
  * @property {object} options.logger - implementation of the `console` API
- * @property {boolean} options.logErrors - should errors in action execution be caught, logged, and re-thrown?
+ * @property {boolean} options.logErrors - should errors in action execution be caught,
+ * logged, and re-thrown?
  * @property {boolean} options.collapsed - is group collapsed?
  * @property {boolean} options.predicate - condition which resolves logger behavior
  * @property {function} options.stateTransformer - transform state before print
@@ -44,7 +50,7 @@ function getLogLevel(level, action, payload, type) {
  * @property {function} options.errorTransformer - transform error before print
  */
 
-function createLogger(options = {}) {
+export default function createLogger(options = {}) {
   const {
     level = `log`,
     logger = console,
@@ -64,6 +70,7 @@ function createLogger(options = {}) {
       nextState: () => `#4CAF50`,
       error: () => `#F20404`,
     },
+    diff = false,
   } = options;
 
   // exit if console undefined
@@ -87,11 +94,15 @@ function createLogger(options = {}) {
       }
       // message
       const formattedAction = actionTransformer(action);
-      const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action) : collapsed;
+      const isCollapsed = (typeof collapsed === `function`) ?
+        collapsed(() => nextState, action) :
+        collapsed;
 
       const formattedTime = formatTime(startedTime);
       const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-      const title = `action ${timestamp ? formattedTime : ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+      const title = `action ${timestamp ?
+        formattedTime :
+        ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
 
       // render
       try {
@@ -112,23 +123,51 @@ function createLogger(options = {}) {
       const nextStateLevel = getLogLevel(level, formattedAction, [nextState], `nextState`);
 
       if (prevStateLevel) {
-        if (colors.prevState) logger[prevStateLevel](`%c prev state`, `color: ${colors.prevState(prevState)}; font-weight: bold`, prevState);
-        else logger[prevStateLevel](`prev state`, prevState);
+        if (colors.prevState) {
+          logger[prevStateLevel](
+            `%c prev state`,
+            `color: ${colors.prevState(prevState)}; font-weight: bold`,
+            prevState);
+        } else {
+          logger[prevStateLevel](`prev state`, prevState);
+        }
       }
 
       if (actionLevel) {
-        if (colors.action) logger[actionLevel](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-        else logger[actionLevel](`action`, formattedAction);
+        if (colors.action) {
+          logger[actionLevel](
+            `%c action`,
+            `color: ${colors.action(formattedAction)}; font-weight: bold`,
+            formattedAction);
+        } else {
+          logger[actionLevel](`action`, formattedAction);
+        }
       }
 
       if (error && errorLevel) {
-        if (colors.error) logger[errorLevel](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
-        else logger[errorLevel](`error`, error);
+        if (colors.error) {
+          logger[errorLevel](
+            `%c error`,
+            `color: ${colors.error(error, prevState)}; font-weight: bold`,
+            error);
+        } else {
+          logger[errorLevel](`error`, error);
+        }
       }
 
       if (nextStateLevel) {
-        if (colors.nextState) logger[nextStateLevel](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
-        else logger[nextStateLevel](`next state`, nextState);
+        if (colors.nextState) {
+          logger[nextStateLevel](
+            `%c next state`,
+            `color: ${colors.nextState(nextState)}; font-weight: bold`,
+            nextState);
+        } else {
+          logger[nextStateLevel](`next state`, nextState);
+        }
+      }
+
+      if (diff) {
+        diffLogger(prevState, nextState, logger, isCollapsed);
       }
 
       try {
@@ -174,5 +213,3 @@ function createLogger(options = {}) {
     return returnedValue;
   };
 }
-
-module.exports = createLogger;
