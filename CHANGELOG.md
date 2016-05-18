@@ -1,1 +1,1 @@
-Everything on [Releases](https://github.com/fcomb/redux-logger/releases) page.
+Everything on [Releases](https://github.com/theaqua/redux-logger/releases) page.

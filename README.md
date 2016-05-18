@@ -35,7 +35,7 @@ const store = createStore(
 
 // Note passing middleware as the third argument requires redux@>=3.1.0
 ```
-Logger **must be** last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/fcomb/redux-logger/issues/20)).
+Logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/theaqua/redux-logger/issues/20)).
 
 ## API
 
@@ -46,7 +46,7 @@ createLogger(options?: Object) => LoggerMiddleware
 ```
 
 ### Options
-```js
+```javascript
 {
   level = 'log': 'log' | 'console' | 'warn' | 'error' | 'info', // console's level
   duration = false: Boolean, // Print the duration of each action?
@@ -58,7 +58,9 @@ createLogger(options?: Object) => LoggerMiddleware
   predicate, // If specified this function will be called before each action is processed with this middleware.
   stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
   actionTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
-  errorTransformer // Transform state before print. Eg. convert Immutable object to plain JSON.
+  errorTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
+  diff = false: Boolean, // Show diff between states.
+  diffPredicate // Filter function for showing states diff.'
 }
 ```
 
@@ -138,6 +140,16 @@ Transform error before print.
 
 *Default: identity function*
 
+#### __diff (Boolean)__
+Show states diff.
+
+*Default: `false`*
+
+#### __diffPredicate = (getState: Function, action: Object) => Boolean__
+Filter states diff for certain cases.
+
+*Default: `undefined`*
+
 ## Recipes
 ### Log only in development
 ```javascript
@@ -182,7 +194,7 @@ createLogger({
 
 ### Transform Immutable (without `combineReducers`)
 ```javascript
-import {Iterable} from 'immutable';
+import { Iterable } from 'immutable';
 
 const stateTransformer = (state) => {
   if (Iterable.isIterable(state)) return state.toJS();

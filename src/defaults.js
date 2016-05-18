@@ -17,6 +17,7 @@ export default {
     error: () => `#F20404`,
   },
   diff: false,
+  diffPredicate: undefined,
 
   // Deprecated options
   transformer: undefined,

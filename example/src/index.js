@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 
 import Example from 'components/example';
 import reducers from 'reducers';
-import { AUTH_REMOVE_TOKEN, AUTH_SET_INFO } from 'constants/auth';
+import { AUTH_REMOVE_TOKEN, AUTH_SET_INFO, AUTH_SET_TOKEN } from 'constants/auth';
 
 const logger = createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN, // log all actions except AUTH_REMOVE_TOKEN
@@ -30,6 +30,8 @@ const logger = createLogger({
     action: ({ type }) => type === AUTH_SET_INFO && `red`,
     nextState: () => `#4CAF50`,
   },
+  diff: true,
+  diffPredicate: (getState, action) => action.type === AUTH_SET_TOKEN,
 });
 
 const reducer = combineReducers(reducers);

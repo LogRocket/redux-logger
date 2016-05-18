@@ -1,6 +1,6 @@
-// https://github.com/flitbit/diff#differences
 import differ from 'deep-diff';
 
+// https://github.com/flitbit/diff#differences
 const dictionary = {
   'E': {
     color: `#2196F3`,

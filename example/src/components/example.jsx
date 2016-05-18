@@ -43,8 +43,9 @@ class Example extends Component {
             </Grid.Row>
 
             <ul>
-              <li><strong>Remove token</strong> will not be logged because logger uses <code>predicate</code> option which ignore action with type <code>AUTH_REMOVE_TOKEN</code>.</li>
-              <li><strong>Load user info</strong> has <code>next state</code> as green because logger uses custom <code>colors</code> option.</li>
+              <li><strong>Remove token</strong> produces an action of <code>AUTH_REMOVE_TOKEN</code> type that is not logged because <code>predicate</code> option ignores it.</li>
+              <li><strong>Load user info</strong> shows the next state in green because logger uses custom <code>colors</code> option.</li>
+              <li><strong>Update token</strong> is logged with states difference because <code>diff</code> option is turned on. Diff is limited to current action only because of <code>diffPredicate</code> option.</li>
             </ul>
           </Grid.Col>
         </Grid.Row>

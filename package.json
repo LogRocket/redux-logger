@@ -51,6 +51,6 @@
     "webpack": "1.12.9"
   },
   "dependencies": {
-    "deep-diff": "^0.3.4"
+    "deep-diff": "0.3.4"
   }
 }

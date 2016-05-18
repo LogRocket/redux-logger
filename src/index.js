@@ -31,6 +31,7 @@ function createLogger(options = {}) {
     logger,
     transformer, stateTransformer, errorTransformer,
     predicate, logErrors,
+    diffPredicate,
   } = loggerOptions;
 
   // Return if 'console' object is not defined
@@ -39,7 +40,7 @@ function createLogger(options = {}) {
   }
 
   if (transformer) {
-    console.error(`Option 'transformer' is deprecated, use 'stateTransformer' instead!`);
+    console.error(`Option 'transformer' is deprecated, use 'stateTransformer' instead!`); // eslint-disable-line no-console
   }
 
   const logBuffer = [];
@@ -72,7 +73,9 @@ function createLogger(options = {}) {
     logEntry.took = timer.now() - logEntry.started;
     logEntry.nextState = stateTransformer(getState());
 
-    printBuffer(logBuffer, loggerOptions);
+    const diff = loggerOptions.diff && typeof diffPredicate === `function` ? diffPredicate(getState, action) : loggerOptions.diff;
+
+    printBuffer(logBuffer, { ...loggerOptions, diff });
     logBuffer.length = 0;
 
     if (logEntry.error) throw logEntry.error;
