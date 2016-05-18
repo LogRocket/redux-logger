@@ -16,6 +16,7 @@ export default {
     nextState: () => `#4CAF50`,
     error: () => `#F20404`,
   },
+  diff: false,
 
   // Deprecated options
   transformer: undefined,

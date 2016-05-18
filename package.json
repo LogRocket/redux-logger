@@ -49,5 +49,8 @@
     "eslint-plugin-react": "5.1.1",
     "rimraf": "2.4.4",
     "webpack": "1.12.9"
+  },
+  "dependencies": {
+    "deep-diff": "^0.3.4"
   }
 }
