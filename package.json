@@ -1,7 +1,7 @@
 {
   "name": "redux-logger",
   "version": "2.6.1",
-  "description": "Logger for redux",
+  "description": "Logger for Redux",
   "main": "lib/index.js",
   "scripts": {
     "lint": "$(npm bin)/eslint src",
@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fcomb/redux-logger.git"
+    "url": "git+https://github.com/theaqua/redux-logger.git"
   },
   "keywords": [
     "redux",
@@ -32,18 +32,21 @@
   "author": "Eugene Rodionov (https://github.com/theaqua)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fcomb/redux-logger/issues"
+    "url": "https://github.com/theaqua/redux-logger/issues"
   },
-  "homepage": "https://github.com/fcomb/redux-logger#readme",
+  "homepage": "https://github.com/theaqua/redux-logger#readme",
   "devDependencies": {
-    "@dtrussia/eslint-config-dtrussia": "1.0.3",
+    "@dtrussia/eslint-config-dtrussia": "2.2.1",
     "babel-cli": "6.3.13",
     "babel-core": "6.3.13",
+    "babel-eslint": "6.0.4",
     "babel-loader": "6.2.0",
     "babel-plugin-add-module-exports": "0.1.1",
     "babel-preset-es2015": "6.3.13",
     "babel-preset-react": "6.3.13",
     "babel-preset-stage-0": "6.3.13",
+    "eslint": "2.10.2",
+    "eslint-plugin-react": "5.1.1",
     "rimraf": "2.4.4",
     "webpack": "1.12.9"
   }
