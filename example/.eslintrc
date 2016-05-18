@@ -1,0 +1,3 @@
+{
+  "extends": "@dtrussia/eslint-config-dtrussia/react"
+}
