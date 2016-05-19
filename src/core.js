@@ -1,4 +1,5 @@
 import { formatTime } from './helpers';
+import diffLogger from './diff';
 
 /**
  * Get log level string based on supplied params
@@ -25,7 +26,7 @@ export function printBuffer(buffer, options) {
   const {
     logger,
     actionTransformer,
-    collapsed, colors, timestamp, duration, level,
+    collapsed, colors, timestamp, duration, level, diff,
   } = options;
 
   buffer.forEach((logEntry, key) => {
@@ -82,6 +83,10 @@ export function printBuffer(buffer, options) {
     if (nextStateLevel) {
       if (colors.nextState) logger[nextStateLevel](`%c next state`, `color: ${colors.nextState(nextState)}; font-weight: bold`, nextState);
       else logger[nextStateLevel](`next state`, nextState);
+    }
+
+    if (diff) {
+      diffLogger(prevState, nextState, logger, isCollapsed);
     }
 
     try {
