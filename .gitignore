@@ -1,6 +1,11 @@
 .DS_Store
+
 node_modules
 npm-debug.log
+
+.nyc_output
+coverage
+
 example/build
 dist
 lib

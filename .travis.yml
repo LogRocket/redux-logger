@@ -1,4 +1,5 @@
 language: node_js
 node_js:
-  - "5.1.0"
-script: npm run test
+  - "6.2.0"
+script: npm run test:production
+after_success: npm run coverage:production
