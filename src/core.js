@@ -45,7 +45,7 @@ export function printBuffer(buffer, options) {
 
     const formattedTime = formatTime(startedTime);
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-    const title = `action @ ${timestamp ? formattedTime : ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+    const title = `action @ ${timestamp ? formattedTime : ``} ${formattedAction.type.toString()} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
 
     // Render
     try {
