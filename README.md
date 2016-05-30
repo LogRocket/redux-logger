@@ -1,5 +1,5 @@
 # Logger for Redux
-[![Build Status](https://travis-ci.org/theaqua/redux-logger.svg?branch=master)](https://travis-ci.org/theaqua/redux-logger)
+[![Build Status](https://travis-ci.org/evgenyrodionov/redux-logger.svg?branch=master)](https://travis-ci.org/evgenyrodionov/redux-logger)
 
 ![redux-logger](http://i.imgur.com/pMR3OAv.png)
 
@@ -35,7 +35,7 @@ const store = createStore(
 
 // Note passing middleware as the third argument requires redux@>=3.1.0
 ```
-Logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/theaqua/redux-logger/issues/20)).
+Logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/evgenyrodionov/redux-logger/issues/20)).
 
 ## API
 
