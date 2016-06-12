@@ -1,3 +1,7 @@
+// Ensure object with toJSON method is converted to plain object. Useful for
+// Immutable.js. https://github.com/evgenyrodionov/redux-logger/issues/161
+const ensurePlainObject = object => JSON.parse(JSON.stringify(state));
+
 export default {
   level: `log`,
   logger: console,
@@ -6,9 +10,9 @@ export default {
   predicate: undefined,
   duration: false,
   timestamp: true,
-  stateTransformer: state => state,
-  actionTransformer: action => action,
-  errorTransformer: error => error,
+  stateTransformer: state => ensurePlainObject(state),
+  actionTransformer: action => ensurePlainObject(action),
+  errorTransformer: error => ensurePlainObject(error),
   colors: {
     title: () => `#000000`,
     prevState: () => `#9E9E9E`,

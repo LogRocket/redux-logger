@@ -12,8 +12,6 @@
   * [Transform `Symbol()` action type to string](#transform-symbol-action-type-to-string)
   * [Log everything except actions with certain type](#log-everything-except-actions-with-certain-type)
   * [Collapse actions with certain type](#collapse-actions-with-certain-type)
-  * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
-  * [Transform Immutable (with `combineReducers`)](#transform-immutable-with-combinereducers)
   * [Log batched actions](#log-batched-actions)
 * [License](#license)
 
@@ -56,9 +54,9 @@ createLogger(options?: Object) => LoggerMiddleware
   logErrors = true: Boolean, // Should the logger catch, log, and re-throw errors?
   collapsed, // Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
   predicate, // If specified this function will be called before each action is processed with this middleware.
-  stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
-  actionTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
-  errorTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
+  stateTransformer, // Transform state before print.
+  actionTransformer, // Transform state before print.
+  errorTransformer, // Transform state before print.
   diff = false: Boolean, // Show diff between states.
   diffPredicate // Filter function for showing states diff.'
 }
@@ -126,12 +124,12 @@ Receives `getState` function for  accessing current store state and `action` obj
 *Default: `null` (always log)*
 
 #### __stateTransformer = (state: Object) => state__
-Transform state before print. Eg. convert Immutable object to plain JSON.
+Transform state before print.
 
 *Default: identity function*
 
 #### __actionTransformer = (action: Object) => action__
-Transform action before print. Eg. convert Immutable object to plain JSON.
+Transform action before print.
 
 *Default: identity function*
 
@@ -189,39 +187,6 @@ createLogger({
 ```javascript
 createLogger({
   collapsed: (getState, action) => action.type === FORM_CHANGE
-});
-```
-
-### Transform Immutable (without `combineReducers`)
-```javascript
-import { Iterable } from 'immutable';
-
-const stateTransformer = (state) => {
-  if (Iterable.isIterable(state)) return state.toJS();
-  else return state;
-};
-
-const logger = createLogger({
-  stateTransformer,
-});
-```
-
-### Transform Immutable (with `combineReducers`)
-```javascript
-const logger = createLogger({
-  stateTransformer: (state) => {
-    let newState = {};
-
-    for (var i of Object.keys(state)) {
-      if (Immutable.Iterable.isIterable(state[i])) {
-        newState[i] = state[i].toJS();
-      } else {
-        newState[i] = state[i];
-      }
-    };
-
-    return newState;
-  }
 });
 ```
 
