@@ -232,7 +232,7 @@ import createLogger from 'redux-logger';
 
 const actionTransformer = action => {
   if (action.type === 'BATCHING_REDUCER.BATCH') {
-    action.payload.type = action.payload.map(result => result.type).join(' => ');
+    action.payload.type = action.payload.map(next => next.type).join(' => ');
     return action.payload;
   }
 
