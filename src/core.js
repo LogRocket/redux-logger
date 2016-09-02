@@ -26,6 +26,7 @@ export function printBuffer(buffer, options) {
   const {
     logger,
     actionTransformer,
+    customActionTitle,
     collapsed, colors, timestamp, duration, level, diff,
   } = options;
 
@@ -45,7 +46,8 @@ export function printBuffer(buffer, options) {
 
     const formattedTime = formatTime(startedTime);
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-    const title = `action @ ${timestamp ? formattedTime : ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+    const actionTypeTitle = customActionTitle ? customActionTitle(formattedAction) : formattedAction.type;
+    const title = `action @ ${timestamp ? formattedTime : ``} ${actionTypeTitle} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
 
     // Render
     try {
