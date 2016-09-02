@@ -11,6 +11,7 @@
   * [Log only in development](#log-only-in-development)
   * [Transform `Symbol()` action type to string](#transform-symbol-action-type-to-string)
   * [Log everything except actions with certain type](#log-everything-except-actions-with-certain-type)
+  * [Custom action titles](#custom-action-titles)
   * [Collapse actions with certain type](#collapse-actions-with-certain-type)
   * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
   * [Transform Immutable (with `combineReducers`)](#transform-immutable-with-combinereducers)
@@ -183,6 +184,20 @@ const logger = createLogger({
 createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
 });
+```
+
+### Custom action titles
+By default action name is it's `type` prop. But you can be more inventive:
+```javascript
+createLogger({
+  customActionTitle: action => {
+    const status = action.status ? `(${action.status})` : '';
+    return `${action.type} ${status}`;
+  }
+});
+
+// action @ 15:40:08.251 movie/LOAD_MOVIE_GALLERY (pending)
+// action @ 15:40:08.421 movie/LOAD_MOVIE_GALLERY (done)
 ```
 
 ### Collapse actions with certain type
