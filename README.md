@@ -59,6 +59,7 @@ createLogger(options?: Object) => LoggerMiddleware
   stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
   actionTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
   errorTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
+  titleFormatter, // Format the title used when logging actions.
   diff = false: Boolean, // Show diff between states.
   diffPredicate // Filter function for showing states diff.'
 }
@@ -139,6 +140,11 @@ Transform action before print. Eg. convert Immutable object to plain JSON.
 Transform error before print.
 
 *Default: identity function*
+
+#### __titleFormatter = (action: Object, time: String?, took: Number?) => title__
+Format the title used for each action.
+
+*Default: prints something like `action @ ${time} ${action.type} (in ${took.toFixed(2)} ms)`*
 
 #### __diff (Boolean)__
 Show states diff.

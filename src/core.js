@@ -22,11 +22,21 @@ function getLogLevel(level, action, payload, type) {
   }
 }
 
+function defaultTitleFormatter(options) {
+  const {
+    timestamp, duration,
+  } = options;
+
+  return (action, time, took) =>
+    `action @ ${timestamp ? time : ``} ${action.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+}
+
 export function printBuffer(buffer, options) {
   const {
     logger,
     actionTransformer,
-    collapsed, colors, timestamp, duration, level, diff,
+    titleFormatter = defaultTitleFormatter(options),
+    collapsed, colors, level, diff,
   } = options;
 
   buffer.forEach((logEntry, key) => {
@@ -45,7 +55,7 @@ export function printBuffer(buffer, options) {
 
     const formattedTime = formatTime(startedTime);
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
-    const title = `action @ ${timestamp ? formattedTime : ``} ${formattedAction.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+    const title = titleFormatter(formattedAction, formattedTime, took);
 
     // Render
     try {
