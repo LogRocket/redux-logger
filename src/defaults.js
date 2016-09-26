@@ -10,7 +10,7 @@ export default {
   actionTransformer: action => action,
   errorTransformer: error => error,
   colors: {
-    title: () => `#000000`,
+    title: () => `inherit`,
     prevState: () => `#9E9E9E`,
     action: () => `#03A9F4`,
     nextState: () => `#4CAF50`,
