@@ -2,7 +2,7 @@
   "name": "redux-logger",
   "version": "2.6.1",
   "description": "Logger for Redux",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
     "lint": "$(npm bin)/eslint src",
     "test": "npm run lint",
