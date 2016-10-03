@@ -1,8 +1,7 @@
 language: node_js
 node_js:
-  - "6.1.x"
+  - "6"
 script: npm run test:production
 
-# Repository token must be provided in "coverage:production" npm command:
-# "-t :repository-token"
+# Repository token must be provided in "coverage:production" npm script
 after_success: npm run coverage:production
