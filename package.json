@@ -11,7 +11,7 @@
     "spec:watch": "NODE_ENV=development npm run spec -- --watch",
     "coverage": "nyc report",
     "coverage:html": "nyc report --reporter=html && (http-server -p 8077 ./coverage & open-url http://localhost:8077/)",
-    "coverage:production": "nyc report --reporter=text-lcov > coverage.lcov && codecov -t :REPOSITORY_TOKEN",
+    "coverage:production": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "clean": "$(npm bin)/rimraf dist lib",
     "build:lib": "$(npm bin)/babel src --out-dir lib",
     "build:umd": "LIBRARY_NAME=reduxLogger NODE_ENV=development $(npm bin)/webpack src/index.js dist/index.js --config webpack.build.js",
