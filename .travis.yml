@@ -1,4 +1,7 @@
 language: node_js
 node_js:
-  - "5.1.0"
-script: npm run test
+  - "6"
+script: npm run test:production
+
+# Repository token must be provided in "coverage:production" npm script
+after_success: npm run coverage:production
