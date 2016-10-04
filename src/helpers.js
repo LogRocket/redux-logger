@@ -5,4 +5,4 @@ export const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().le
 export const formatTime = (time) => `${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
 
 // Use performance API if it's available in order to get better precision
-export const timer = (typeof performance !== `undefined` && typeof performace !== `null`) && typeof performance.now === `function` ? performance : Date;
+export const timer = (typeof performance !== `undefined` && performace !== null) && typeof performance.now === `function` ? performance : Date;
