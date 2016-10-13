@@ -1,5 +1,8 @@
 # Logger for Redux
+[![npm](https://img.shields.io/npm/v/redux-logger.svg?maxAge=2592000?style=plastic)]()
+[![npm](https://img.shields.io/npm/dm/redux-logger.svg?maxAge=2592000?style=plastic)]()
 [![Build Status](https://travis-ci.org/evgenyrodionov/redux-logger.svg?branch=master)](https://travis-ci.org/evgenyrodionov/redux-logger)
+[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/evgenyrodionov/redux-logger.svg?maxAge=2592000?style=plastic)]()
 
 ![redux-logger](http://i.imgur.com/pMR3OAv.png)
 
