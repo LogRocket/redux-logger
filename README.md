@@ -15,6 +15,7 @@
   * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
   * [Transform Immutable (with `combineReducers`)](#transform-immutable-with-combinereducers)
   * [Log batched actions](#log-batched-actions)
+* [Known issues](#known-issues) (with `react-native` only at this moment)
 * [License](#license)
 
 ## Install
@@ -273,6 +274,9 @@ export default createLogger({
   logger
 });
 ```
+
+## Known issues
+* Performance issues in react-native ([#32](https://github.com/evgenyrodionov/redux-logger/issues/32))
 
 ## License
 MIT
