@@ -36,7 +36,7 @@ function defaultTitleFormatter(options) {
     if (duration) {
       parts.push(`(in ${took.toFixed(2)} ms)`);
     }
-    returns parts.join(' ');
+    return parts.join(' ');
   }
 }
 
