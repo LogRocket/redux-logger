@@ -28,7 +28,7 @@ function defaultTitleFormatter(options) {
   } = options;
 
   return (action, time, took) => {
-    const parts = ['action'];
+    const parts = [`action`];
     if (timestamp) {
       parts.push(`@ ${time}`);
     }
@@ -36,8 +36,8 @@ function defaultTitleFormatter(options) {
     if (duration) {
       parts.push(`(in ${took.toFixed(2)} ms)`);
     }
-    return parts.join(' ');
-  }
+    return parts.join(` `);
+  };
 }
 
 export function printBuffer(buffer, options) {
