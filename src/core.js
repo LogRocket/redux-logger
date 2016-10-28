@@ -27,8 +27,17 @@ function defaultTitleFormatter(options) {
     timestamp, duration,
   } = options;
 
-  return (action, time, took) =>
-    `action @ ${timestamp ? time : ``} ${action.type} ${duration ? `(in ${took.toFixed(2)} ms)` : ``}`;
+  return (action, time, took) => {
+    const parts = [`action`];
+    if (timestamp) {
+      parts.push(`@ ${time}`);
+    }
+    parts.push(action.type);
+    if (duration) {
+      parts.push(`(in ${took.toFixed(2)} ms)`);
+    }
+    return parts.join(` `);
+  };
 }
 
 export function printBuffer(buffer, options) {
