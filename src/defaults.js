@@ -1,6 +1,6 @@
 export default {
   level: `log`,
-  logger: (this && this.console) || (global.window && global.window.console),
+  logger: console,
   logErrors: true,
   collapsed: undefined,
   predicate: undefined,
