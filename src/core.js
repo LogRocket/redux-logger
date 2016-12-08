@@ -32,7 +32,7 @@ function defaultTitleFormatter(options) {
     if (timestamp) {
       parts.push(`@ ${time}`);
     }
-    parts.push(action.type);
+    parts.push(String(action.type));
     if (duration) {
       parts.push(`(in ${took.toFixed(2)} ms)`);
     }
