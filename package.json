@@ -43,7 +43,6 @@
     "redux",
     "logger",
     "redux-logger",
-    "redux",
     "middleware"
   ],
   "author": "Eugene Rodionov (https://github.com/theaqua)",
