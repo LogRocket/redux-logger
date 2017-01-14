@@ -20,6 +20,7 @@ import createDebouncedPersister from './persistence';
  * @param {function} options.actionTransformer - transform action before print
  * @param {function} options.errorTransformer - transform error before print
  * @param {function} options.persister - takes an array of log objects, returns a Promise that is resolved when items are persisted
+ * @param {function} options.persistencePredicate - determines if logs should be persisted
  * @param {number} options.persistenceDelay - debounce milliseconds
  * @returns {function} logger middleware
  */
@@ -35,6 +36,7 @@ function createLogger(options = {}) {
     predicate, logErrors,
     diffPredicate,
     persister,
+    persistencePredicate,
     persistenceDelay,
   } = loggerOptions;
 
@@ -87,7 +89,9 @@ function createLogger(options = {}) {
     const diff = loggerOptions.diff && typeof diffPredicate === `function` ? diffPredicate(getState, action) : loggerOptions.diff;
 
     if (persistBuffer) {
-      persistBuffer(asyncLogBuffer, { ...loggerOptions, diff });
+      if (typeof persistencePredicate !== `function` || persistencePredicate(getState, action)) {
+        persistBuffer(asyncLogBuffer, { ...loggerOptions, diff });
+      }
     }
 
     printBuffer(logBuffer, { ...loggerOptions, diff });

@@ -67,6 +67,7 @@ createLogger(options?: Object) => LoggerMiddleware
   diff = false: Boolean, // Show diff between states.
   diffPredicate // Filter function for showing states diff.'
   persister // Function that takes an array of log objects, returns a Promise that is resolved when items are persisted
+  persistencePredicate // If specified, this function will be called after each action is processed to determine if it should be persisted.
   persistenceDelay // Minimum milliseconds between `persister` calls
 }
 ```
@@ -166,6 +167,11 @@ Filter states diff for certain cases.
 Function that takes an array of log objects, returns a Promise that is resolved when items are persisted
 
 *Default: `undefined`*
+
+#### ____persistencePredicate = (getState: Function, action: Object) => Boolean__
+If specified, this function will be called after each action is processed to determine if it should be persisted.
+
+*Default: `undefined` (always persists)*
 
 #### __persistenceDelay (Number)__
 Execution of `persister` will be postponed until after specified number of milliseconds have elapsed since the last time it was invoked.
