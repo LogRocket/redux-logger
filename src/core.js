@@ -60,7 +60,7 @@ export function printBuffer(buffer, options) {
 
     // Message
     const formattedAction = actionTransformer(action);
-    const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action) : collapsed;
+    const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action, logEntry) : collapsed;
 
     const formattedTime = formatTime(startedTime);
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
