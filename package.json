@@ -3,6 +3,7 @@
   "version": "2.7.4",
   "description": "Logger for Redux",
   "main": "lib/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "lint": "$(npm bin)/eslint src",
     "test": "NODE_ENV=development npm run lint && npm run spec",
@@ -33,7 +34,8 @@
   "files": [
     "dist",
     "lib",
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -72,6 +74,7 @@
     "nyc": "6.4.4",
     "open-url": "2.0.2",
     "rimraf": "2.4.4",
+    "typescript": "^1.8.0",
     "webpack": "1.12.9"
   },
   "dependencies": {
