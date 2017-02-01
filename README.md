@@ -2,7 +2,6 @@
 [![npm](https://img.shields.io/npm/v/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
 [![npm](https://img.shields.io/npm/dm/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
 [![Build Status](https://travis-ci.org/evgenyrodionov/redux-logger.svg?branch=master)](https://travis-ci.org/evgenyrodionov/redux-logger)
-[![dependencies Status](https://david-dm.org/evgenyrodionov/redux-logger/status.svg)](https://david-dm.org/evgenyrodionov/redux-logger)
 
 ![redux-logger](http://i.imgur.com/pMR3OAv.png)
 
