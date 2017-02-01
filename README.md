@@ -119,7 +119,7 @@ on error" in dev tools harder to use, as it breaks on re-throw rather than the o
 
 *Default: `true`*
 
-#### __collapsed = (getState: Function, action: Object) => Boolean__
+#### __collapsed = (getState: Function, action: Object, logEntry: Object) => Boolean__
 Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
 
 *Default: `false`*
@@ -199,6 +199,13 @@ createLogger({
 ```javascript
 createLogger({
   collapsed: (getState, action) => action.type === FORM_CHANGE
+});
+```
+
+### Collapse actions that don't have errors
+```javascript
+createLogger({
+  collapsed: (getState, action, logEntry) => !logEntry.error
 });
 ```
 
