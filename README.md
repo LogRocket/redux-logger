@@ -12,7 +12,6 @@
 * [API](#api)
 * [Recipes](#recipes)
   * [Log only in development](#log-only-in-development)
-  * [Transform `Symbol()` action type to string](#transform-symbol-action-type-to-string)
   * [Log everything except actions with certain type](#log-everything-except-actions-with-certain-type)
   * [Collapse actions with certain type](#collapse-actions-with-certain-type)
   * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
@@ -174,18 +173,6 @@ if (process.env.NODE_ENV === `development`) {
 }
 
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
-```
-
-### Transform `Symbol()` action type to string
-```javascript
-import createLogger from 'redux-logger';
-
-const logger = createLogger({
-  actionTransformer: (action) => ({
-    ...action,
-    type: String(action.type),
-  })
-});
 ```
 
 ### Log everything except actions with certain type

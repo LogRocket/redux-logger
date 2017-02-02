@@ -29,8 +29,11 @@ function createLogger(options = {}) {
 
   const {
     logger,
-    transformer, stateTransformer, errorTransformer,
-    predicate, logErrors,
+    transformer,
+    stateTransformer,
+    errorTransformer,
+    predicate,
+    logErrors,
     diffPredicate,
   } = loggerOptions;
 

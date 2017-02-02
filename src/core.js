@@ -24,18 +24,17 @@ function getLogLevel(level, action, payload, type) {
 
 function defaultTitleFormatter(options) {
   const {
-    timestamp, duration,
+    timestamp,
+    duration,
   } = options;
 
   return (action, time, took) => {
     const parts = [`action`];
-    if (timestamp) {
-      parts.push(`@ ${time}`);
-    }
-    parts.push(action.type);
-    if (duration) {
-      parts.push(`(in ${took.toFixed(2)} ms)`);
-    }
+
+    if (timestamp) parts.push(`@ ${time}`);
+    parts.push(String(action.type));
+    if (duration) parts.push(`(in ${took.toFixed(2)} ms)`);
+
     return parts.join(` `);
   };
 }
@@ -45,7 +44,10 @@ export function printBuffer(buffer, options) {
     logger,
     actionTransformer,
     titleFormatter = defaultTitleFormatter(options),
-    collapsed, colors, level, diff,
+    collapsed,
+    colors,
+    level,
+    diff,
   } = options;
 
   buffer.forEach((logEntry, key) => {
