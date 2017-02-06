@@ -1,6 +1,7 @@
 import { printBuffer } from './core';
 import { timer } from './helpers';
 import defaults from './defaults';
+import createDebouncedPersister from './persistence';
 
 /**
  * Creates logger with following options
@@ -18,7 +19,9 @@ import defaults from './defaults';
  * @param {function} options.stateTransformer - transform state before print
  * @param {function} options.actionTransformer - transform action before print
  * @param {function} options.errorTransformer - transform error before print
- *
+ * @param {function} options.persister - takes an array of log objects, returns a Promise that is resolved when items are persisted
+ * @param {function} options.persistencePredicate - determines if logs should be persisted
+ * @param {number} options.persistenceDelay - debounce milliseconds
  * @returns {function} logger middleware
  */
 function createLogger(options = {}) {
@@ -35,6 +38,9 @@ function createLogger(options = {}) {
     predicate,
     logErrors,
     diffPredicate,
+    persister,
+    persistencePredicate,
+    persistenceDelay,
   } = loggerOptions;
 
   // Return if 'console' object is not defined
@@ -46,7 +52,13 @@ function createLogger(options = {}) {
     console.error(`Option 'transformer' is deprecated, use 'stateTransformer' instead!`); // eslint-disable-line no-console
   }
 
+  let persistBuffer;
+  if (persister) {
+    persistBuffer = createDebouncedPersister({ persistenceDelay });
+  }
+
   const logBuffer = [];
+  const asyncLogBuffer = [];
 
   return ({ getState }) => (next) => (action) => {
     // Exit early if predicate function returns 'false'
@@ -56,6 +68,7 @@ function createLogger(options = {}) {
 
     const logEntry = {};
     logBuffer.push(logEntry);
+    asyncLogBuffer.push(logEntry);
 
     logEntry.started = timer.now();
     logEntry.startedTime = new Date();
@@ -77,6 +90,12 @@ function createLogger(options = {}) {
     logEntry.nextState = stateTransformer(getState());
 
     const diff = loggerOptions.diff && typeof diffPredicate === `function` ? diffPredicate(getState, action) : loggerOptions.diff;
+
+    if (persistBuffer) {
+      if (typeof persistencePredicate !== `function` || persistencePredicate(getState, action)) {
+        persistBuffer(asyncLogBuffer, { ...loggerOptions, diff });
+      }
+    }
 
     printBuffer(logBuffer, { ...loggerOptions, diff });
     logBuffer.length = 0;

@@ -12,6 +12,16 @@ import Example from 'components/example';
 import reducers from 'reducers';
 import { AUTH_REMOVE_TOKEN, AUTH_SET_INFO, AUTH_SET_TOKEN } from 'constants/auth';
 
+localStorage.clear(`actions`);
+
+const logPersister = (logQueue) => {
+  let array = JSON.parse(localStorage.getItem(`actions`)) || [];
+  array = array.concat(logQueue);
+  localStorage.setItem(`actions`, JSON.stringify(array));
+
+  return Promise.resolve();
+};
+
 const logger = createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN, // log all actions except AUTH_REMOVE_TOKEN
   level: {
@@ -32,6 +42,8 @@ const logger = createLogger({
   },
   diff: true,
   diffPredicate: (getState, action) => action.type === AUTH_SET_TOKEN,
+  persister: logPersister,
+  persistenceDelay: 300,
 });
 
 const reducer = combineReducers(reducers);

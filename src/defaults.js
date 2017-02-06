@@ -18,6 +18,9 @@ export default {
   },
   diff: false,
   diffPredicate: undefined,
+  persister: undefined,
+  persistencePredicate: undefined,
+  persistenceDelay: 300,
 
   // Deprecated options
   transformer: undefined,
