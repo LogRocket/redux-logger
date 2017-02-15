@@ -41,7 +41,7 @@ Logger **must be** the last middleware in chain, otherwise it will log thunk and
 
 ## API
 
-`redux-logger` exposes single constructor function for creating logger middleware.  
+`redux-logger` exposes single constructor function for creating logger middleware.
 
 ```
 createLogger(options?: Object) => LoggerMiddleware
@@ -64,6 +64,8 @@ createLogger(options?: Object) => LoggerMiddleware
   titleFormatter, // Format the title used when logging actions.
   diff = false: Boolean, // Show diff between states.
   diffPredicate // Filter function for showing states diff.'
+  persister // Function that takes an array of log objects, returns a Promise that is resolved when items are persisted
+  persistenceDelay // Minimum milliseconds between `persister` calls
 }
 ```
 
@@ -157,6 +159,16 @@ Show states diff.
 Filter states diff for certain cases.
 
 *Default: `undefined`*
+
+#### __persister =  (logQueue: [Object]) => Promise__
+Function that takes an array of log objects, returns a Promise that is resolved when items are persisted
+
+*Default: `undefined`*
+
+#### __persistenceDelay (Number)__
+Execution of `persister` will be postponed until after specified number of milliseconds have elapsed since the last time it was invoked.
+
+*Default: `300`*
 
 ## Recipes
 ### Log only in development
@@ -268,6 +280,42 @@ export default createLogger({
   level,
   actionTransformer,
   logger
+});
+```
+
+### Persist logs to localStorage
+```javascript
+localStorage.clear(`actions`);
+
+const logPersister = (logQueue) => {
+  let array = JSON.parse(localStorage.getItem(`actions`)) || [];
+  array = array.concat(logQueue);
+  localStorage.setItem(`actions`, JSON.stringify(array));
+
+  return Promise.resolve();
+};
+
+const logger = createLogger({
+  persister: logPersister,
+});
+
+```
+
+### Persist logs via RESTful service
+```javascript
+import 'isomorphic-fetch';
+
+const logPersister = (logQueue) =>
+  fetch(ACTION_SERVICE_URL, {
+    method: `POST`,
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    body: JSON.stringify(logQueue),
+  });
+
+const logger = createLogger({
+  persister: logPersister,
 });
 ```
 
