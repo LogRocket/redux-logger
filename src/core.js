@@ -106,6 +106,12 @@ export function printBuffer(buffer, options) {
       else logger[nextStateLevel](`next state`, nextState);
     }
 
+    if (logger.trace) {
+      logger.groupCollapsed(`trace`);
+      logger.trace();
+      logger.groupEnd();
+    }
+
     if (diff) {
       diffLogger(prevState, nextState, logger, isCollapsed);
     }
