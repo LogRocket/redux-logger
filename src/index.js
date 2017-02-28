@@ -46,6 +46,22 @@ function createLogger(options = {}) {
     console.error(`Option 'transformer' is deprecated, use 'stateTransformer' instead!`); // eslint-disable-line no-console
   }
 
+  // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
+  if (options.getState && options.dispatch) {
+    // eslint-disable-next-line no-console
+    console.error(`redux-logger not installed. Make sure to pass logger instance as middleware:
+
+import createLogger from 'redux-logger';
+
+const logger = createLogger();
+const store = createStore(
+  reducer,
+  applyMiddleware(logger)
+);`);
+
+    return () => next => action => next(action);
+  }
+
   const logBuffer = [];
 
   return ({ getState }) => (next) => (action) => {
