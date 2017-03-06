@@ -102,4 +102,5 @@ const store = createStore(
   };
 }
 
-export default createLogger;
+module.exports = createLogger;
+
