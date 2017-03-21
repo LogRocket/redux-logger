@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/dm/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
 [![Build Status](https://travis-ci.org/evgenyrodionov/redux-logger.svg?branch=master)](https://travis-ci.org/evgenyrodionov/redux-logger)
 
-![redux-logger](http://i.imgur.com/pMR3OAv.png)
+![redux-logger](http://i.imgur.com/CgAuHlE.png)
 
 ## Table of contents
 * [Install](#install)
