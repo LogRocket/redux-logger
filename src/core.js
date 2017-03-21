@@ -93,12 +93,12 @@ export function printBuffer(buffer, options) {
 
     if (actionLevel) {
       if (colors.action) logger[actionLevel](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
-      else logger[actionLevel](`action`, formattedAction);
+      else logger[actionLevel](`action    `, formattedAction);
     }
 
     if (error && errorLevel) {
       if (colors.error) logger[errorLevel](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
-      else logger[errorLevel](`error`, error);
+      else logger[errorLevel](`error     `, error);
     }
 
     if (nextStateLevel) {

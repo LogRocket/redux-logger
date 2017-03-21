@@ -3,35 +3,22 @@ import 'styles/base';
 
 import React from 'react';
 import { render } from 'react-dom';
-import createLogger from 'redux-logger';
+import createLogger, { defaults } from '../../src';
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 
 import Example from 'components/example';
 import reducers from 'reducers';
-import { AUTH_REMOVE_TOKEN, AUTH_SET_INFO, AUTH_SET_TOKEN } from 'constants/auth';
+import { AUTH_REMOVE_TOKEN, AUTH_SET_TOKEN } from 'constants/auth';
 
 const logger = createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN, // log all actions except AUTH_REMOVE_TOKEN
-  level: {
-    prevState: () => `info`,
-    action: ({ type }) => type === AUTH_SET_INFO ? `error` : `log`,
-    error: () => `error`,
-    nextState: () => `info`,
-  },
   duration: true,
-  actionTransformer: (action) => ({
-    ...action,
-    type: String(action.type),
-  }),
   colors: {
-    prevState: () => `#FFEB3B`,
-    action: ({ type }) => type === AUTH_SET_INFO && `red`,
-    nextState: () => `#4CAF50`,
+    ...defaults.colors,
+    action: ({ type }) => type === AUTH_SET_TOKEN && `green`,
   },
-  diff: true,
-  diffPredicate: (getState, action) => action.type === AUTH_SET_TOKEN,
 });
 
 const reducer = combineReducers(reducers);
