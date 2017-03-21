@@ -15,10 +15,6 @@ import { AUTH_REMOVE_TOKEN, AUTH_SET_TOKEN } from 'constants/auth';
 const logger = createLogger({
   predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN, // log all actions except AUTH_REMOVE_TOKEN
   duration: true,
-  colors: {
-    ...defaults.colors,
-    action: ({ type }) => type === AUTH_SET_TOKEN && `green`,
-  },
 });
 
 const reducer = combineReducers(reducers);

@@ -69,7 +69,7 @@ export function printBuffer(buffer, options) {
     const headerCSS = [`color: gray; font-weight: lighter;`];
     headerCSS.push(titleCSS);
     if (options.timestamp) headerCSS.push(`color: gray; font-weight: lighter;`);
-    if (options.duration) headerCSS.push(`font-style: italic; color: gray; font-weight: lighter;`);
+    if (options.duration) headerCSS.push(`color: gray; font-weight: lighter;`);
     const title = titleFormatter(formattedAction, formattedTime, took);
 
     // Render
