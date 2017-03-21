@@ -31,9 +31,9 @@ function defaultTitleFormatter(options) {
   return (action, time, took) => {
     const parts = [`action`];
 
-    if (timestamp) parts.push(`@ ${time}`);
-    parts.push(String(action.type));
-    if (duration) parts.push(`(in ${took.toFixed(2)} ms)`);
+    parts.push(`%c${String(action.type)}`);
+    if (timestamp) parts.push(`%c@ ${time}`);
+    if (duration) parts.push(`%c(in ${took.toFixed(2)} ms)`);
 
     return parts.join(` `);
   };
@@ -65,16 +65,20 @@ export function printBuffer(buffer, options) {
     const isCollapsed = (typeof collapsed === `function`) ? collapsed(() => nextState, action, logEntry) : collapsed;
 
     const formattedTime = formatTime(startedTime);
-    const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : null;
+    const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : ``;
+    const headerCSS = [`color: gray; font-weight: lighter;`];
+    headerCSS.push(titleCSS);
+    if (options.timestamp) headerCSS.push(`color: gray; font-weight: lighter;`);
+    if (options.duration) headerCSS.push(`font-style: italic; color: gray; font-weight: lighter;`);
     const title = titleFormatter(formattedAction, formattedTime, took);
 
     // Render
     try {
       if (isCollapsed) {
-        if (colors.title) logger.groupCollapsed(`%c ${title}`, titleCSS);
+        if (colors.title) logger.groupCollapsed(`%c ${title}`, ...headerCSS);
         else logger.groupCollapsed(title);
       } else {
-        if (colors.title) logger.group(`%c ${title}`, titleCSS);
+        if (colors.title) logger.group(`%c ${title}`, ...headerCSS);
         else logger.group(title);
       }
     } catch (e) {
@@ -92,12 +96,12 @@ export function printBuffer(buffer, options) {
     }
 
     if (actionLevel) {
-      if (colors.action) logger[actionLevel](`%c action`, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
+      if (colors.action) logger[actionLevel](`%c action    `, `color: ${colors.action(formattedAction)}; font-weight: bold`, formattedAction);
       else logger[actionLevel](`action    `, formattedAction);
     }
 
     if (error && errorLevel) {
-      if (colors.error) logger[errorLevel](`%c error`, `color: ${colors.error(error, prevState)}; font-weight: bold`, error);
+      if (colors.error) logger[errorLevel](`%c error     `, `color: ${colors.error(error, prevState)}; font-weight: bold;`, error);
       else logger[errorLevel](`error     `, error);
     }
 
