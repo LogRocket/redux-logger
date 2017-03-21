@@ -16,6 +16,7 @@
   * [Transform Immutable (without `combineReducers`)](#transform-immutable-without-combinereducers)
   * [Transform Immutable (with `combineReducers`)](#transform-immutable-with-combinereducers)
   * [Log batched actions](#log-batched-actions)
+* [To Do](#to-do)
 * [Known issues](#known-issues) (with `react-native` only at this moment)
 * [License](#license)
 
@@ -279,6 +280,16 @@ export default createLogger({
   logger
 });
 ```
+
+## To Do
+- [ ] Update example to [create-react-app](https://github.com/facebookincubator/create-react-app)
+- [ ] Update eslint config to [airbnb's](https://www.npmjs.com/package/eslint-config-airbnb)
+- [ ] Clean up code, because it's very messy, to be honest
+- [ ] Write tests
+- [ ] Node.js support
+- [ ] React-native support
+
+Feel free to create PR for any of those tasks!
 
 ## Known issues
 * Performance issues in react-native ([#32](https://github.com/evgenyrodionov/redux-logger/issues/32))
