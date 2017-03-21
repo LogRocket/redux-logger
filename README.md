@@ -8,7 +8,7 @@
 ## Table of contents
 * [Install](#install)
 * [Usage](#usage)
-* [API](#api)
+* [Options](#options)
 * [Recipes](#recipes)
   * [Log only in development](#log-only-in-development)
   * [Log everything except actions with certain type](#log-everything-except-actions-with-certain-type)
@@ -25,49 +25,59 @@
 ## Usage
 ```javascript
 import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import promise from 'redux-promise';
-import createLogger from 'redux-logger';
 
-const logger = createLogger();
+// Logger with default options
+import { logger } from 'redux-logger'
 const store = createStore(
   reducer,
-  applyMiddleware(thunk, promise, logger)
-);
+  applyMiddleware(logger)
+)
 
 // Note passing middleware as the third argument requires redux@>=3.1.0
 ```
-Logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/evgenyrodionov/redux-logger/issues/20)).
 
-## API
+Or you can create your own logger with custom [options](https://github.com/evgenyrodionov/redux-logger#options):
+```javascript
+import { applyMiddleware, createStore } from 'redux';
+import createLogger from 'redux-logger'
 
-`redux-logger` exposes single constructor function for creating logger middleware.  
+const logger = createLogger({
+  // ...options
+});
 
+const store = createStore(
+  reducer,
+  applyMiddleware(logger)
+);
 ```
-createLogger(options?: Object) => LoggerMiddleware
-```
 
-### Options
+Note: logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/evgenyrodionov/redux-logger/issues/20)).
+
+## Options
 ```javascript
 {
+  predicate, // if specified this function will be called before each action is processed with this middleware.
+  collapsed, // takes a Boolean or optionally a Function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
+  duration = false: Boolean, // print the duration of each action?
+  timestamp = true: Boolean, // print the timestamp with each action?
+
   level = 'log': 'log' | 'console' | 'warn' | 'error' | 'info', // console's level
-  duration = false: Boolean, // Print the duration of each action?
-  timestamp = true: Boolean, // Print the timestamp with each action?
-  colors: ColorsObject, // Object with color getters. See the ColorsObject interface.
-  logger = console: LoggerObject, // Implementation of the `console` API.
-  logErrors = true: Boolean, // Should the logger catch, log, and re-throw errors?
-  collapsed, // Takes a boolean or optionally a function that receives `getState` function for accessing current store state and `action` object as parameters. Returns `true` if the log group should be collapsed, `false` otherwise.
-  predicate, // If specified this function will be called before each action is processed with this middleware.
-  stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
-  actionTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
-  errorTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
+  colors: ColorsObject, // colors for title, prev state, action and next state: https://github.com/evgenyrodionov/redux-logger/blob/master/src/defaults.js#L12-L18
   titleFormatter, // Format the title used when logging actions.
-  diff = false: Boolean, // Show diff between states.
-  diffPredicate // Filter function for showing states diff.'
+
+  stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
+  actionTransformer, // Transform action before print. Eg. convert Immutable object to plain JSON.
+  errorTransformer, // Transform error before print. Eg. convert Immutable object to plain JSON.
+
+  logger = console: LoggerObject, // implementation of the `console` API.
+  logErrors = true: Boolean, // should the logger catch, log, and re-throw errors?
+
+  diff = false: Boolean, // (alpha) show diff between states?
+  diffPredicate // (alpha) filter function for showing states diff, similar to `predicate`
 }
 ```
 
-### Options
+### Options description
 
 #### __level (String | Function | Object)__
 Level of `console`. `warn`, `error`, `info` or [else](https://developer.mozilla.org/en/docs/Web/API/console).
@@ -166,8 +176,7 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 
 if (process.env.NODE_ENV === `development`) {
-  const createLogger = require(`redux-logger`);
-  const logger = createLogger();
+  const { logger } = require(`redux-logger`);
   middlewares.push(logger);
 }
 

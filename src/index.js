@@ -49,15 +49,28 @@ function createLogger(options = {}) {
   // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
   if (options.getState && options.dispatch) {
     // eslint-disable-next-line no-console
-    console.error(`redux-logger not installed. Make sure to pass logger instance as middleware:
+    console.error(`[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:
 
-import createLogger from 'redux-logger';
-
-const logger = createLogger();
+// Logger with default options
+import { logger } from 'redux-logger'
 const store = createStore(
   reducer,
   applyMiddleware(logger)
-);`);
+)
+
+
+// Or you can create your own logger with custom options http://bit.ly/redux-logger-options
+import createLogger from 'redux-logger'
+
+const logger = createLogger({
+  // ...options
+});
+
+const store = createStore(
+  reducer,
+  applyMiddleware(logger)
+)
+`);
 
     return () => next => action => next(action);
   }
@@ -101,5 +114,12 @@ const store = createStore(
     return returnedValue;
   };
 }
+
+const defaultLogger = createLogger();
+
+export {
+  defaults,
+  defaultLogger as logger,
+};
 
 export default createLogger;
