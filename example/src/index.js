@@ -3,7 +3,7 @@ import 'styles/base';
 
 import React from 'react';
 import { render } from 'react-dom';
-import createLogger, { defaults } from '../../src';
+import createLogger from 'redux-logger';
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
