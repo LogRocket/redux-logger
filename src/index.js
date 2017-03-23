@@ -29,7 +29,6 @@ function createLogger(options = {}) {
 
   const {
     logger,
-    transformer,
     stateTransformer,
     errorTransformer,
     predicate,
@@ -42,30 +41,21 @@ function createLogger(options = {}) {
     return () => next => action => next(action);
   }
 
-  if (transformer) {
-    console.error(`Option 'transformer' is deprecated, use 'stateTransformer' instead!`); // eslint-disable-line no-console
-  }
-
   // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
   if (options.getState && options.dispatch) {
     // eslint-disable-next-line no-console
     console.error(`[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:
-
 // Logger with default options
 import { logger } from 'redux-logger'
 const store = createStore(
   reducer,
   applyMiddleware(logger)
 )
-
-
 // Or you can create your own logger with custom options http://bit.ly/redux-logger-options
 import createLogger from 'redux-logger'
-
 const logger = createLogger({
   // ...options
 });
-
 const store = createStore(
   reducer,
   applyMiddleware(logger)
@@ -84,6 +74,7 @@ const store = createStore(
     }
 
     const logEntry = {};
+
     logBuffer.push(logEntry);
 
     logEntry.started = timer.now();
@@ -115,11 +106,26 @@ const store = createStore(
   };
 }
 
-const defaultLogger = createLogger();
+const defaultLogger = ({ dispatch, getState } = {}) => {
+  if (typeof dispatch === `function` || typeof getState === `function`) {
+    return createLogger()({ dispatch, getState });
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(`
+[redux-logger v3] BREAKING CHANGE
+[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
+[redux-logger v3] Change
+[redux-logger v3] import createLogger from 'redux-logger'
+[redux-logger v3] to
+[redux-logger v3] import { createLogger } from 'redux-logger'
+`);
+  }
+};
 
 export {
   defaults,
+  createLogger,
   defaultLogger as logger,
 };
 
-export default createLogger;
+export default defaultLogger;

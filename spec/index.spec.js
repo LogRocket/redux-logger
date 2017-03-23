@@ -1,40 +1,59 @@
 import { expect } from 'chai';
-
-import { repeat } from 'helpers';
+import sinon from 'sinon';
 
 import { applyMiddleware, createStore } from 'redux';
 
-import sinon from 'sinon';
-
-import createLogger from '../src';
+import { repeat } from 'helpers';
+import logger, { createLogger } from '../src';
 
 context(`Helpers`, () => {
-  describe(`'repeat'`, () => {
+  describe(`repeat`, () => {
     it(`should repeat a string the number of indicated times`, () => {
       expect(repeat(`teacher`, 3)).to.equal(`teacherteacherteacher`);
     });
   });
 });
 
-context('createLogger', () => {
-  describe('initialization', () => {
+context(`default logger`, () => {
+  describe(`init`, () => {
     beforeEach(() => {
-      sinon.spy(console, 'error');
+      sinon.spy(console, `error`);
     });
 
     afterEach(() => {
       console.error.restore();
     });
 
-    it('should log an error if the function is passed to applyMiddleware', () => {
+    it(`should be ok`, () => {
+      const store = createStore(() => ({}), applyMiddleware(logger));
+
+      store.dispatch({ type: `foo` });
+      sinon.assert.notCalled(console.error);
+    });
+  });
+});
+
+context(`createLogger`, () => {
+  describe(`init`, () => {
+    beforeEach(() => {
+      sinon.spy(console, `error`);
+    });
+
+    afterEach(() => {
+      console.error.restore();
+    });
+
+    it(`should throw error if passed direct to applyMiddleware`, () => {
       const store = createStore(() => ({}), applyMiddleware(createLogger));
-      store.dispatch({ type: 'foo' });
+
+      store.dispatch({ type: `foo` });
       sinon.assert.calledOnce(console.error);
     });
 
-    it('should not log an error if the correct function is passed', () => {
+    it(`should be ok`, () => {
       const store = createStore(() => ({}), applyMiddleware(createLogger()));
-      store.dispatch({ type: 'foo' });
+
+      store.dispatch({ type: `foo` });
       sinon.assert.notCalled(console.error);
     });
   });

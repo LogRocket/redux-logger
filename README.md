@@ -28,7 +28,7 @@
 import { applyMiddleware, createStore } from 'redux';
 
 // Logger with default options
-import { logger } from 'redux-logger'
+import logger from 'redux-logger'
 const store = createStore(
   reducer,
   applyMiddleware(logger)
@@ -40,7 +40,7 @@ const store = createStore(
 Or you can create your own logger with custom [options](https://github.com/evgenyrodionov/redux-logger#options):
 ```javascript
 import { applyMiddleware, createStore } from 'redux';
-import createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 
 const logger = createLogger({
   // ...options
@@ -172,12 +172,14 @@ Filter states diff for certain cases.
 ## Recipes
 ### Log only in development
 ```javascript
-import thunk from 'redux-thunk';
-
-const middlewares = [thunk];
+const middlewares = [];
 
 if (process.env.NODE_ENV === `development`) {
-  const { logger } = require(`redux-logger`);
+  const { createLogger } = require(`redux-logger`);
+  const logger = createLogger({
+    // ...options
+  });
+
   middlewares.push(logger);
 }
 
