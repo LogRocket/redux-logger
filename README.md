@@ -175,10 +175,7 @@ Filter states diff for certain cases.
 const middlewares = [];
 
 if (process.env.NODE_ENV === `development`) {
-  const { createLogger } = require(`redux-logger`);
-  const logger = createLogger({
-    // ...options
-  });
+  const { logger } = require(`redux-logger`);
 
   middlewares.push(logger);
 }
