@@ -116,10 +116,6 @@ export function printBuffer(buffer, options) {
       diffLogger(prevState, nextState, logger, isCollapsed);
     }
 
-    try {
-      logger.groupEnd();
-    } catch (e) {
-      logger.log(`—— log end ——`);
-    }
+    logger.groupEnd();
   });
 }
