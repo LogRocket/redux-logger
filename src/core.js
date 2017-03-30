@@ -50,7 +50,7 @@ export function printBuffer(buffer, options) {
     diff,
   } = options;
 
-  const usingDefaultFormatter = typeof options.titleFormatter === `undefined`;
+  const isUsingDefaultFormatter = typeof options.titleFormatter === `undefined`;
 
   buffer.forEach((logEntry, key) => {
     const { started, startedTime, action, prevState, error } = logEntry;
@@ -77,10 +77,10 @@ export function printBuffer(buffer, options) {
     // Render
     try {
       if (isCollapsed) {
-        if (colors.title && usingDefaultFormatter) logger.groupCollapsed(`%c ${title}`, ...headerCSS);
+        if (colors.title && isUsingDefaultFormatter) logger.groupCollapsed(`%c ${title}`, ...headerCSS);
         else logger.groupCollapsed(title);
       } else {
-        if (colors.title && usingDefaultFormatter) logger.group(`%c ${title}`, ...headerCSS);
+        if (colors.title && isUsingDefaultFormatter) logger.group(`%c ${title}`, ...headerCSS);
         else logger.group(title);
       }
     } catch (e) {
