@@ -282,7 +282,7 @@ export default createLogger({
 
 ## To Do
 - [ ] Update example to [create-react-app](https://github.com/facebookincubator/create-react-app)
-- [ ] Update eslint config to [airbnb's](https://www.npmjs.com/package/eslint-config-airbnb)
+- [x] Update eslint config to [airbnb's](https://www.npmjs.com/package/eslint-config-airbnb)
 - [ ] Clean up code, because it's very messy, to be honest
 - [ ] Write tests
 - [ ] Node.js support
