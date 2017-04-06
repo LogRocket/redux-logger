@@ -1,4 +1,4 @@
-import { printBuffer } from './core';
+import printBuffer from './core';
 import { timer } from './helpers';
 import defaults from './defaults';
 /* eslint max-len: ["error", 110, { "ignoreComments": true }] */

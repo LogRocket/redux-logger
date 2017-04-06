@@ -124,8 +124,5 @@ function printBuffer(buffer, options) {
     }
   });
 }
-export {
-  printBuffer,
-};
 
 export default printBuffer;

@@ -1,11 +1,6 @@
 {
   "extends": "airbnb",
-  "globals": {
-    performance: true,
-    context: true,
-    describe: true,
-    it: true,
-    beforeEach: true,
-    afterEach: true
+  "env": {
+    "browser": true
   }
 }

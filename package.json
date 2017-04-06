@@ -52,7 +52,6 @@
   },
   "homepage": "https://github.com/theaqua/redux-logger#readme",
   "devDependencies": {
-    "@dtrussia/eslint-config-dtrussia": "2.2.1",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
