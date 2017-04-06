@@ -1,7 +1,7 @@
-import { printBuffer } from './core';
+import printBuffer from './core';
 import { timer } from './helpers';
 import defaults from './defaults';
-
+/* eslint max-len: ["error", 110, { "ignoreComments": true }] */
 /**
  * Creates logger with following options
  *
@@ -37,7 +37,7 @@ function createLogger(options = {}) {
   } = loggerOptions;
 
   // Return if 'console' object is not defined
-  if (typeof logger === `undefined`) {
+  if (typeof logger === 'undefined') {
     return () => next => action => next(action);
   }
 
@@ -67,9 +67,9 @@ const store = createStore(
 
   const logBuffer = [];
 
-  return ({ getState }) => (next) => (action) => {
+  return ({ getState }) => next => (action) => {
     // Exit early if predicate function returns 'false'
-    if (typeof predicate === `function` && !predicate(getState, action)) {
+    if (typeof predicate === 'function' && !predicate(getState, action)) {
       return next(action);
     }
 
@@ -96,7 +96,9 @@ const store = createStore(
     logEntry.took = timer.now() - logEntry.started;
     logEntry.nextState = stateTransformer(getState());
 
-    const diff = loggerOptions.diff && typeof diffPredicate === `function` ? diffPredicate(getState, action) : loggerOptions.diff;
+    const diff = loggerOptions.diff && typeof diffPredicate === 'function' ?
+      diffPredicate(getState, action) :
+      loggerOptions.diff;
 
     printBuffer(logBuffer, { ...loggerOptions, diff });
     logBuffer.length = 0;
@@ -106,12 +108,13 @@ const store = createStore(
   };
 }
 
+// eslint-disable-next-line consistent-return
 const defaultLogger = ({ dispatch, getState } = {}) => {
-  if (typeof dispatch === `function` || typeof getState === `function`) {
+  if (typeof dispatch === 'function' || typeof getState === 'function') {
     return createLogger()({ dispatch, getState });
-  } else {
+  }
     // eslint-disable-next-line no-console
-    console.error(`
+  console.error(`
 [redux-logger v3] BREAKING CHANGE
 [redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
 [redux-logger v3] Change
@@ -119,7 +122,6 @@ const defaultLogger = ({ dispatch, getState } = {}) => {
 [redux-logger v3] to
 [redux-logger v3] import { createLogger } from 'redux-logger'
 `);
-  }
 };
 
 export {
