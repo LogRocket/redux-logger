@@ -26,7 +26,10 @@ function getDiffPrefilter(diffOptions) {
   if (
     diffOptions
     && typeof diffOptions === 'object'
-    && typeof diffOptions.prefilter === 'function'
+    && (
+      typeof diffOptions.prefilter === 'function'
+      || typeof diffOptions.prefilter === 'object'
+    )
   ) {
     return diffOptions.prefilter;
   }
