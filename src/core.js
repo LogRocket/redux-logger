@@ -22,6 +22,18 @@ function getLogLevel(level, action, payload, type) {
   }
 }
 
+function getDiffPrefilter(diffOptions) {
+  if (
+    diffOptions
+    && typeof diffOptions === 'object'
+    && typeof diffOptions.prefilter === 'function'
+  ) {
+    return diffOptions.prefilter
+  };
+
+  return undefined;
+}
+
 function defaultTitleFormatter(options) {
   const {
     timestamp,
@@ -114,7 +126,8 @@ function printBuffer(buffer, options) {
     }
 
     if (diff) {
-      diffLogger(prevState, nextState, logger, isCollapsed);
+      const prefilter = getDiffPrefilter(diff);
+      diffLogger(prevState, nextState, logger, isCollapsed, prefilter);
     }
 
     try {
