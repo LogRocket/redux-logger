@@ -28,8 +28,8 @@ function getDiffPrefilter(diffOptions) {
     && typeof diffOptions === 'object'
     && typeof diffOptions.prefilter === 'function'
   ) {
-    return diffOptions.prefilter
-  };
+    return diffOptions.prefilter;
+  }
 
   return undefined;
 }
