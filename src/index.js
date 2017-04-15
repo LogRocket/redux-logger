@@ -22,19 +22,19 @@ import defaults from './defaults';
  * @returns {function} logger middleware
  */
 function directlyApplied(options) {
-  return options.getState && options.dispatch;
+  return !!(options.getState && options.dispatch);
 }
 
 function noLogger(options) {
-  return typeof options.logger === 'undefined';
+  return !options.logger;
 }
 
 function shouldNotLog({ predicate }, getState, action) {
-  return typeof predicate === 'function' && !predicate(getState, action);
+  return !!(typeof predicate === 'function' && !predicate(getState, action));
 }
 
 function shouldDiff({ diff, diffPredicate }, getState, action) {
-  return diff && typeof diffPredicate === 'function' && diffPredicate(getState, action);
+  return !!(diff && typeof diffPredicate === 'function' && diffPredicate(getState, action));
 }
 
 function emptyLogger() {
