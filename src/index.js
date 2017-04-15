@@ -69,10 +69,10 @@ function createLogger(options = {}) {
     return emptyLogger();
   }
 
-  // Return if 'console' object is not defined
-  if (noLogger(options)) return emptyLogger();
-
   const loggerOptions = Object.assign({}, defaults, options):
+
+  // Return if 'console' object is not defined
+  if (noLogger(loggerOptions)) return emptyLogger();
 
   return ({ getState }) => next => (action) => {
     // Exit early if predicate function returns 'false'
