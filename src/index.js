@@ -69,14 +69,14 @@ function createLogger(options = {}) {
     return emptyLogger();
   }
 
-  const loggerOptions = Object.assign({}, defaults, options):
+  const loggerOptions = Object.assign({}, defaults, options);
 
   // Return if 'console' object is not defined
   if (noLogger(loggerOptions)) return emptyLogger();
 
   return ({ getState }) => next => (action) => {
     // Exit early if predicate function returns 'false'
-    if (shouldNotLog(getState, action)) return next(action);
+    if (shouldNotLog(options, getState, action)) return next(action);
 
     const started = timer.now();
     const startedTime = new Date();

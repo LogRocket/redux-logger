@@ -22,27 +22,54 @@ context('default logger', () => {
 });
 
 context('createLogger', () => {
-  describe('init', () => {
+  beforeEach(() => {
+    sinon.spy(console, 'error');
+    sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    console.error.restore();
+    console.log.restore();
+  });
+
+  let store;
+
+  context('mistakenly passed directly to applyMiddleware', () => {
     beforeEach(() => {
-      sinon.spy(console, 'error');
+      store = createStore(() => ({}), applyMiddleware(createLogger));
     });
 
-    afterEach(() => {
-      console.error.restore();
-    });
-
-    it('should throw error if passed direct to applyMiddleware', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger));
-
-      store.dispatch({ type: 'foo' });
+    it('should log error', () => {
       sinon.assert.calledOnce(console.error);
     });
 
-    it('should be ok', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger()));
-
+    it('should create an empty middleware', () => {
       store.dispatch({ type: 'foo' });
-      sinon.assert.notCalled(console.error);
+      sinon.assert.notCalled(console.log);
+    });
+  });
+
+  context('options.logger undefined or null', () => {
+    beforeEach(() => {
+      const logger = createLogger({ logger: null });
+      store = createStore(() => ({}), applyMiddleware(logger));  
+    }); 
+
+    it('should create an empty middleware', () => {
+      store.dispatch({ type: 'foo' });
+      sinon.assert.notCalled(console.log);
+    });
+  });
+
+  context('options.predicate returns false', () => {
+    beforeEach(() => {
+      const logger = createLogger({ predicate: () => false });
+      store = createStore(() => ({}), applyMiddleware(logger));  
+    }); 
+
+    it('should not log', () => {
+      store.dispatch({ type: 'foo' });
+      sinon.assert.notCalled(console.log);
     });
   });
 });
