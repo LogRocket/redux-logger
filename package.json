@@ -39,7 +39,7 @@
       "example",
       "lib",
       "dist",
-      "webpack.*.js"
+      "rollup.config.js"
     ]
   },
   "files": [
@@ -84,7 +84,6 @@
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-legacy": "^1.0.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "sinon": "^1.17.7",
     "uglifyjs": "^2.4.10"
