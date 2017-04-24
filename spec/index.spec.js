@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { applyMiddleware, createStore } from 'redux';
 
-import { repeat } from 'helpers';
+import { repeat } from '../src/helpers';
 import logger, { createLogger } from '../src';
 
 context(`Helpers`, () => {
