@@ -2,7 +2,7 @@
   "name": "redux-logger",
   "version": "3.0.1",
   "description": "Logger for Redux",
-  "main": "dist/index.cjs.js",
+  "main": "dist/redux-logger.js",
   "module": "src/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
@@ -14,11 +14,9 @@
     "coverage:html": "nyc report --reporter=html && http-server -p 8077 ./coverage -o",
     "coverage:production": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "clean": "rimraf dist",
-    "build": "npm run rollup && npm run uglify",
+    "build": "rollup -c",
     "precommit": "npm test",
-    "prepublish": "npm run clean && npm test && npm run build",
-    "uglify": "uglifyjs dist/index.umd.js -cm -o dist/index.umd.min.js",
-    "rollup": "node rollup.config.js"
+    "prepublish": "npm run clean && npm test && npm run build"
   },
   "babel": {
     "presets": [
@@ -85,8 +83,8 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "sinon": "^1.17.7",
-    "uglifyjs": "^2.4.10"
+    "rollup-plugin-uglify": "^1.0.2",
+    "sinon": "^1.17.7"
   },
   "dependencies": {
     "deep-diff": "^0.3.5"

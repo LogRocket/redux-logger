@@ -1,10 +1,14 @@
-const rollup = require('rollup').rollup;
-const babel = require('rollup-plugin-babel');
-const commonjs = require('rollup-plugin-commonjs');
-const nodeResolve = require('rollup-plugin-node-resolve');
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import uglify from 'rollup-plugin-uglify';
 
-const defaultOptions = {
+export default {
   entry: 'src/index.js',
+  format: 'umd',
+  exports: 'named',
+  moduleName: 'reduxLogger',
+  dest: 'dist/redux-logger.js',
   plugins: [
     babel({
       babelrc: false,
@@ -12,7 +16,7 @@ const defaultOptions = {
         ['es2015', {
           modules: false,
         }],
-        'stage-0',
+        'stage-0'
       ],
       plugins: [
         'external-helpers'
@@ -26,30 +30,6 @@ const defaultOptions = {
       main: true,
       browser: true,
     }),
-  ],
+    uglify()
+  ]
 };
-
-const commonjsOptions = Object.assign(
-  {},
-  defaultOptions,
-  { external: 'deep-diff' }
-);
-
-rollup(defaultOptions)
-  .then((bundle) => {
-    bundle.write({
-      format: 'umd',
-      exports: 'named',
-      moduleName: 'reduxLogger',
-      dest: 'dist/index.umd.js',
-    });
-  });
-
-rollup(commonjsOptions)
-  .then((bundle) => {
-    bundle.write({
-      format: 'cjs',
-      exports: 'named',
-      dest: 'dist/index.cjs.js',
-    });
-  });
