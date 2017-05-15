@@ -240,7 +240,7 @@ const logger = createLogger({
 ### Log batched actions
 Thanks to [@smashercosmo](https://github.com/smashercosmo)
 ```javascript
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 
 const actionTransformer = action => {
   if (action.type === 'BATCHING_REDUCER.BATCH') {
