@@ -20,11 +20,11 @@ const dictionary = {
   },
 };
 
-function style(kind) {
+export function style(kind) {
   return `color: ${dictionary[kind].color}; font-weight: bold`;
 }
 
-function render(diff) {
+export function render(diff) {
   const { kind, path, lhs, rhs, index, item } = diff;
 
   switch (kind) {

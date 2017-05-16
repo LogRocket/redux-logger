@@ -26,8 +26,12 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "rules": {
+      "no-console": "off"
+    },
     "env": {
-      "browser": true
+      "browser": true,
+      "mocha": true
     }
   },
   "nyc": {
@@ -37,6 +41,7 @@
       "example",
       "lib",
       "dist",
+      "coverage",
       "rollup.config.js"
     ]
   },
