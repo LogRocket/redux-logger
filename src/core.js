@@ -76,7 +76,9 @@ function printBuffer(buffer, options) {
     // Render
     try {
       if (isCollapsed) {
-        if (colors.title && isUsingDefaultFormatter) { logger.groupCollapsed(`%c ${title}`, ...headerCSS); } else logger.groupCollapsed(title);
+        if (colors.title && isUsingDefaultFormatter) {
+          logger.groupCollapsed(`%c ${title}`, ...headerCSS);
+        } else logger.groupCollapsed(title);
       } else if (colors.title && isUsingDefaultFormatter) {
         logger.group(`%c ${title}`, ...headerCSS);
       } else {
@@ -93,41 +95,33 @@ function printBuffer(buffer, options) {
 
     if (prevStateLevel) {
       if (colors.prevState) {
-        logger[prevStateLevel](
-          '%c prev state',
-          `color: ${colors.prevState(prevState)}; font-weight: bold`,
-          prevState,
-        );
+        const styles = `color: ${colors.prevState(prevState)}; font-weight: bold`;
+
+        logger[prevStateLevel]('%c prev state', styles, prevState);
       } else logger[prevStateLevel]('prev state', prevState);
     }
 
     if (actionLevel) {
       if (colors.action) {
-        logger[actionLevel](
-          '%c action    ',
-          `color: ${colors.action(formattedAction)}; font-weight: bold`,
-          formattedAction,
-        );
+        const styles = `color: ${colors.action(formattedAction)}; font-weight: bold`;
+
+        logger[actionLevel]('%c action    ', styles, formattedAction);
       } else logger[actionLevel]('action    ', formattedAction);
     }
 
     if (error && errorLevel) {
       if (colors.error) {
-        logger[errorLevel](
-          '%c error     ',
-          `color: ${colors.error(error, prevState)}; font-weight: bold;`,
-          error,
-        );
+        const styles = `color: ${colors.error(error, prevState)}; font-weight: bold;`;
+
+        logger[errorLevel]('%c error     ', styles, error);
       } else logger[errorLevel]('error     ', error);
     }
 
     if (nextStateLevel) {
       if (colors.nextState) {
-        logger[nextStateLevel](
-          '%c next state',
-          `color: ${colors.nextState(nextState)}; font-weight: bold`,
-          nextState,
-        );
+        const styles = `color: ${colors.nextState(nextState)}; font-weight: bold`;
+
+        logger[nextStateLevel]('%c next state', styles, nextState);
       } else logger[nextStateLevel]('next state', nextState);
     }
 
