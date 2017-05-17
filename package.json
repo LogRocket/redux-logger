@@ -3,8 +3,6 @@
   "version": "3.0.4",
   "description": "Logger for Redux",
   "main": "dist/redux-logger.js",
-  "module": "src/index.js",
-  "jsnext:main": "src/index.js",
   "scripts": {
     "lint": "eslint src",
     "test": "npm run lint && npm run spec",
