@@ -22,10 +22,7 @@ import defaults from './defaults';
  * @returns {function} logger middleware
  */
 function createLogger(options = {}) {
-  const loggerOptions = {
-    ...defaults,
-    ...options,
-  };
+  const loggerOptions = Object.assign({}, defaults, options);
 
   const {
     logger,
@@ -96,11 +93,11 @@ const store = createStore(
     logEntry.took = timer.now() - logEntry.started;
     logEntry.nextState = stateTransformer(getState());
 
-    const diff = loggerOptions.diff && typeof diffPredicate === 'function' ?
-      diffPredicate(getState, action) :
-      loggerOptions.diff;
+    const diff = loggerOptions.diff && typeof diffPredicate === 'function'
+      ? diffPredicate(getState, action)
+      : loggerOptions.diff;
 
-    printBuffer(logBuffer, { ...loggerOptions, diff });
+    printBuffer(logBuffer, Object.assign({}, loggerOptions, { diff }));
     logBuffer.length = 0;
 
     if (logEntry.error) throw logEntry.error;
@@ -113,7 +110,7 @@ const defaultLogger = ({ dispatch, getState } = {}) => {
   if (typeof dispatch === 'function' || typeof getState === 'function') {
     return createLogger()({ dispatch, getState });
   }
-    // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.error(`
 [redux-logger v3] BREAKING CHANGE
 [redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
@@ -124,10 +121,6 @@ const defaultLogger = ({ dispatch, getState } = {}) => {
 `);
 };
 
-export {
-  defaults,
-  createLogger,
-  defaultLogger as logger,
-};
+export { defaults, createLogger, defaultLogger as logger };
 
 export default defaultLogger;
