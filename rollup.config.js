@@ -13,14 +13,14 @@ export default {
     babel({
       babelrc: false,
       presets: [
-        ['es2015', {
-          modules: false,
-        }],
-        'stage-0'
+        [
+          'es2015',
+          {
+            modules: false,
+          },
+        ],
       ],
-      plugins: [
-        'external-helpers'
-      ],
+      plugins: ['external-helpers'],
     }),
     commonjs({
       include: 'node_modules/**',
@@ -30,6 +30,6 @@ export default {
       main: true,
       browser: true,
     }),
-    uglify()
-  ]
+    uglify(),
+  ],
 };
