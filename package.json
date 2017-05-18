@@ -3,6 +3,8 @@
   "version": "3.0.6",
   "description": "Logger for Redux",
   "main": "dist/redux-logger.js",
+  "module": "dist/redux-logger.es.js",
+  "jsnext:main": "dist/redux-logger.es.js",
   "scripts": {
     "lint": "eslint src",
     "test": "npm run lint && npm run spec",
@@ -12,7 +14,8 @@
     "coverage:html": "nyc report --reporter=html && http-server -p 8077 ./coverage -o",
     "coverage:production": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "clean": "rimraf dist",
-    "build": "rollup -c",
+    "uglify": "uglifyjs dist/redux-logger.js -cm -o dist/redux-logger.js",
+    "build": "rollup -c && npm run uglify",
     "precommit": "npm test",
     "prepublish": "npm run clean && npm test && npm run build"
   },
@@ -38,8 +41,7 @@
     ]
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -79,8 +81,8 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^1.0.2",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "uglify-js": "^3.0.8"
   },
   "dependencies": {
     "deep-diff": "^0.3.5"
