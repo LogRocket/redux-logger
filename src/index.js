@@ -25,8 +25,8 @@ function directlyApplied(options) {
   return !!(options.getState && options.dispatch);
 }
 
-function noLogger(options) {
-  return !options.logger;
+function hasLogger(options) {
+  return options.logger;
 }
 
 function shouldNotLog({ predicate }, getState, action) {
@@ -72,7 +72,7 @@ function createLogger(options = {}) {
   const loggerOptions = Object.assign({}, defaults, options);
 
   // Return if 'console' object is not defined
-  if (noLogger(loggerOptions)) return emptyLogger();
+  if (!hasLogger(loggerOptions)) return emptyLogger();
 
   return ({ getState }) => next => (action) => {
     // Exit early if predicate function returns 'false'
