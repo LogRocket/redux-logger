@@ -49,7 +49,7 @@ const store = createStore(
   applyMiddleware(logger)
 )
 // Or you can create your own logger with custom options http://bit.ly/redux-logger-options
-import createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 const logger = createLogger({
   // ...options
 });
