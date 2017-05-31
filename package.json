@@ -83,6 +83,7 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
-    "deep-diff": "^0.3.5"
+    "deep-diff": "^0.3.5",
+    "object.assign": "^4.0.4"
   }
 }
