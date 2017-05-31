@@ -1,5 +1,5 @@
 import printBuffer from './core';
-import { timer } from './helpers';
+import { timer, merge } from './helpers';
 import defaults from './defaults';
 /* eslint max-len: ["error", 110, { "ignoreComments": true }] */
 /**
@@ -22,7 +22,7 @@ import defaults from './defaults';
  * @returns {function} logger middleware
  */
 function createLogger(options = {}) {
-  const loggerOptions = Object.assign({}, defaults, options);
+  const loggerOptions = merge(defaults, options);
 
   const {
     logger,
@@ -97,7 +97,7 @@ const store = createStore(
       ? diffPredicate(getState, action)
       : loggerOptions.diff;
 
-    printBuffer(logBuffer, Object.assign({}, loggerOptions, { diff }));
+    printBuffer(logBuffer, merge(loggerOptions, { diff }));
     logBuffer.length = 0;
 
     if (logEntry.error) throw logEntry.error;

@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { style, render, default as diffLogger } from '../src/diff';
+import { merge } from '../src/helpers';
 
 context('Diff', () => {
   describe('style', () => {
@@ -90,7 +91,7 @@ context('Diff', () => {
     });
 
     it('should log no diff without group', () => {
-      const loggerWithNoGroupCollapsed = Object.assign({}, logger, {
+      const loggerWithNoGroupCollapsed = merge(logger, {
         groupCollapsed: () => {
           throw new Error()
         },
