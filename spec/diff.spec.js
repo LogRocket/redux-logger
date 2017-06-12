@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import differ from 'deep-diff';
+import deepDiff from 'deep-diff';
 import { style, render, default as diffLogger } from '../src/diff';
 
 context('Diff', () => {
@@ -117,7 +117,7 @@ context('Diff', () => {
       const callback = sinon.spy();
       const customDiffer = (prevState, newState) => {
         callback();
-        return differ(prevState, newState);
+        return deepDiff(prevState, newState);
       };
       diffLogger({name: 'kirk'}, {name: 'picard'}, logger, false, customDiffer);
 
