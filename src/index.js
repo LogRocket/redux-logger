@@ -1,6 +1,14 @@
 import printBuffer from './core';
 import defaults from './defaults';
-import { timer } from './helpers';
+import {
+  directlyApplied,
+  emptyLogger,
+  emptyLoggerWarning,
+  hasLogger,
+  shouldDiff,
+  shouldNotLog,
+  timer,
+} from './helpers';
 
 /* eslint max-len: ["error", 110, { "ignoreComments": true }] */
 /**
@@ -23,79 +31,55 @@ import { timer } from './helpers';
  * @returns {function} logger middleware
  */
 function createLogger(options = {}) {
-  const loggerOptions = Object.assign({}, defaults, options);
-  const {
-    logger,
-    stateTransformer,
-    errorTransformer,
-    predicate,
-    logErrors,
-    diffPredicate,
-  } = loggerOptions;
-  const { getState: getStateOption, dispatch } = options;
-  // Return if 'console' object is not defined
-  if (typeof logger === 'undefined') {
-    return () => next => action => next(action);
-  }
-
   // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
-  if (getStateOption && dispatch) {
-    // eslint-disable-next-line no-console
-    console.error(`[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:
-      // Logger with default options
-      import { logger } from 'redux-logger'
-      const store = createStore(
-        reducer,
-        applyMiddleware(logger)
-      )
-      // Or you can create your own logger with custom options http://bit.ly/redux-logger-options
-      import { createLogger } from 'redux-logger'
-      const logger = createLogger({
-        // ...options
-      });
-      const store = createStore(
-        reducer,
-        applyMiddleware(logger)
-      )
-    `);
-    return () => next => action => next(action);
+  if (directlyApplied(options)) {
+    emptyLoggerWarning();
+    return emptyLogger();
   }
 
-  const logBuffer = [];
+  const loggerOptions = Object.assign({}, defaults, options);
+
+  // Return if 'console' object is not defined
+  if (!hasLogger(loggerOptions)) return emptyLogger();
 
   return ({ getState }) => next => (action) => {
     // Exit early if predicate function returns 'false'
-    if (typeof predicate === 'function' && !predicate(getState, action)) {
-      return next(action);
-    }
+    if (shouldNotLog(options, getState, action)) return next(action);
 
-    const logEntry = {};
-    logBuffer.push(logEntry);
-    logEntry.started = timer.now();
-    logEntry.startedTime = new Date();
-    logEntry.prevState = stateTransformer(getState());
-    logEntry.action = action;
+    const started = timer.now();
+    const startedTime = new Date();
+    const prevState = loggerOptions.stateTransformer(getState());
     let returnedValue;
-    if (logErrors) {
-      try {
-        returnedValue = next(action);
-      } catch (e) {
-        logEntry.error = errorTransformer(e);
-      }
-    } else {
+    let error;
+
+    try {
       returnedValue = next(action);
+    } catch (e) {
+      if (loggerOptions.logErrors) {
+        error = loggerOptions.errorTransformer(e);
+      } else {
+        throw e;
+      }
     }
-    logEntry.took = timer.now() - logEntry.started;
-    logEntry.nextState = stateTransformer(getState());
 
-    const diff = loggerOptions.diff && typeof diffPredicate === 'function'
-      ? diffPredicate(getState, action)
-      : loggerOptions.diff;
+    const took = timer.now() - started;
+    const nextState = loggerOptions.stateTransformer(getState());
 
-    printBuffer(logBuffer, Object.assign({}, loggerOptions, { diff }));
-    logBuffer.length = 0;
+    loggerOptions.diff = shouldDiff(loggerOptions, getState, action);
 
-    if (logEntry.error) throw logEntry.error;
+    printBuffer(
+      [{
+        started,
+        startedTime,
+        prevState,
+        action,
+        error,
+        took,
+        nextState,
+      }],
+      loggerOptions);
+
+    if (error) throw error;
     return returnedValue;
   };
 }
