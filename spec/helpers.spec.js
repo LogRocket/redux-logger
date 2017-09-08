@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { repeat, pad, formatTime } from '../src/helpers';
+import { formatTime, pad, repeat } from '../src/helpers';
 
 context('Helpers', () => {
   describe('repeat', () => {

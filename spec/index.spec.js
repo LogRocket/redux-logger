@@ -1,6 +1,6 @@
-import sinon from 'sinon';
 import { applyMiddleware, createStore } from 'redux';
-import { default as logger, createLogger } from '../src';
+import sinon from 'sinon';
+import { createLogger, logger } from '../src';
 
 context('default logger', () => {
   describe('init', () => {

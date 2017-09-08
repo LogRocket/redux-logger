@@ -1,5 +1,5 @@
-import { formatTime } from './helpers';
 import diffLogger from './diff';
+import { formatTime } from './helpers';
 
 /**
  * Get log level string based on supplied params
@@ -11,7 +11,7 @@ import diffLogger from './diff';
  *
  * @returns {string} level
  */
-function getLogLevel(level, action, payload, type) {
+const getLogLevel = (level, action, payload, type) => {
   switch (typeof level) {
     case 'object':
       return typeof level[type] === 'function' ? level[type](...payload) : level[type];
@@ -20,45 +20,49 @@ function getLogLevel(level, action, payload, type) {
     default:
       return level;
   }
-}
+};
+/**
+ * Title Formatter Function
+ * returns a formatter function that takes in action ,time and took
+ * @param timestamp
+ * @param duration
+ * @returns {func} Takes in params action,time,took
+ */
+const defaultTitleFormatter = ({ timestamp, duration }) => (action, time, took) => {
+  const parts = ['action'];
+  parts.push(`%c${String(action.type)}`);
+  if (timestamp) parts.push(`%c@ ${time}`);
+  if (duration) parts.push(`%c(in ${took.toFixed(2)} ms)`);
+  return parts.join(' ');
+};
 
-function defaultTitleFormatter(options) {
-  const { timestamp, duration } = options;
-
-  return (action, time, took) => {
-    const parts = ['action'];
-
-    parts.push(`%c${String(action.type)}`);
-    if (timestamp) parts.push(`%c@ ${time}`);
-    if (duration) parts.push(`%c(in ${took.toFixed(2)} ms)`);
-
-    return parts.join(' ');
-  };
-}
-
-function printBuffer(buffer, options) {
-  const {
-    logger,
-    actionTransformer,
-    titleFormatter = defaultTitleFormatter(options),
-    collapsed,
-    colors,
-    level,
-    diff,
-  } = options;
-
-  const isUsingDefaultFormatter = typeof options.titleFormatter === 'undefined';
+/**
+ *
+ * @param {array} buffer
+ * @param logger
+ * @param actionTransformer
+ * @param timestamp
+ * @param duration
+ * @param collapsed
+ * @param colors
+ * @param level
+ * @param diff
+ */
+export default (buffer, {
+  logger, actionTransformer,
+  timestamp, duration, collapsed, colors, level, diff,
+}) => {
+  const titleFormatter = defaultTitleFormatter({ timestamp, duration });
+  const isUsingDefaultFormatter = typeof titleFormatter === 'undefined';
 
   buffer.forEach((logEntry, key) => {
     const { started, startedTime, action, prevState, error } = logEntry;
     let { took, nextState } = logEntry;
     const nextEntry = buffer[key + 1];
-
     if (nextEntry) {
       nextState = nextEntry.prevState;
       took = nextEntry.started - started;
     }
-
     // Message
     const formattedAction = actionTransformer(action);
     const isCollapsed = typeof collapsed === 'function'
@@ -69,8 +73,8 @@ function printBuffer(buffer, options) {
     const titleCSS = colors.title ? `color: ${colors.title(formattedAction)};` : '';
     const headerCSS = ['color: gray; font-weight: lighter;'];
     headerCSS.push(titleCSS);
-    if (options.timestamp) headerCSS.push('color: gray; font-weight: lighter;');
-    if (options.duration) headerCSS.push('color: gray; font-weight: lighter;');
+    if (timestamp) headerCSS.push('color: gray; font-weight: lighter;');
+    if (duration) headerCSS.push('color: gray; font-weight: lighter;');
     const title = titleFormatter(formattedAction, formattedTime, took);
 
     // Render
@@ -96,7 +100,6 @@ function printBuffer(buffer, options) {
     if (prevStateLevel) {
       if (colors.prevState) {
         const styles = `color: ${colors.prevState(prevState)}; font-weight: bold`;
-
         logger[prevStateLevel]('%c prev state', styles, prevState);
       } else logger[prevStateLevel]('prev state', prevState);
     }
@@ -126,7 +129,7 @@ function printBuffer(buffer, options) {
     }
 
     if (logger.withTrace) {
-      logger.groupCollapsed(`TRACE`);
+      logger.groupCollapsed('TRACE');
       logger.trace();
       logger.groupEnd();
     }
@@ -141,6 +144,4 @@ function printBuffer(buffer, options) {
       logger.log('—— log end ——');
     }
   });
-}
-
-export default printBuffer;
+};

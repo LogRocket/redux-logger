@@ -18,7 +18,6 @@ export default {
   },
   diff: false,
   diffPredicate: undefined,
-
   // Deprecated options
   transformer: undefined,
 };

@@ -6,6 +6,6 @@ export const formatTime = time => `${pad(time.getHours(), 2)}:${pad(time.getMinu
 
 // Use performance API if it's available in order to get better precision
 export const timer =
-(typeof performance !== 'undefined' && performance !== null) && typeof performance.now === 'function' ?
-  performance :
-  Date;
+  (typeof performance !== 'undefined' && performance !== null) && typeof performance.now === 'function' ?
+    performance :
+    Date;

@@ -1,6 +1,7 @@
 import printBuffer from './core';
-import { timer } from './helpers';
 import defaults from './defaults';
+import { timer } from './helpers';
+
 /* eslint max-len: ["error", 110, { "ignoreComments": true }] */
 /**
  * Creates logger with following options
@@ -23,7 +24,6 @@ import defaults from './defaults';
  */
 function createLogger(options = {}) {
   const loggerOptions = Object.assign({}, defaults, options);
-
   const {
     logger,
     stateTransformer,
@@ -32,33 +32,32 @@ function createLogger(options = {}) {
     logErrors,
     diffPredicate,
   } = loggerOptions;
-
+  const { getState: getStateOption, dispatch } = options;
   // Return if 'console' object is not defined
   if (typeof logger === 'undefined') {
     return () => next => action => next(action);
   }
 
   // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
-  if (options.getState && options.dispatch) {
+  if (getStateOption && dispatch) {
     // eslint-disable-next-line no-console
     console.error(`[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:
-// Logger with default options
-import { logger } from 'redux-logger'
-const store = createStore(
-  reducer,
-  applyMiddleware(logger)
-)
-// Or you can create your own logger with custom options http://bit.ly/redux-logger-options
-import { createLogger } from 'redux-logger'
-const logger = createLogger({
-  // ...options
-});
-const store = createStore(
-  reducer,
-  applyMiddleware(logger)
-)
-`);
-
+      // Logger with default options
+      import { logger } from 'redux-logger'
+      const store = createStore(
+        reducer,
+        applyMiddleware(logger)
+      )
+      // Or you can create your own logger with custom options http://bit.ly/redux-logger-options
+      import { createLogger } from 'redux-logger'
+      const logger = createLogger({
+        // ...options
+      });
+      const store = createStore(
+        reducer,
+        applyMiddleware(logger)
+      )
+    `);
     return () => next => action => next(action);
   }
 
@@ -71,14 +70,11 @@ const store = createStore(
     }
 
     const logEntry = {};
-
     logBuffer.push(logEntry);
-
     logEntry.started = timer.now();
     logEntry.startedTime = new Date();
     logEntry.prevState = stateTransformer(getState());
     logEntry.action = action;
-
     let returnedValue;
     if (logErrors) {
       try {
@@ -89,7 +85,6 @@ const store = createStore(
     } else {
       returnedValue = next(action);
     }
-
     logEntry.took = timer.now() - logEntry.started;
     logEntry.nextState = stateTransformer(getState());
 
@@ -112,15 +107,15 @@ const defaultLogger = ({ dispatch, getState } = {}) => {
   }
   // eslint-disable-next-line no-console
   console.error(`
-[redux-logger v3] BREAKING CHANGE
-[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
-[redux-logger v3] Change
-[redux-logger v3] import createLogger from 'redux-logger'
-[redux-logger v3] to
-[redux-logger v3] import { createLogger } from 'redux-logger'
-`);
+    [redux-logger v3] BREAKING CHANGE
+    [redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
+    [redux-logger v3] Change
+    [redux-logger v3] import createLogger from 'redux-logger'
+    [redux-logger v3] to
+    [redux-logger v3] import { createLogger } from 'redux-logger'
+  `);
 };
 
-export { defaults, createLogger, defaultLogger as logger };
+export { createLogger, defaultLogger as logger };
 
 export default defaultLogger;

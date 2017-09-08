@@ -20,13 +20,9 @@ const dictionary = {
   },
 };
 
-export function style(kind) {
-  return `color: ${dictionary[kind].color}; font-weight: bold`;
-}
+export const style = kind => `color: ${dictionary[kind].color}; font-weight: bold`;
 
-export function render(diff) {
-  const { kind, path, lhs, rhs, index, item } = diff;
-
+export const render = ({ kind, path, lhs, rhs, index, item }) => {
   switch (kind) {
     case 'E':
       return [path.join('.'), lhs, '→', rhs];
@@ -39,11 +35,10 @@ export function render(diff) {
     default:
       return [];
   }
-}
+};
 
-export default function diffLogger(prevState, newState, logger, isCollapsed) {
+export default (prevState, newState, logger, isCollapsed) => {
   const diff = differ(prevState, newState);
-
   try {
     if (isCollapsed) {
       logger.groupCollapsed('diff');
@@ -58,7 +53,6 @@ export default function diffLogger(prevState, newState, logger, isCollapsed) {
     diff.forEach((elem) => {
       const { kind } = elem;
       const output = render(elem);
-
       logger.log(`%c ${dictionary[kind].text}`, style(kind), ...output);
     });
   } else {
@@ -70,4 +64,4 @@ export default function diffLogger(prevState, newState, logger, isCollapsed) {
   } catch (e) {
     logger.log('—— diff end —— ');
   }
-}
+};

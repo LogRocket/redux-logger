@@ -19,7 +19,7 @@
   "eslintConfig": {
     "extends": "airbnb",
     "rules": {
-      "no-console": "off"
+      "no-console": 0
     },
     "env": {
       "browser": true,

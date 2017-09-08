@@ -1,6 +1,6 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
-import { style, render, default as diffLogger } from '../src/diff';
+import sinon from 'sinon';
+import diffLogger, { render, style } from '../src/diff';
 
 context('Diff', () => {
   describe('style', () => {
@@ -16,10 +16,10 @@ context('Diff', () => {
     it('should return an array indicating the changes', () => {
       expect(render({
         kind: 'E',
-        path: ['capitain', 'name'],
+        path: ['captain', 'name'],
         lhs: 'kirk',
         rhs: 'picard',
-      })).to.eql(['capitain.name', 'kirk', '→', 'picard']);
+      })).to.eql(['captain.name', 'kirk', '→', 'picard']);
     });
 
     it('should return an array indicating an added property/element', () => {
@@ -58,7 +58,7 @@ context('Diff', () => {
   });
 
   describe('diffLogger', () => {
-    let logger
+    let logger;
 
     beforeEach(() => {
       logger = {
@@ -92,10 +92,10 @@ context('Diff', () => {
     it('should log no diff without group', () => {
       const loggerWithNoGroupCollapsed = Object.assign({}, logger, {
         groupCollapsed: () => {
-          throw new Error()
+          throw new Error();
         },
         groupEnd: () => {
-          throw new Error()
+          throw new Error();
         },
       });
 
@@ -107,7 +107,7 @@ context('Diff', () => {
     });
 
     it('should log the diffs', () => {
-      diffLogger({name: 'kirk'}, {name: 'picard'}, logger, false);
+      diffLogger({ name: 'kirk' }, { name: 'picard' }, logger, false);
 
       expect(logger.log.calledWithExactly('%c CHANGED:', 'color: #2196F3; font-weight: bold', 'name', 'kirk', '→', 'picard')).to.be.true;
     });
