@@ -126,7 +126,7 @@ function printBuffer(buffer, options) {
     }
 
     if (logger.withTrace) {
-      logger.groupCollapsed(`TRACE`);
+      logger.groupCollapsed('TRACE');
       logger.trace();
       logger.groupEnd();
     }
