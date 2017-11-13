@@ -36,6 +36,10 @@ function defaultTitleFormatter(options) {
   };
 }
 
+function getTitle(title) {
+  return Object.prototype.toString.call(title) === '[object Array]' ? title : [title];
+}
+
 function printBuffer(buffer, options) {
   const {
     logger,
@@ -78,11 +82,11 @@ function printBuffer(buffer, options) {
       if (isCollapsed) {
         if (colors.title && isUsingDefaultFormatter) {
           logger.groupCollapsed(`%c ${title}`, ...headerCSS);
-        } else logger.groupCollapsed(title);
+        } else logger.groupCollapsed(...getTitle(title));
       } else if (colors.title && isUsingDefaultFormatter) {
         logger.group(`%c ${title}`, ...headerCSS);
       } else {
-        logger.group(title);
+        logger.group(...getTitle(title));
       }
     } catch (e) {
       logger.log(title);
