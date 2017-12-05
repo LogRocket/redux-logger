@@ -1,6 +1,6 @@
 import sinon from 'sinon';
-import { applyMiddleware, createStore } from 'redux';
-import { default as logger, createLogger } from '../src';
+import { createStore } from 'redux';
+import logger, { createLogger } from '../src';
 
 context('default logger', () => {
   describe('init', () => {
@@ -13,7 +13,8 @@ context('default logger', () => {
     });
 
     it('should be ok', () => {
-      const store = createStore(() => ({}), applyMiddleware(logger));
+      const mainReducer = () => ({});
+      const store = createStore(logger(mainReducer));
 
       store.dispatch({ type: 'foo' });
       sinon.assert.notCalled(console.error);
@@ -31,15 +32,9 @@ context('createLogger', () => {
       console.error.restore();
     });
 
-    it('should throw error if passed direct to applyMiddleware', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger));
-
-      store.dispatch({ type: 'foo' });
-      sinon.assert.calledOnce(console.error);
-    });
-
     it('should be ok', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger()));
+      const mainReducer = () => ({});
+      const store = createStore(createLogger()(mainReducer));
 
       store.dispatch({ type: 'foo' });
       sinon.assert.notCalled(console.error);

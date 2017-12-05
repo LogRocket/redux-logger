@@ -29,8 +29,7 @@ function createLogger(options = {}) {
     stateTransformer,
     errorTransformer,
     predicate,
-    logErrors,
-    diffPredicate,
+    diffPredicate, // TODO: where description?
   } = loggerOptions;
 
   // Return if 'console' object is not defined
@@ -59,15 +58,15 @@ const store = createStore(
 )
 `);
 
-    return () => next => action => next(action);
+    return mainReducer => (state, action) => mainReducer(state, action);
   }
 
   const logBuffer = [];
 
-  return ({ getState }) => next => (action) => {
+  return mainReducer => (state, action) => {
     // Exit early if predicate function returns 'false'
-    if (typeof predicate === 'function' && !predicate(getState, action)) {
-      return next(action);
+    if (typeof predicate === 'function' && !predicate(state, action)) {
+      return mainReducer(state, action);
     }
 
     const logEntry = {};
@@ -76,50 +75,32 @@ const store = createStore(
 
     logEntry.started = timer.now();
     logEntry.startedTime = new Date();
-    logEntry.prevState = stateTransformer(getState());
+    logEntry.prevState = stateTransformer(state);
     logEntry.action = action;
 
-    let returnedValue;
-    if (logErrors) {
-      try {
-        returnedValue = next(action);
-      } catch (e) {
-        logEntry.error = errorTransformer(e);
-      }
-    } else {
-      returnedValue = next(action);
+    // TODO: make logErrors always true?
+    try {
+      logEntry.nextState = mainReducer(state, action);
+    } catch (e) {
+      logEntry.error = errorTransformer(e);
     }
 
     logEntry.took = timer.now() - logEntry.started;
-    logEntry.nextState = stateTransformer(getState());
 
     const diff = loggerOptions.diff && typeof diffPredicate === 'function'
-      ? diffPredicate(getState, action)
+      ? diffPredicate(state, action)
       : loggerOptions.diff;
 
     printBuffer(logBuffer, Object.assign({}, loggerOptions, { diff }));
     logBuffer.length = 0;
 
     if (logEntry.error) throw logEntry.error;
-    return returnedValue;
+    return logEntry.nextState;
   };
 }
 
 // eslint-disable-next-line consistent-return
-const defaultLogger = ({ dispatch, getState } = {}) => {
-  if (typeof dispatch === 'function' || typeof getState === 'function') {
-    return createLogger()({ dispatch, getState });
-  }
-  // eslint-disable-next-line no-console
-  console.error(`
-[redux-logger v3] BREAKING CHANGE
-[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.
-[redux-logger v3] Change
-[redux-logger v3] import createLogger from 'redux-logger'
-[redux-logger v3] to
-[redux-logger v3] import { createLogger } from 'redux-logger'
-`);
-};
+const defaultLogger = mainReducer => createLogger()(mainReducer);
 
 export { defaults, createLogger, defaultLogger as logger };
 
