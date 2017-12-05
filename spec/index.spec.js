@@ -32,6 +32,14 @@ context('createLogger', () => {
       console.error.restore();
     });
 
+    // it('should throw error if passed mainReducer', () => {
+    //   const mainReducer = () => ({})
+    //   const store = createStore(createLogger(mainReducer));
+
+    //   store.dispatch({ type: 'foo' });
+    //   sinon.assert.calledOnce(console.error);
+    // });
+
     it('should be ok', () => {
       const mainReducer = () => ({});
       const store = createStore(createLogger()(mainReducer));
