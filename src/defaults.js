@@ -1,6 +1,8 @@
+import * as logger from './logger';
+
 export default {
   level: 'log',
-  logger: console,
+  logger: console ? logger : undefined,
   logErrors: true,
   collapsed: undefined,
   predicate: undefined,
