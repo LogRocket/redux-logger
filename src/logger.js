@@ -44,8 +44,24 @@ function truncateColorArguments(hasSupport, ...args) {
   }, []);
 }
 
+export function debug(...args) {
+  console.debug(...truncateColorArguments(support.consoleStyles, ...args));
+}
+
 export function log(...args) {
   console.log(...truncateColorArguments(support.consoleStyles, ...args));
+}
+
+export function info(...args) {
+  console.info(...truncateColorArguments(support.consoleStyles, ...args));
+}
+
+export function warn(...args) {
+  console.warn(...truncateColorArguments(support.consoleStyles, ...args));
+}
+
+export function error(...args) {
+  console.error(...truncateColorArguments(support.consoleStyles, ...args));
 }
 
 export function group(...args) {
