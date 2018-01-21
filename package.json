@@ -46,7 +46,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theaqua/redux-logger.git"
+    "url": "git+https://github.com/evgenyrodionov/redux-logger.git"
   },
   "keywords": [
     "redux",
@@ -54,12 +54,12 @@
     "redux-logger",
     "middleware"
   ],
-  "author": "Eugene Rodionov (https://github.com/theaqua)",
+  "author": "Eugene Rodionov (https://github.com/evgenyrodionov)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/theaqua/redux-logger/issues"
+    "url": "https://github.com/evgenyrodionov/redux-logger/issues"
   },
-  "homepage": "https://github.com/theaqua/redux-logger#readme",
+  "homepage": "https://github.com/evgenyrodionov/redux-logger#readme",
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-plugin-external-helpers": "^6.22.0",
