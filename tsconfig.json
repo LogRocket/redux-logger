@@ -1,0 +1,29 @@
+{
+  "buildOnSave": false,
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "types": [
+      "jest"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

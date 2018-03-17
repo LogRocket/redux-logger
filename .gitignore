@@ -1,10 +1,10 @@
 .DS_Store
+.vscode
 
 node_modules
 npm-debug.log
 
-.nyc_output
-coverage
+.coverage
 *.lcov
 
 example/build

@@ -1,48 +1,48 @@
-import sinon from 'sinon';
 import { applyMiddleware, createStore } from 'redux';
-import { default as logger, createLogger } from '../src';
 
-context('default logger', () => {
+import logger, { createLogger } from './';
+
+describe('default logger', () => {
   describe('init', () => {
     beforeEach(() => {
-      sinon.spy(console, 'error');
+      jest.spyOn(console, 'error');
     });
 
     afterEach(() => {
-      console.error.restore();
+      jest.restoreAllMocks();
     });
 
     it('should be ok', () => {
       const store = createStore(() => ({}), applyMiddleware(logger));
 
       store.dispatch({ type: 'foo' });
-      sinon.assert.notCalled(console.error);
+      expect(console.error).not.toHaveBeenCalled();
     });
   });
 });
 
-context('createLogger', () => {
+describe('createLogger', () => {
   describe('init', () => {
     beforeEach(() => {
-      sinon.spy(console, 'error');
+      jest.spyOn(console, 'error');
     });
 
     afterEach(() => {
-      console.error.restore();
+      jest.restoreAllMocks();
     });
 
     it('should throw error if passed direct to applyMiddleware', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger));
+      const store = createStore(() => ({}), applyMiddleware(createLogger as any));
 
       store.dispatch({ type: 'foo' });
-      sinon.assert.calledOnce(console.error);
+      expect(console.error).toHaveBeenCalled();
     });
 
     it('should be ok', () => {
-      const store = createStore(() => ({}), applyMiddleware(createLogger()));
+      const store = createStore(() => ({}), applyMiddleware(createLogger() as any));
 
       store.dispatch({ type: 'foo' });
-      sinon.assert.notCalled(console.error);
+      expect(console.error).not.toHaveBeenCalled();
     });
   });
 });

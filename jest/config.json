@@ -1,0 +1,25 @@
+{
+  "collectCoverageFrom": [
+    "!**/*.d.ts",
+    "!**/node_modules/**",
+    "src/*.{ts,js}"
+  ],
+  "coverageDirectory": "<rootDir>/.coverage",
+  "coverageReporters": [
+    "lcov"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "ts"
+  ],
+  "modulePaths": [
+    "<rootDir>/src"
+  ],
+  "resetModules": true,
+  "rootDir": "../",
+  "testRegex": "/src/(.+\\.)?spec\\.ts$",
+  "transform": {
+    "^.+\\.(ts|js)$": "<rootDir>/jest/tsTransform.js"
+  },
+  "verbose": true
+}
