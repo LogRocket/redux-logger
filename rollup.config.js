@@ -1,14 +1,10 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
 
 export default {
   entry: 'src/index.js',
-  format: 'umd',
   exports: 'named',
-  moduleName: 'reduxLogger',
-  dest: 'dist/redux-logger.js',
   plugins: [
     babel({
       babelrc: false,
@@ -29,7 +25,17 @@ export default {
       jsnext: true,
       main: true,
       browser: true,
-    }),
-    uglify(),
+    })
   ],
+  targets: [
+    {
+        format: 'umd',
+        moduleName: 'reduxLogger',
+        dest: 'dist/redux-logger.js',
+    },
+    {
+      format: 'es',
+      dest: 'dist/redux-logger.es.js'
+    }
+  ]
 };
