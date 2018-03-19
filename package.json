@@ -16,8 +16,8 @@
     "clean": "rimraf dist",
     "uglify": "uglifyjs dist/redux-logger.js -cm -o dist/redux-logger.js",
     "build": "rollup -c && npm run uglify",
-    "precommit": "npm test",
-    "prepublish": "npm run clean && npm test && npm run build"
+    "precommit": "npm test && npm run lint",
+    "prepublish": "npm run clean && npm test && npm run lint && npm run build"
   },
   "eslintConfig": {
     "extends": "airbnb",

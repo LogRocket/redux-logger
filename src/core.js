@@ -125,6 +125,12 @@ function printBuffer(buffer, options) {
       } else logger[nextStateLevel]('next state', nextState);
     }
 
+    if (logger.withTrace) {
+      logger.groupCollapsed('TRACE');
+      logger.trace();
+      logger.groupEnd();
+    }
+
     if (diff) {
       diffLogger(prevState, nextState, logger, isCollapsed);
     }
