@@ -63,13 +63,12 @@
     "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^1.0.2",
     "tslib": "^1.9.0",
     "typescript": "^2.8.0-rc"
   },
   "dependencies": {
-    "deep-diff": "^0.3.5"
+    "ddiff": "^0.1.2"
   }
 }
