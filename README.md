@@ -210,36 +210,20 @@ createLogger({
 });
 ```
 
-### Transform Immutable (without `combineReducers`)
+### Transform Immutable (with or without `combineReducers`)
 ```javascript
-import { Iterable } from 'immutable';
-
-const stateTransformer = (state) => {
-  if (Iterable.isIterable(state)) return state.toJS();
-  else return state;
+const transform = state => {
+  if (Iterable.isIterable(state)) {
+    return state.toJS();
+  } else if (Object.keys(state).length > 0) {
+    return Object.keys(state).reduce((r, key) => Object.assign(r, transform(state[key])), {});
+  } else {
+    return state;
+  }
 };
 
 const logger = createLogger({
-  stateTransformer,
-});
-```
-
-### Transform Immutable (with `combineReducers`)
-```javascript
-const logger = createLogger({
-  stateTransformer: (state) => {
-    let newState = {};
-
-    for (var i of Object.keys(state)) {
-      if (Immutable.Iterable.isIterable(state[i])) {
-        newState[i] = state[i].toJS();
-      } else {
-        newState[i] = state[i];
-      }
-    };
-
-    return newState;
-  }
+  stateTransformer: (state) => transform(state)
 });
 ```
 
