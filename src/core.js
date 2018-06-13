@@ -45,6 +45,7 @@ function printBuffer(buffer, options) {
     colors,
     level,
     diff,
+    withTrace,
   } = options;
 
   const isUsingDefaultFormatter = typeof options.titleFormatter === 'undefined';
@@ -125,7 +126,7 @@ function printBuffer(buffer, options) {
       } else logger[nextStateLevel]('next state', nextState);
     }
 
-    if (logger.withTrace) {
+    if (withTrace && logger.trace) {
       logger.groupCollapsed('TRACE');
       logger.trace();
       logger.groupEnd();
