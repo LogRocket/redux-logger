@@ -5,11 +5,13 @@
 
 ![redux-logger](http://i.imgur.com/CgAuHlE.png)
 
-Thank you to our sponsor [LogRocket](https://logrocket.com?cid=github_redux)!
+Now maintained by [LogRocket](https://logrocket.com?cid=github_redux)!
 
 [![](https://i.imgur.com/Yp5mUx2.png)](https://logrocket.com?cid=github_redux)
 
 > LogRocket is a production Redux logging tool that lets you replay problems as if they happened in your own browser. Instead of guessing why errors happen, or asking users for screenshots and log dumps, LogRocket lets you replay Redux actions + state, network requests, console logs, and see a video of what the user saw.
+
+For more informatiom about the future of redux-logger, check out the [discussion here](https://github.com/LogRocket/redux-logger/issues/314).
 
 ## Table of contents
 * [Install](#install)
