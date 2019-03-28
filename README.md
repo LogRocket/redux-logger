@@ -1,7 +1,7 @@
 # Logger for Redux
 [![npm](https://img.shields.io/npm/v/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
 [![npm](https://img.shields.io/npm/dm/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
-[![Build Status](https://travis-ci.org/evgenyrodionov/redux-logger.svg?branch=master)](https://travis-ci.org/evgenyrodionov/redux-logger)
+[![Build Status](https://travis-ci.org/LogRocket/redux-logger.svg?branch=master)](https://travis-ci.org/LogRocket/redux-logger)
 
 ![redux-logger](http://i.imgur.com/CgAuHlE.png)
 
@@ -45,7 +45,7 @@ const store = createStore(
 // Note passing middleware as the third argument requires redux@>=3.1.0
 ```
 
-Or you can create your own logger with custom [options](https://github.com/evgenyrodionov/redux-logger#options):
+Or you can create your own logger with custom [options](https://github.com/LogRocket/redux-logger#options):
 ```javascript
 import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger'
@@ -60,7 +60,7 @@ const store = createStore(
 );
 ```
 
-Note: logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/evgenyrodionov/redux-logger/issues/20)).
+Note: logger **must be** the last middleware in chain, otherwise it will log thunk and promise, not actual actions ([#20](https://github.com/LogRocket/redux-logger/issues/20)).
 
 ## Options
 ```javascript
@@ -71,7 +71,7 @@ Note: logger **must be** the last middleware in chain, otherwise it will log thu
   timestamp = true: Boolean, // print the timestamp with each action?
 
   level = 'log': 'log' | 'console' | 'warn' | 'error' | 'info', // console's level
-  colors: ColorsObject, // colors for title, prev state, action and next state: https://github.com/evgenyrodionov/redux-logger/blob/master/src/defaults.js#L12-L18
+  colors: ColorsObject, // colors for title, prev state, action and next state: https://github.com/LogRocket/redux-logger/blob/master/src/defaults.js#L12-L18
   titleFormatter, // Format the title used when logging actions.
 
   stateTransformer, // Transform state before print. Eg. convert Immutable object to plain JSON.
@@ -298,7 +298,7 @@ export default createLogger({
 Feel free to create PR for any of those tasks!
 
 ## Known issues
-* Performance issues in react-native ([#32](https://github.com/evgenyrodionov/redux-logger/issues/32))
+* Performance issues in react-native ([#32](https://github.com/LogRocket/redux-logger/issues/32))
 
 ## License
 MIT
