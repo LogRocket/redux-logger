@@ -18,51 +18,17 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm run lint
       - run: npm test
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
       - persist_to_workspace:
           root: ~/project
           paths:
             - dist/
             - .npmrc
             - node_modules/
-  deploy:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
-      - run: npm publish
-
-  deploy-beta:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
-      - run: npm publish --tag beta
 
 workflows:
   version: 2
-  build-deploy:
+  build-:
     jobs:
-      - build:
-          filters:
-            tags:
-              only: /.*/
-      - deploy:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /release-[0-9]+\.[0-9]+\.[0-9]+/
-            branches:
-              ignore: /.*/
-      - deploy-beta:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /beta-[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?/
-            branches:
-              ignore: /.*/
+      - build
