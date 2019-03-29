@@ -25,6 +25,7 @@ jobs:
           paths:
             - dist/
             - .npmrc
+            - node_modules/
   deploy:
     <<: *defaults
     steps:
