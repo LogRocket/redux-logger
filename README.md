@@ -1,7 +1,7 @@
 # Logger for Redux
 [![npm](https://img.shields.io/npm/v/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
 [![npm](https://img.shields.io/npm/dm/redux-logger.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/redux-logger)
-[![Build Status](https://travis-ci.org/LogRocket/redux-logger.svg?branch=master)](https://travis-ci.org/LogRocket/redux-logger)
+[![Build Status](https://circleci.com/gh/LogRocket/redux-logger/tree/master.svg?style=svg)](https://circleci.com/gh/LogRocket/redux-logger/tree/master)
 
 ![redux-logger](http://i.imgur.com/CgAuHlE.png)
 
@@ -30,6 +30,10 @@ For more informatiom about the future of redux-logger, check out the [discussion
 
 ## Install
 `npm i --save redux-logger`
+
+Typescript types are also available, via [DefinitelyTyped](https://www.npmjs.com/package/@types/redux-logger):
+
+`npm i @types/redux-logger`
 
 ## Usage
 ```javascript
