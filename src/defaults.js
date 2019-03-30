@@ -18,6 +18,7 @@ export default {
   },
   diff: false,
   diffPredicate: undefined,
+  withTrace: false,
 
   // Deprecated options
   transformer: undefined,
