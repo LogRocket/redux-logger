@@ -1,6 +1,6 @@
 export default {
   level: 'log',
-  logger: console,
+  logger: typeof console !== 'undefined' ? console : undefined,
   logErrors: true,
   collapsed: undefined,
   predicate: undefined,
