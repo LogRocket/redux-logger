@@ -46,6 +46,7 @@ function printBuffer(buffer, options) {
     level,
     diff,
   } = options;
+  const customDiffer = typeof diff === 'function' ? diff : undefined;
 
   const isUsingDefaultFormatter = typeof options.titleFormatter === 'undefined';
 
@@ -132,7 +133,7 @@ function printBuffer(buffer, options) {
     }
 
     if (diff) {
-      diffLogger(prevState, nextState, logger, isCollapsed);
+      diffLogger(prevState, nextState, logger, isCollapsed, customDiffer);
     }
 
     try {

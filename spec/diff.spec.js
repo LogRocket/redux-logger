@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import deepDiff from 'deep-diff';
 import { style, render, default as diffLogger } from '../src/diff';
 
 context('Diff', () => {
@@ -110,6 +111,17 @@ context('Diff', () => {
       diffLogger({name: 'kirk'}, {name: 'picard'}, logger, false);
 
       expect(logger.log.calledWithExactly('%c CHANGED:', 'color: #2196F3; font-weight: bold', 'name', 'kirk', '→', 'picard')).to.be.true;
+    });
+
+    it('should use a custom differ if provided', () => {
+      const callback = sinon.spy();
+      const customDiffer = (prevState, newState) => {
+        callback();
+        return deepDiff(prevState, newState);
+      };
+      diffLogger({name: 'kirk'}, {name: 'picard'}, logger, false, customDiffer);
+
+      expect(callback.called).to.be.true;
     });
   });
 });

@@ -1,4 +1,4 @@
-import differ from 'deep-diff';
+import deepDiff from 'deep-diff';
 
 // https://github.com/flitbit/diff#differences
 const dictionary = {
@@ -41,7 +41,7 @@ export function render(diff) {
   }
 }
 
-export default function diffLogger(prevState, newState, logger, isCollapsed) {
+export default function diffLogger(prevState, newState, logger, isCollapsed, differ = deepDiff) {
   const diff = differ(prevState, newState);
 
   try {

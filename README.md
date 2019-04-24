@@ -85,7 +85,7 @@ Note: logger **must be** the last middleware in chain, otherwise it will log thu
   logger = console: LoggerObject, // implementation of the `console` API.
   logErrors = true: Boolean, // should the logger catch, log, and re-throw errors?
 
-  diff = false: Boolean, // (alpha) show diff between states?
+  diff = false: Boolean | customDiffer, // (alpha) show diff between states?
   diffPredicate // (alpha) filter function for showing states diff, similar to `predicate`
 }
 ```
@@ -171,8 +171,9 @@ Format the title used for each action.
 
 *Default: prints something like `action @ ${time} ${action.type} (in ${took.toFixed(2)} ms)`*
 
-#### __diff (Boolean)__
-Show states diff.
+#### __diff = (prevState: Object, newState: Object) => diff__
+Show states diff. Takes a boolean or optionally a custom differ to use instead of the default
+[`deep-diff`](https://github.com/flitbit/diff).
 
 *Default: `false`*
 
