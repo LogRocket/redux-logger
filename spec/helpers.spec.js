@@ -18,6 +18,6 @@ context('Helpers', () => {
     it('should format a time given a Date object', () => {
       const time = new Date('December 25, 1995 23:15:30');
       expect(formatTime(time)).to.equal('23:15:30.000');
-    });
+   });
   });
 });
