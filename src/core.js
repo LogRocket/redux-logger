@@ -22,6 +22,35 @@ function getLogLevel(level, action, payload, type) {
   }
 }
 
+function getDiffCollapsed(diffOptions) {
+  if (
+    diffOptions
+    && typeof diffOptions === 'object'
+    && (
+      typeof diffOptions.collapsed === 'boolean'
+    )
+  ) {
+    return diffOptions.collapsed;
+  }
+
+  return undefined;
+}
+
+function getDiffPrefilter(diffOptions) {
+  if (
+    diffOptions
+    && typeof diffOptions === 'object'
+    && (
+      typeof diffOptions.prefilter === 'function'
+      || typeof diffOptions.prefilter === 'object'
+    )
+  ) {
+    return diffOptions.prefilter;
+  }
+
+  return undefined;
+}
+
 function defaultTitleFormatter(options) {
   const { timestamp, duration } = options;
 
@@ -132,7 +161,9 @@ function printBuffer(buffer, options) {
     }
 
     if (diff) {
-      diffLogger(prevState, nextState, logger, isCollapsed);
+      const prefilter = getDiffPrefilter(diff);
+      const diffCollapsed = getDiffCollapsed(diff) || isCollapsed;
+      diffLogger(prevState, nextState, logger, diffCollapsed, prefilter);
     }
 
     try {

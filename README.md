@@ -172,7 +172,15 @@ Format the title used for each action.
 *Default: prints something like `action @ ${time} ${action.type} (in ${took.toFixed(2)} ms)`*
 
 #### __diff (Boolean)__
-Show states diff.
+Show states diff. Optionally provide an object of the following form
+```javascript
+{
+  collapsed: Boolean            // Group should be collapsed or not (defaults to top level collapsed value)
+  prefilter: Function | Object  // deep-diff prefilter option, useful for sanitizing state before diffing
+}
+```
+
+[deep-diff prefilter option documentation](https://github.com/flitbit/diff#diff)
 
 *Default: `false`*
 

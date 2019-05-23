@@ -41,8 +41,8 @@ export function render(diff) {
   }
 }
 
-export default function diffLogger(prevState, newState, logger, isCollapsed) {
-  const diff = differ(prevState, newState);
+export default function diffLogger(prevState, newState, logger, isCollapsed, prefilter) {
+  const diff = differ(prevState, newState, prefilter);
 
   try {
     if (isCollapsed) {
