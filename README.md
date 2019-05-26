@@ -184,16 +184,17 @@ Filter states diff for certain cases.
 ## Recipes
 ### Log only in development
 ```javascript
+import logger from 'redux-logger'
+
 const middlewares = [];
 
 if (process.env.NODE_ENV === `development`) {
-  const { logger } = require(`redux-logger`);
-
   middlewares.push(logger);
 }
 
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
 ```
+*Note that NODE_ENV can be one of `development`, `test` or `production`.*
 
 ### Log everything except actions with certain type
 ```javascript
