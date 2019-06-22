@@ -16,7 +16,7 @@ export default {
           },
         ],
       ],
-      plugins: ['external-helpers'],
+      plugins: ['external-helpers', 'transform-object-assign'],
     }),
     commonjs({
       include: 'node_modules/**',
