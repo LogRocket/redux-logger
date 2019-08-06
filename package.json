@@ -2,8 +2,8 @@
   "name": "redux-logger",
   "version": "4.0.0",
   "description": "Logger for Redux",
-  "main": "dist-out/redux-logger.js",
-  "module": "dist-out/redux-logger.es.js",
+  "main": "dist/redux-logger.js",
+  "module": "dist/redux-logger.es.js",
   "jsnext:main": "dist/redux-logger.es.js",
   "scripts": {
     "lint": "eslint src --fix",
@@ -16,7 +16,6 @@
     "clean": "rimraf dist .nyc_output",
     "build": "rollup -c",
     "precommit": "npm test && npm run lint",
-    "prepublish": "npm run clean && npm test && npm run lint && npm run build"
   },
   "eslintConfig": {
     "extends": "airbnb",
