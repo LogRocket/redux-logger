@@ -56,7 +56,9 @@ export default (buffer, {
   const isUsingDefaultFormatter = typeof titleFormatter === 'undefined';
 
   buffer.forEach((logEntry, key) => {
-    const { started, startedTime, action, prevState, error } = logEntry;
+    const {
+      started, startedTime, action, prevState, error,
+    } = logEntry;
     let { took, nextState } = logEntry;
     const nextEntry = buffer[key + 1];
     if (nextEntry) {
