@@ -5,12 +5,15 @@ import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: 'src/index.js',
-  output: {
+  output: [{
+    exports: 'named',
     file: 'dist/redux-logger.js',
     format: 'umd',
-    exports: 'named',
     name: 'reduxLogger',
-  },
+  }, {
+    file: 'dist/redux-logger.es.js',
+    format: 'es',
+  }],
   plugins: [
     babel({
       babelrc: false,
@@ -28,8 +31,10 @@ export default {
       include: /node_modules/,
     }),
     nodeResolve({
-      mainFields: ['module', 'jsnext', 'main', 'browser'],
+      mainFields: ['jsnext', 'main', 'browser'],
     }),
-    terser(),
+    terser({
+      exclude: '*.es.js',
+    }),
   ],
 };

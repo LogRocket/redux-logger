@@ -1,8 +1,10 @@
 {
   "name": "redux-logger",
-  "version": "3.0.6",
+  "version": "4.0.0",
   "description": "Logger for Redux",
-  "main": "dist/redux-logger.js",
+  "main": "dist-out/redux-logger.js",
+  "module": "dist-out/redux-logger.es.js",
+  "jsnext:main": "dist/redux-logger.es.js",
   "scripts": {
     "lint": "eslint src --fix",
     "test": "npm run lint && npm run spec",
@@ -13,13 +15,13 @@
     "coverage:production": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "clean": "rimraf dist .nyc_output",
     "build": "rollup -c",
-    "precommit": "npm test",
-    "prepublish": "npm run clean && npm test && npm run build"
+    "precommit": "npm test && npm run lint",
+    "prepublish": "npm run clean && npm test && npm run lint && npm run build"
   },
   "eslintConfig": {
     "extends": "airbnb",
     "rules": {
-      "no-console": 0
+      "no-console": "off"
     },
     "env": {
       "browser": true,
@@ -38,12 +40,12 @@
     ]
   },
   "files": [
-    "dist",
+    "dist-out",
     "src"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theaqua/redux-logger.git"
+    "url": "git+https://github.com/LogRocket/redux-logger.git"
   },
   "keywords": [
     "redux",
@@ -51,15 +53,16 @@
     "redux-logger",
     "middleware"
   ],
-  "author": "Eugene Rodionov (https://github.com/theaqua)",
+  "author": "Eugene Rodionov (https://github.com/evgenyrodionov)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/theaqua/redux-logger/issues"
+    "url": "https://github.com/LogRocket/redux-logger/issues"
   },
-  "homepage": "https://github.com/theaqua/redux-logger#readme",
+  "homepage": "https://github.com/LogRocket/redux-logger#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "babel-plugin-transform-inline-environment-variables": "6.8.0",
     "chai": "4.2.0",
     "codecov": "3.5.0",
@@ -74,15 +77,14 @@
     "nyc": "14.1.1",
     "redux": "^4.0.4",
     "rimraf": "^2.6.3",
-    "rollup": "^1.18.0",
+    "rollup": "^1.19.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "sinon": "^7.4.0"
+    "rollup-plugin-terser": "^5.1.1",
+    "sinon": "^7.4.1"
   },
   "dependencies": {
-    "@babel/register": "^7.5.5",
-    "deep-diff": "^1.0.2",
-    "rollup-plugin-terser": "^5.1.1"
+    "deep-diff": "^1.0.2"
   }
 }

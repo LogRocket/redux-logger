@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-  - "6"
-script: npm test
-
-# Repository token must be provided in "coverage:production" npm script
-after_success: npm run coverage:production

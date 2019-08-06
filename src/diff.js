@@ -50,7 +50,7 @@ export default (prevState, newState, logger, isCollapsed) => {
   } catch (e) {
     logger.log('diff');
   }
-
+  
   if (difference) {
     difference.forEach((elem) => {
       const { kind } = elem;
@@ -60,7 +60,7 @@ export default (prevState, newState, logger, isCollapsed) => {
   } else {
     logger.log('—— no diff ——');
   }
-
+  
   try {
     logger.groupEnd();
   } catch (e) {
