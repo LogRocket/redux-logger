@@ -77,7 +77,8 @@ function createLogger(options = {}) {
         took,
         nextState,
       }],
-      loggerOptions);
+      loggerOptions,
+    );
 
     if (error) throw error;
     return returnedValue;

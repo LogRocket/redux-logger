@@ -11,7 +11,7 @@ context('Diff', () => {
       expect(style('A')).to.equal('color: #2196F3; font-weight: bold');
     });
   });
-
+  
   describe('render', () => {
     it('should return an array indicating the changes', () => {
       expect(render({
@@ -21,7 +21,7 @@ context('Diff', () => {
         rhs: 'picard',
       })).to.eql(['captain.name', 'kirk', '→', 'picard']);
     });
-
+    
     it('should return an array indicating an added property/element', () => {
       expect(render({
         kind: 'N',
@@ -29,14 +29,14 @@ context('Diff', () => {
         rhs: 'geordi',
       })).to.eql(['crew.engineer', 'geordi']);
     });
-
+    
     it('should return an array indicating a removed property/element', () => {
       expect(render({
         kind: 'D',
         path: ['crew', 'security'],
       })).to.eql(['crew.security']);
     });
-
+    
     it('should return an array indicating a changed index', () => {
       expect(render({
         kind: 'A',
@@ -51,15 +51,15 @@ context('Diff', () => {
         rhs: 'after',
       }]);
     });
-
+    
     it('should return an empty array', () => {
       expect(render({})).to.eql([]);
     });
   });
-
+  
   describe('diffLogger', () => {
     let logger;
-
+    
     beforeEach(() => {
       logger = {
         log: sinon.spy(),
@@ -68,27 +68,27 @@ context('Diff', () => {
         group: sinon.spy(),
       };
     });
-
+    
     it('should show no diff with group collapsed', () => {
       diffLogger({}, {}, logger, true);
-
+      
       expect(logger.group.calledOnce).to.be.false;
       expect(logger.groupCollapsed.calledOnce).to.be.true;
       expect(logger.groupEnd.calledOnce).to.be.true;
       expect(logger.log.calledOnce).to.be.true;
       expect(logger.log.calledWith('—— no diff ——')).to.be.true;
     });
-
+    
     it('should show no diff with group not collapsed', () => {
       diffLogger({}, {}, logger, false);
-
+      
       expect(logger.group.calledOnce).to.be.true;
       expect(logger.groupCollapsed.calledOnce).to.be.false;
       expect(logger.groupEnd.calledOnce).to.be.true;
       expect(logger.log.calledOnce).to.be.true;
       expect(logger.log.calledWith('—— no diff ——')).to.be.true;
     });
-
+    
     it('should log no diff without group', () => {
       const loggerWithNoGroupCollapsed = Object.assign({}, logger, {
         groupCollapsed: () => {
@@ -98,17 +98,17 @@ context('Diff', () => {
           throw new Error();
         },
       });
-
+      
       diffLogger({}, {}, loggerWithNoGroupCollapsed, true);
-
+      
       expect(loggerWithNoGroupCollapsed.log.calledWith('diff')).to.be.true;
       expect(loggerWithNoGroupCollapsed.log.calledWith('—— no diff ——')).to.be.true;
       expect(loggerWithNoGroupCollapsed.log.calledWith('—— diff end —— ')).to.be.true;
     });
-
+    
     it('should log the diffs', () => {
       diffLogger({ name: 'kirk' }, { name: 'picard' }, logger, false);
-
+      
       expect(logger.log.calledWithExactly('%c CHANGED:', 'color: #2196F3; font-weight: bold', 'name', 'kirk', '→', 'picard')).to.be.true;
     });
   });
