@@ -1,41 +1,40 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
-  entry: 'src/index.js',
-  exports: 'named',
+  input: 'src/index.js',
+  output: [{
+    exports: 'named',
+    file: 'dist/redux-logger.js',
+    format: 'umd',
+    name: 'reduxLogger',
+  }, {
+    file: 'dist/redux-logger.es.js',
+    format: 'es',
+  }],
   plugins: [
     babel({
       babelrc: false,
+      exclude: /node_modules/,
       presets: [
         [
-          'es2015',
+          '@babel/env',
           {
             modules: false,
           },
         ],
       ],
-      plugins: ['external-helpers'],
     }),
     commonjs({
-      include: 'node_modules/**',
+      include: /node_modules/,
     }),
     nodeResolve({
-      jsnext: true,
-      main: true,
-      browser: true,
-    })
+      mainFields: ['jsnext', 'main', 'browser'],
+    }),
+    terser({
+      exclude: '*.es.js',
+    }),
   ],
-  targets: [
-    {
-        format: 'umd',
-        moduleName: 'reduxLogger',
-        dest: 'dist/redux-logger.js',
-    },
-    {
-      format: 'es',
-      dest: 'dist/redux-logger.es.js'
-    }
-  ]
 };

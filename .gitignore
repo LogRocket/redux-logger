@@ -11,3 +11,5 @@ example/build
 dist
 lib
 yarn.lock
+
+.idea

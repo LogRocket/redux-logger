@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { repeat, pad, formatTime } from '../src/helpers';
+import { directlyApplied, formatTime, pad, repeat } from '../src/helpers';
 
 context('Helpers', () => {
   describe('repeat', () => {
@@ -20,4 +20,17 @@ context('Helpers', () => {
       expect(formatTime(time)).to.equal('23:15:30.000');
     });
   });
+
+  describe('Directly Applied', () => {
+    it('return true if getState and dispatch are available', () => {
+      const options = {
+        dispatch: () => {
+        },
+        getState: () => {
+        },
+      };
+      expect(directlyApplied(options)).to.be.true;
+    });
+  });
+
 });
