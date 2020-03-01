@@ -218,10 +218,10 @@ createLogger({
 
 ### Transform Immutable (without `combineReducers`)
 ```javascript
-import { Iterable } from 'immutable';
+import { isImmutable } from 'immutable'; // "immutable": "^4.0.0-rc.12"
 
 const stateTransformer = (state) => {
-  if (Iterable.isIterable(state)) return state.toJS();
+  if (isImmutable(state)) return state.toJS();
   else return state;
 };
 
@@ -232,12 +232,14 @@ const logger = createLogger({
 
 ### Transform Immutable (with `combineReducers`)
 ```javascript
+import { isImmutable } from 'immutable'; // "immutable": "^4.0.0-rc.12"
+
 const logger = createLogger({
   stateTransformer: (state) => {
     let newState = {};
 
     for (var i of Object.keys(state)) {
-      if (Immutable.Iterable.isIterable(state[i])) {
+      if (isImmutable(state[i])) {
         newState[i] = state[i].toJS();
       } else {
         newState[i] = state[i];
