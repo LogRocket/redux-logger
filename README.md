@@ -186,8 +186,8 @@ Filter states diff for certain cases.
 ```javascript
 const middlewares = [];
 
-if (process.env.NODE_ENV === `development`) {
-  const { logger } = require(`redux-logger`);
+if (process.env.NODE_ENV === "development" || __DEV__) {
+  const { logger } = require("redux-logger");
 
   middlewares.push(logger);
 }
