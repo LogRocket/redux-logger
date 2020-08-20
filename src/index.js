@@ -1,7 +1,10 @@
 import printBuffer from './core';
 import { timer } from './helpers';
 import defaults from './defaults';
-import { REDUX_LOGGER_NOT_INSTALLED, REDUX_LOGGER_V3_BREAKING_CHANGE } from './messages';
+import {
+  REDUX_LOGGER_NOT_INSTALLED as REDUX_LOGGER_NOT_INSTALLED_MESSAGE,
+  REDUX_LOGGER_V3_BREAKING_CHANGE as REDUX_LOGGER_V3_BREAKING_CHANGE_MESSAGE,
+} from './messages';
 
 /* eslint max-len: ["error", 110, { "ignoreComments": true }] */
 /**
@@ -43,7 +46,7 @@ function createLogger(options = {}) {
   // Detect if 'createLogger' was passed directly to 'applyMiddleware'.
   if (options.getState && options.dispatch) {
     // eslint-disable-next-line no-console
-    console.error(REDUX_LOGGER_NOT_INSTALLED);
+    console.error(REDUX_LOGGER_NOT_INSTALLED_MESSAGE);
 
     return () => next => action => next(action);
   }
@@ -97,7 +100,7 @@ const defaultLogger = ({ dispatch, getState } = {}) => {
     return createLogger()({ dispatch, getState });
   }
   // eslint-disable-next-line no-console
-  console.error(REDUX_LOGGER_V3_BREAKING_CHANGE);
+  console.error(REDUX_LOGGER_V3_BREAKING_CHANGE_MESSAGE);
 };
 
 export { defaults, createLogger, defaultLogger as logger };
